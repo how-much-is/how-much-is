@@ -1,7 +1,14 @@
 <template>
-  <div v-for="list in lists" :key="list.id">
-    {{ list.id }}
-  </div>
+  <ul>
+    <li class="list-card" v-for="list in lists" :key="list.id">
+      <span class="date">{{ list.date }}</span>
+      <span class="title">{{ list.title }}</span>
+      <span class="category">{{ list.category }}</span>
+      <span class="amount">{{ list.amount }}</span>
+      <span class="type expense">Expense</span>
+      <span class="account">{{ list.account }}</span>
+    </li>
+  </ul>
 </template>
 
 <script setup>
@@ -20,4 +27,13 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.list-card {
+  width: 1000px;
+  height: 100px;
+  background-color: red;
+  margin-bottom: 20px;
+  border: 1px solid black;
+  display: flex;
+}
+</style>

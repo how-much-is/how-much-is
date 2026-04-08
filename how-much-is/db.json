@@ -5,8 +5,6 @@
       "email": "test@gmail.com",
       "password": "123456",
       "name": "홍길동",
-      "currency": "KRW",
-      "country": "KR",
       "createdAt": "2026-04-07"
     }
   ],
@@ -20,9 +18,7 @@
       "categoryId": 1,
       "title": "점심",
       "memo": "김치찌개",
-      "date": "2026-04-07",
-      "currency": "KRW",
-      "tripId": null
+      "date": "2026-04-07"
     },
     {
       "id": 2,
@@ -32,9 +28,7 @@
       "categoryId": 1,
       "title": "저녁",
       "memo": "김치찌개",
-      "date": "2026-04-07",
-      "currency": "KRW",
-      "tripId": null
+      "date": "2026-04-07"
     },
     {
       "id": 3,
@@ -44,9 +38,7 @@
       "categoryId": 1,
       "title": "저녁",
       "memo": "김치찌개",
-      "date": "2026-04-07",
-      "currency": "KRW",
-      "tripId": null
+      "date": "2026-04-07"
     }
   ],
 
@@ -116,20 +108,6 @@
       "categoryId": 6,
       "amount": 300000,
       "month": "2026-04"
-    }
-  ],
-
-  "trips": [
-    {
-      "id": 1,
-      "userId": 1,
-      "title": "일본 여행",
-      "country": "JP",
-      "currency": "JPY",
-      "startDate": "2026-05-01",
-      "endDate": "2026-05-05",
-      "memo": "오사카 여행",
-      "budget": 1000000
     }
   ],
 
