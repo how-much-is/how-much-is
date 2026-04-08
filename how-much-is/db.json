@@ -1,19 +1,144 @@
 {
-  "posts": [
+  "users": [
     {
       "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "email": "test@gmail.com",
+      "password": "123456",
+      "name": "홍길동",
+      "currency": "KRW",
+      "country": "KR",
+      "createdAt": "2026-04-07"
     }
   ],
-  "comments": [
+
+  "transactions": [
     {
       "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "userId": 1,
+      "type": "expense",
+      "amount": 8000,
+      "categoryId": 1,
+      "title": "점심",
+      "memo": "김치찌개",
+      "date": "2026-04-07",
+      "currency": "KRW",
+      "tripId": null
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "type": "expense",
+      "amount": 9000,
+      "categoryId": 1,
+      "title": "저녁",
+      "memo": "김치찌개",
+      "date": "2026-04-07",
+      "currency": "KRW",
+      "tripId": null
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "type": "expense",
+      "amount": 9000,
+      "categoryId": 1,
+      "title": "저녁",
+      "memo": "김치찌개",
+      "date": "2026-04-07",
+      "currency": "KRW",
+      "tripId": null
     }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+
+  "categories": [
+    {
+      "id": 1,
+      "name": "식비",
+      "icon": "🍚",
+      "type": "expense",
+      "isDefault": true
+    },
+    {
+      "id": 2,
+      "name": "교통",
+      "icon": "🚌",
+      "type": "expense",
+      "isDefault": false
+    },
+    {
+      "id": 3,
+      "name": "쇼핑",
+      "icon": "🛒",
+      "type": "expense",
+      "isDefault": false
+    },
+    {
+      "id": 4,
+      "name": "문화생활",
+      "icon": "💰",
+      "type": "expense",
+      "isDefault": false
+    },
+    {
+      "id": 5,
+      "name": "여행",
+      "icon": "✈️",
+      "type": "expense",
+      "isDefault": false
+    },
+    {
+      "id": 6,
+      "name": "급여",
+      "icon": "💸",
+      "type": "income",
+      "isDefault": true
+    },
+    {
+      "id": 7,
+      "name": "투자",
+      "icon": "💰",
+      "type": "income",
+      "isDefault": false
+    },
+    {
+      "id": 8,
+      "name": "기타",
+      "icon": "💰",
+      "type": "income",
+      "isDefault": false
+    }
+  ],
+
+  "budgets": [
+    {
+      "id": 1,
+      "userId": 1,
+      "categoryId": 6,
+      "amount": 300000,
+      "month": "2026-04"
+    }
+  ],
+
+  "trips": [
+    {
+      "id": 1,
+      "userId": 1,
+      "title": "일본 여행",
+      "country": "JP",
+      "currency": "JPY",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-05",
+      "memo": "오사카 여행",
+      "budget": 1000000
+    }
+  ],
+
+  "settings": [
+    {
+      "userId": 1,
+      "darkMode": false,
+      "notifications": true,
+      "startDayOfMonth": 1
+    }
+  ]
 }
