@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import MonthlyList from './components/MonthlyList.vue';
+import MonthlyList from './components/monthly/MonthlyList.vue';
 
 
 
