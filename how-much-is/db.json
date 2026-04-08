@@ -13,7 +13,6 @@
     {
       "id": 1,
       "userId": 1,
-      "type": "expense",
       "amount": 8000,
       "categoryId": 1,
       "title": "점심",
@@ -23,21 +22,19 @@
     {
       "id": 2,
       "userId": 1,
-      "type": "expense",
       "amount": 9000,
-      "categoryId": 1,
+      "categoryId": 2,
       "title": "저녁",
-      "memo": "김치찌개",
+      "memo": "된장찌개",
       "date": "2026-04-07"
     },
     {
       "id": 3,
       "userId": 1,
-      "type": "expense",
-      "amount": 9000,
-      "categoryId": 1,
+      "amount": 7000,
+      "categoryId": 3,
       "title": "저녁",
-      "memo": "김치찌개",
+      "memo": "제육볶음",
       "date": "2026-04-07"
     }
   ],
