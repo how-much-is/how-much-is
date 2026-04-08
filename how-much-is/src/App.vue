@@ -1,11 +1,13 @@
-<script setup></script>
+<script setup>
+import Header from './components/Header.vue';
+import LoginForm from './components/LoginForm.vue';
+import RegisterForm from './components/RegisterForm.vue';
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <Header />
+  <LoginForm />
+  <RegisterForm />
 </template>
 
 <style scoped></style>
