@@ -1,8 +1,8 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <span class="title">한달 수입</span>
-      <div class="icon">💷</div>
+      <span class="title">한달 지출</span>
+      <div class="icon">💰</div>
     </div>
 
     <div class="amount">
@@ -37,13 +37,12 @@ onMounted(async () => {
 
 const incomeList = computed(() => {
   return income.value.map((list) => {
-    if (list.categoryId < 6) {
+    if (list.categoryId >= 6) {
       return list.amount;
     }
     return 0;
   });
 });
-
 </script>
 
 <style scoped>
@@ -69,7 +68,7 @@ const incomeList = computed(() => {
 }
 
 .icon {
-  background: #f3e8ff;
+  background: #ffe8e8;
   padding: 8px;
   border-radius: 10px;
   font-size: 18px;

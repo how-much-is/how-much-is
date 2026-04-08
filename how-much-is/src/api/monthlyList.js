@@ -13,7 +13,6 @@ export const getCategories = async () => {
   try {
     const response = await axios.get('/categories')
     return response
-
   } catch (error) {
     console.error(error);
   }
