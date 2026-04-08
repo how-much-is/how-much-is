@@ -1,13 +1,15 @@
-<script setup>
-import Header from './components/Header.vue';
-import LoginForm from './components/LoginForm.vue';
-import RegisterForm from './components/RegisterForm.vue';
-</script>
-
 <template>
-  <Header />
-  <LoginForm />
-  <RegisterForm />
+  <div>
+    <router-link to="/">Home</router-link>
+    <br />
+    <router-link to="/monthly">Monthly</router-link>
+
+    <router-view></router-view>
+  </div>
 </template>
+
+<script setup>
+import MonthlyList from './components/monthly/MonthlyList.vue';
+</script>
 
 <style scoped></style>
