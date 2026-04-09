@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div class="settings__container">
     <header class="settings__header">
       <p>설정 화면</p>
@@ -10,18 +9,6 @@
         <h2>사용자 정보 수정</h2>
         <div class="yellow__underline"></div>
       </div>
-=======
-  <div>
-    <h1>Setting</h1>
-    <button @click="saveUser">저장</button>
-    <button @click="resetUser">취소</button>
-    <button>로그인하기</button><br />
-    <div class="">
-      <label for="username">사용자 이름</label><br />
-      <input id="username" type="text" v-model="user.username" />
-    </div>
-    <hr />
->>>>>>> 69e779148eb11540dedb19b9adafb75f572c28d0
 
       <div class="settings__form">
         <div class="input__group">
