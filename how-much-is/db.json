@@ -8,10 +8,10 @@
       "createdAt": "2026-04-07"
     },
     {
+      "id": 2,
       "name": "강송주",
       "password": "3456",
-      "email": "test@gmail.com",
-      "id": 2
+      "email": "test@gmail.com"
     },
     {
       "id": 3,

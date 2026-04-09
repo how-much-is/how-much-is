@@ -49,20 +49,19 @@ const getWeekRanges = (year, month) => {
 //[{week: 1, start: 1, end: 4},{week: 2, start: 5, end: 11},...]
 
 // 주차별 지출 합계 구하기
-const getWeeklyExpenseTotals = (response, year, month) => {
+const getWeeklyExpenseTotals = (response, year, month,conditionFn) => {
   const weekRanges = getWeekRanges(year, month);
   return weekRanges.map((range) => {
     return response.filter(u => {
       const date = new Date(u.date)
       const itemDay = date.getDate()
-      if(range.start <= itemDay && range.end >= itemDay && u.categoryId <= 5){
+      if(range.start <= itemDay && range.end >= itemDay && conditionFn(u)){
         return u.amount
       }
       return 0
     })
   });
 };
-
 
 const realIncome = (arr) => {
   return arr.map((week) => {
@@ -79,20 +78,33 @@ onMounted(async () => {
 
     const response = await pickMonthlyList(selectedMonth);
 
-    const weeklyData = getWeeklyExpenseTotals(response, year, month);
-    // console.log(weeklyData);
-    console.log(realIncome(weeklyData));
-    const labels = weeklyData.map((item) => item.label);
-    const totals = weeklyData.map((item) => item.total);
+    const weeklyData = getWeeklyExpenseTotals(response, year, month,(u) => u.categoryId <= 5);
+
+    const weeklyIncome = getWeeklyExpenseTotals(response,year,month,(u) => u.categoryId >= 6)
+
+    const weeklyDatas = realIncome(weeklyData);
+    const weeklyIncomeDatas = realIncome(weeklyIncome);
+    const labels = weeklyDatas.map((u,i) => {
+      return `${i+1}주차`
+    })
 
     chartInstance = new Chart(canvasRef.value, {
       type: 'bar',
       data: {
-        labels,
+        labels: labels,
         datasets: [
           {
             label: '월 지출',
-            data: totals,
+            data: weeklyDatas,
+            backgroundColor: 'rgba(139, 69, 69, 0.7)',
+            borderColor: 'rgba(139, 69, 69, 1)',
+            borderWidth: 1,
+            borderRadius: 8,
+            barThickness: 60,
+          },
+          {
+            label: '월 지출',
+            data: weeklyIncomeDatas,
             backgroundColor: 'rgba(139, 69, 69, 0.7)',
             borderColor: 'rgba(139, 69, 69, 1)',
             borderWidth: 1,
@@ -121,6 +133,7 @@ onMounted(async () => {
               display: false,
             },
             ticks: {
+              stepSize: 40000,
               callback: function (value) {
                 return value.toLocaleString() + '원';
               },

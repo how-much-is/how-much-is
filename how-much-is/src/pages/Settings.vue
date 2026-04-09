@@ -93,6 +93,15 @@ const resetUser = () => {
 </script>
 
 <style scoped>
+/* 초기 세팅 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
 /* 전체 컨테이너 (로그인 화면과 동일) */
 .settings__container {
   display: flex;
