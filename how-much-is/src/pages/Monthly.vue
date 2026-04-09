@@ -17,5 +17,4 @@ import MonthlyIncome from '@/components/monthly/MonthlyIncome.vue';
 
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
