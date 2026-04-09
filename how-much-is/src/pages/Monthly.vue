@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import MonthlyList from '@/components/monthly//MonthlyList.vue';
+import MonthlyList from '@/components/monthly/MonthlyList.vue';
 import MonthlyChart from '@/components/monthly/MonthlyChart.vue';
 import MonthlyExpense from '@/components/monthly/MonthlyExpense.vue';
 import MonthlyIncome from '@/components/monthly/MonthlyIncome.vue';
