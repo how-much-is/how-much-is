@@ -1,58 +1,67 @@
-<template lang="">
+<template>
   <div>
     <h1>Setting</h1>
     <button @click="saveUser">저장</button>
-    <button @click="resetUser">취소</button><br />
-    <div class="">
-    <label for="username">사용자 이름</label><br />
-    <input id="username" type="text" v-model="user.username" />
-    </div>
+    <button @click="resetUser">취소</button>
+
     <hr />
-    <div class="">
-    <label for="password">비밀번호</label><br />
-    <input id="password" type="text" v-model="user.password">
+
+    <div class="input-group">
+      <label for="username">사용자 이름</label><br />
+      <input id="username" type="text" v-model="user.name" />
     </div>
-    <div class="">
-    <label for="email">email</label><br/>
-    <input id="email" type="text" name="email" v-model="user.email"></input>
+
+    <div class="input-group">
+      <label for="password">비밀번호</label><br />
+      <input id="password" type="text" v-model="user.password" />
     </div>
-    <div class="">
-      <label for="user_memo">Memo</label><br/>
-      <input id="user_memo" type="text" name="user_memo"></input>
+
+    <div class="input-group">
+      <label for="email">Email</label><br />
+      <input id="email" type="text" v-model="user.email" />
     </div>
+
+    <hr />
+    <p><strong>현재 입력 중인 데이터:</strong> {{ user }}</p>
+    <p><strong>DB 저장 데이터 (원본):</strong> {{ originalUser }}</p>
   </div>
 </template>
 
 <script setup>
 import axios from 'axios';
-import { ref, onMounted } from "vue";
+import { ref, onMounted } from 'vue';
 
-const user = ref({
-  username:"",
-  password:"",
-  email:""
-})
+// 선택된 사용자의 정보 담기
+const user = ref({ name: '', password: '', email: '' });
 
-const originalUser = ref({})
+// 저장 취소 대비해서 기존 정보 저장
+const originalUser = ref({ name: '', password: '', email: '' });
 
-onMounted(async()=> {
-  const res = await axios.get("")
+const selectedUser = 3;
 
-  user.value = res.data;
-  originalUser.value = {...res.data}
-})
+onMounted(async () => {
+  const res = await axios.get('http://localhost:3000/users');
+  const found = res.data.find((u) => u.id === selectedUser);
 
-const saveUser = async() => {
-  await axios.put("", user.value)
+  if (found) {
+    originalUser.value = { ...found };
+    user.value = { ...found };
+  }
+});
 
-  originalUser.value = {...user.value}
+const saveUser = async () => {
+  try {
+    await axios.put(`http://localhost:3000/users/${selectedUser}`, user.value);
 
-  alert('저장 완료')
-}
+    originalUser.value = { ...user.value };
+    alert('저장 완료');
+  } catch (error) {
+    console.error('저장 실패', error);
+  }
+};
 
 const resetUser = () => {
-  user.value = {...originalUser.value}
-}
+  user.value = { ...originalUser.value };
+  alert('수정 취소');
+};
 </script>
-
-<style lang=""></style>
