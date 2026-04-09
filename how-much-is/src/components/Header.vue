@@ -7,10 +7,25 @@
 
       <nav class="nav">
         <ul>
-          <li><a href="#" class="nav-item">Home</a></li>
-          <li><a href="#" class="nav-item">월간리포트</a></li>
-          <li><a href="#" class="nav-item">카테고리</a></li>
-          <li><a href="#" class="nav-item">Settings</a></li>
+          <li>
+            <router-link to="/" class="nav-item">Home</router-link>
+          </li>
+          <li>
+            <router-link to="/monthly" class="nav-item">월간리포트</router-link>
+          </li>
+          <li>
+            <router-link to="/login" class="nav-item">카테고리</router-link>
+          </li>
+          <li>
+            <router-link to="/statistics" class="nav-item"
+              >통계</router-link
+            >
+          </li>
+          <li>
+            <router-link to="/settings" class="nav-item"
+              >Settings</router-link
+            >
+          </li>
         </ul>
       </nav>
 
