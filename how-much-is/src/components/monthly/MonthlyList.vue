@@ -11,11 +11,7 @@
       <span>Account</span>
     </div>
 
-    <div
-      class="table-row"
-      v-for="list in pagedLists"
-      :key="list.id"
-    >
+    <div class="table-row" v-for="list in pagedLists" :key="list.id">
       <span>{{ list.id }}</span>
       <span>{{ list.date }}</span>
       <span>{{ list.title }}</span>
@@ -28,7 +24,7 @@
       >
         {{ list.categoryType }}
       </span>
-      <span>{{ list.account ?? '기본 계좌' }}</span>
+      <button>수정</button>
     </div>
   </div>
 
@@ -42,11 +38,17 @@
       {{ page }}
     </button>
   </div>
+
+  <div class="box1" v-if="onmodal">
+    <input type="text">
+    <input type="text">
+    <input type="text">
+  </div>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import { getCategories, monthlyList, pickMonthlyList } from "@/api/monthlyList";
+import { computed, onMounted, ref } from 'vue';
+import { getCategories, monthlyList, pickMonthlyList } from '@/api/monthlyList';
 
 const lists = ref([]);
 const categories = ref([]);
@@ -54,13 +56,13 @@ const categories = ref([]);
 onMounted(async () => {
   try {
     //transactions 거래 내역 api 호출, category가 뭔지 알려고 api 호출함
-    const response = await pickMonthlyList("2026-04")
+    const response = await pickMonthlyList('2026-04');
     // const response = await monthlyList();
     const categoryRes = await getCategories();
     lists.value = response;
     categories.value = categoryRes.data;
   } catch (error) {
-    console.error("데이터 불러오기 실패", e);
+    console.error('데이터 불러오기 실패', e);
   }
 });
 
@@ -68,16 +70,19 @@ onMounted(async () => {
 const mergedLists = computed(() => {
   // console.log(lists.value)
   return lists.value.map((item) => {
-    const category = categories.value.find(c => Number(c.id) === Number(item.categoryId));
+    const category = categories.value.find(
+      (c) => Number(c.id) === Number(item.categoryId),
+    );
     return {
       ...item,
-      categoryName: category?.name ?? "미분류",
-      categoryIcon: category?.icon ?? "❓",
-      categoryType: category?.type ?? "unknown",
+      categoryName: category?.name ?? '미분류',
+      categoryIcon: category?.icon ?? '❓',
+      categoryType: category?.type ?? 'unknown',
     };
   });
 });
 
+// 페이지네이션 코드
 const currentPage = ref(1);
 const itemsPerPage = 10;
 
@@ -102,6 +107,15 @@ const goToPage = (page) => {
   padding: 12px 16px;
   border-bottom: 1px solid #eee;
   font-size: 14px;
+}
+
+.box1 {
+  position: fixed;
+  bottom: 10px;
+  right: 100px;
+  width: 300px;
+  height: 100px;
+  background-color: red;
 }
 
 .card {
@@ -161,17 +175,17 @@ const goToPage = (page) => {
   background: #fff;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 
-    0 4px 10px rgba(0,0,0,0.08),
-    0 10px 20px rgba(0,0,0,0.12);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.08),
+    0 10px 20px rgba(0, 0, 0, 0.12);
 }
 
 .table-row {
   display: grid;
   grid-template-columns: 50px 110px 1.2fr 1.3fr 1fr 100px 90px 1fr;
   align-items: center;
-  padding: 16px 16px; 
-  column-gap: 8px;     
+  padding: 16px 16px;
+  column-gap: 8px;
   border-bottom: 1px solid #eee;
 }
 
