@@ -46,7 +46,7 @@
 
 <script setup>
 import { computed, onMounted, ref } from "vue";
-import { getCategories, monthlyList } from "@/api/monthlyList";
+import { getCategories, monthlyList, pickMonthlyList } from "@/api/monthlyList";
 
 const lists = ref([]);
 const categories = ref([]);
@@ -54,9 +54,10 @@ const categories = ref([]);
 onMounted(async () => {
   try {
     //transactions 거래 내역 api 호출, category가 뭔지 알려고 api 호출함
-    const response = await monthlyList();
+    const response = await pickMonthlyList("2026-04")
+    // const response = await monthlyList();
     const categoryRes = await getCategories();
-    lists.value = response.data;
+    lists.value = response;
     categories.value = categoryRes.data;
   } catch (error) {
     console.error("데이터 불러오기 실패", e);

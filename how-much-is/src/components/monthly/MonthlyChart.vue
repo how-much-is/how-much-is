@@ -7,32 +7,32 @@
 </template>
 
 <script setup>
-import { onMounted, ref, onBeforeUnmount } from "vue";
-import Chart from "chart.js/auto";
-import { monthlyList } from "@/api/monthlyList";
+import { onMounted, ref, onBeforeUnmount } from 'vue';
+import Chart from 'chart.js/auto';
+import { monthlyList } from '@/api/monthlyList';
 
 const canvasRef = ref(null);
 let chartInstance = null;
 
 onMounted(async () => {
-  const lists = await monthlyList()
-  console.log(lists)
+  const lists = await monthlyList();
+  // console.log(lists);
   chartInstance = new Chart(canvasRef.value, {
-    type: "line",
+    type: 'line',
     data: {
-      labels: ["1주차", "2주차", "3주차", "4주차"],
+      labels: ['1주차', '2주차', '3주차', '4주차'],
       datasets: [
         {
-          label: "지출",
+          label: '지출',
           data: [30000, 20000, 28000, 18000],
-          borderColor: "#8B3A3A",
+          borderColor: '#8B3A3A',
           tension: 0.4,
         },
         {
-          label: "기준선",
+          label: '기준선',
           data: [30000, 30000, 30000, 30000],
-          borderColor: "#E0C36E",
           borderDash: [5, 5],
+          hidden: true,
         },
       ],
     },
@@ -42,6 +42,18 @@ onMounted(async () => {
       plugins: {
         legend: {
           display: false,
+        },
+      },
+      scales: {
+        x: {
+          grid: {
+            display: false,
+          },
+        },
+        y: {
+          grid: {
+            display: false,
+          },
         },
       },
     },
