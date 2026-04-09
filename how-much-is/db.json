@@ -6,9 +6,21 @@
       "password": "123456",
       "name": "홍길동",
       "createdAt": "2026-04-07"
+    },
+    {
+      "name": "강송주",
+      "password": "3456",
+      "email": "test@gmail.com",
+      "id": 2
+    },
+    {
+      "id": 3,
+      "email": "test@gmail.com",
+      "password": "123456",
+      "name": "강텝스",
+      "createdAt": "2026-04-07"
     }
   ],
-
   "transactions": [
     {
       "id": 1,
@@ -18,7 +30,7 @@
       "categoryId": 1,
       "title": "점심",
       "memo": "김치찌개",
-      "date": "2026-04-07"
+      "date": "2026-05-07"
     },
     {
       "id": 2,
@@ -28,7 +40,7 @@
       "categoryId": 1,
       "title": "저녁",
       "memo": "김치찌개",
-      "date": "2026-04-07"
+      "date": "2026-06-07"
     },
     {
       "id": 3,
@@ -38,10 +50,9 @@
       "categoryId": 1,
       "title": "저녁",
       "memo": "김치찌개",
-      "date": "2026-04-07"
+      "date": "2026-06-07"
     }
   ],
-
   "categories": [
     {
       "id": 1,
@@ -100,7 +111,6 @@
       "isDefault": false
     }
   ],
-
   "budgets": [
     {
       "id": 1,
@@ -110,7 +120,6 @@
       "month": "2026-04"
     }
   ],
-
   "settings": [
     {
       "userId": 1,
