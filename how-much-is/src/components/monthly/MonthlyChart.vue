@@ -49,28 +49,28 @@ const getWeekRanges = (year, month) => {
 //[{week: 1, start: 1, end: 4},{week: 2, start: 5, end: 11},...]
 
 // 주차별 지출 합계 구하기
-const getWeeklyExpenseTotals = (list, year, month) => {
+const getWeeklyExpenseTotals = (response, year, month) => {
   const weekRanges = getWeekRanges(year, month);
   return weekRanges.map((range) => {
-    console.log(range);
+    return response.filter(u => {
+      const date = new Date(u.date)
+      const itemDay = date.getDate()
+      if(range.start <= itemDay && range.end >= itemDay && u.categoryId <= 5){
+        return u.amount
+      }
+      return 0
+    })
   });
 };
 
-// const getWeeklyExpenseTotals = (list, year, month) => {
-//   const weekRanges = getWeekRanges(year, month);
-//   return weekRanges.map((range) => {
-//     return list.filter((item) => {
-//       const date = new Date(item.date);
-//       const itemDay = date.getDate();
-//       console.log(itemDay);
-//       if (itemDay >= range.start && itemDay <= range.end) {
-//         if(item.categoryID <= 5){
-          
-//         }
-//       }
-//     }).reduce((sum, item) => sum + item.amount, 0);
-//   });
-// };
+
+const realIncome = (arr) => {
+  return arr.map((week) => {
+    return week.reduce((sum, item) => {
+      return sum + item.amount;
+    }, 0);
+  });
+};
 
 onMounted(async () => {
   try {
@@ -80,7 +80,8 @@ onMounted(async () => {
     const response = await pickMonthlyList(selectedMonth);
 
     const weeklyData = getWeeklyExpenseTotals(response, year, month);
-
+    // console.log(weeklyData);
+    console.log(realIncome(weeklyData));
     const labels = weeklyData.map((item) => item.label);
     const totals = weeklyData.map((item) => item.total);
 
