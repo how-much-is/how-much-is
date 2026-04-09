@@ -46,11 +46,18 @@
 
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
 
 const userEmail = ref('');
 const userPassword = ref('');
 
-const handleLogin = () => {
+// const handleNumberOnly = (event) => {
+//   const onlyNumbers = event.target.value.replace(/[^0-9]/g, '');
+//   userPassword.value = onlyNumbers;
+//   event.target.value = onlyNumbers;
+// };
+
+const handleLogin = async () => {
   // 1. 둘 다 비어있을 때
   if (!userEmail.value && !userPassword.value) {
     alert('이메일과 비밀번호를 모두 입력해 주세요!');
@@ -70,7 +77,22 @@ const handleLogin = () => {
   }
 
   // 4. 둘 다 입력되었을 때
-  alert('로그인 시도 중입니다...');
+  try {
+    // 이메일과 비밀번호가 모두 일치하는 사람 찾기
+    const response = await axios.get(
+      `http://localhost:3000/users?email=${userEmail.value}&password=${userPassword.value}`,
+    );
+
+    if (response.data.length > 0) {
+      // 일치하는 사람이 있다면 로그인
+      const loggedInUser = response.data[0];
+      alert('로그인 성공');
+    } else {
+      alert('이메일 또는 비밀번호가 잘못되었습니다.');
+    }
+  } catch (e) {
+    console.e('에러');
+  }
 };
 </script>
 

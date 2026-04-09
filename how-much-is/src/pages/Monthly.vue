@@ -1,28 +1,36 @@
 <template>
-  <div>
-    안녕하세요
-<<<<<<< HEAD
-    <!-- <MonthlyList /> -->
-=======
-    <MonthlyChart />
-    <MonthlyIncome />
-    <MonthlyExpense />
+  <div class="container">
+    <div class="box">
+      <MonthlyChart />
+      <div class="box-in">
+        <MonthlyIncome />
+        <MonthlyExpense />
+      </div>
+    </div>
     <MonthlyList />
->>>>>>> efd047c7286b8b9274ecea7417ff07f04c367a1f
   </div>
 </template>
 
 <script setup>
-<<<<<<< HEAD
-// import MonthlyList from '@/components/MonthlyList.vue';
-=======
 import MonthlyList from '@/components/monthly//MonthlyList.vue';
 import MonthlyChart from '@/components/monthly/MonthlyChart.vue';
 import MonthlyExpense from '@/components/monthly/MonthlyExpense.vue';
 import MonthlyIncome from '@/components/monthly/MonthlyIncome.vue';
-
-
->>>>>>> efd047c7286b8b9274ecea7417ff07f04c367a1f
 </script>
 
-<style scoped></style>
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.box {
+  display: flex;
+  justify-content: center;
+}
+.box-in {
+  display: flex;
+  flex-direction: column;
+}
+</style>

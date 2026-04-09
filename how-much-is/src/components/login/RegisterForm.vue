@@ -56,7 +56,68 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+import axios from 'axios';
+
+const userName = ref('');
+const userEmail = ref('');
+const userPassword = ref('');
+
+// 숫자가 아닌 문자를 모두 지우는 함수
+const handleNumberOnly = (event) => {
+  const onlyNumbers = event.target.value.replace(/[^0-9]/g, '');
+  userPassword.value = onlyNumbers;
+  event.target.value = onlyNumbers;
+};
+
+// 가입하기 버튼을 눌렀을 때 실행되는 함수
+const handleRegister = async () => {
+  // 빈칸이 있는지 확인
+  if (!userName.value || !userEmail.value || !userPassword.value) {
+    alert('모든 정보를 입력해 주세요');
+    return;
+  }
+
+  try {
+    const response = await axios.get('http://localhost:3000/users');
+
+    const isDuplicate = response.data.some(
+      (user) => user.email === userEmail.value,
+    );
+
+    // 이메일 중복 확인
+    // const response = await axios.get(
+    //   `http://localhost:3000/users?email=${userEmail.value}`,
+    // );
+
+    console.log(response.data);
+
+    if (isDuplicate) {
+      alert('이미 가입된 이메일입니다');
+      return;
+    }
+
+    // 새 유저 정보 저장
+    const newUser = {
+      email: userEmail.value,
+      password: userPassword.value,
+      name: userName.value,
+      currency: 'KRW',
+      country: 'KR',
+      createdAt: new Date().toISOString().split('T')[0],
+    };
+
+    // 4. POST
+    await axios.post('http://localhost:3000/users', newUser);
+
+    alert('회원가입이 완료되었습니다! 로그인해 주세요.');
+  } catch (e) {
+    //캐치는 무조건 써야 한다....근데 e는 뭐지
+    console.log('에러');
+  }
+};
+</script>
 
 <style scoped>
 .register-container {

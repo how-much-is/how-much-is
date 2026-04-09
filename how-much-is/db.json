@@ -6,9 +6,17 @@
       "password": "123456",
       "name": "홍길동",
       "createdAt": "2026-04-07"
+    },
+    {
+      "email": "eevee3478@naver.com",
+      "password": "21312323",
+      "name": "전효빈",
+      "currency": "KRW",
+      "country": "KR",
+      "createdAt": "2026-04-09",
+      "id": 2
     }
   ],
-
   "transactions": [
     {
       "id": 1,
@@ -632,7 +640,6 @@
       "date": "2026-04-30"
     }
   ],
-
   "categories": [
     {
       "id": 1,
@@ -691,7 +698,6 @@
       "isDefault": false
     }
   ],
-
   "budgets": [
     {
       "id": 1,
@@ -701,7 +707,6 @@
       "month": "2026-04"
     }
   ],
-
   "settings": [
     {
       "userId": 1,
