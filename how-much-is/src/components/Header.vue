@@ -19,19 +19,14 @@
   </header>
 </template>
 
-<script setup>
-/**
- * KB 스켈레톤 가이드의 프로젝트 주제인 '가계부 서비스 앱'을 위한 헤더입니다[cite: 5, 10].
- * 2026년 상반기 K-디지털 트레이닝 과정의 일환으로 제작되었습니다[cite: 4].
- */
-</script>
+<script setup></script>
 
 <style scoped>
 .header {
   width: 100%;
   height: 80px;
   background-color: #ffffff;
-  border-bottom: 2px solid #f2d457; /* KB금융그룹 시그니처 옐로우 포인트 [cite: 2] */
+  border-bottom: 2px solid #f2d457;
   display: flex;
   align-items: center;
   position: sticky;
@@ -41,12 +36,12 @@
 
 .header-container {
   width: 90%;
-  max-width: 1440px; /* 요청하신 이미지의 가로 폭 반영 */
+  max-width: 1440px;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center; /* 메뉴를 가운데로 정렬 */
-  position: relative; /* 로고의 절대 위치 기준 */
+  justify-content: center;
+  position: relative;
 }
 
 .logo {
@@ -67,11 +62,10 @@
   color: #f2d457;
 }
 
-/* 네비게이션 메뉴 스타일 */
 .nav ul {
   list-style: none;
   display: flex;
-  gap: 40px; /* 메뉴 사이 간격을 조금 더 넓게 조정 */
+  gap: 40px;
   margin: 0;
   padding: 0;
 }
@@ -85,7 +79,6 @@
   padding: 10px 5px;
 }
 
-/* 마우스 호버 및 활성화 포인트 */
 .nav-item:hover {
   color: #f2d457;
 }
@@ -97,7 +90,6 @@
   gap: 15px;
 }
 
-/* 반응형 웹 대응 [cite: 34] */
 @media (max-width: 1024px) {
   .nav ul {
     gap: 20px;
@@ -106,11 +98,11 @@
 
 @media (max-width: 768px) {
   .header-container {
-    justify-content: flex-end; /* 모바일에서는 로고 옆으로 메뉴 이동 */
+    justify-content: flex-end;
   }
 
   .logo {
-    position: static; /* 모바일에서는 순서대로 배치 */
+    position: static;
   }
 
   .nav {

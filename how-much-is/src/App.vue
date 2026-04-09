@@ -6,10 +6,11 @@
 
     <router-view></router-view>
   </div>
+  <Header />
 </template>
 
 <script setup>
-import MonthlyList from './components/monthly/MonthlyList.vue';
+import Header from './components/Header.vue';
 </script>
 
 <style scoped></style>

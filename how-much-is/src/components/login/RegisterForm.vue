@@ -14,12 +14,22 @@
       <form class="register-form">
         <div class="input-group">
           <label for="name">이름</label>
-          <input type="text" id="name" placeholder="이름을 입력하세요" />
+          <input
+            type="text"
+            id="name"
+            v-model="userName"
+            placeholder="이름을 입력하세요"
+          />
         </div>
 
         <div class="input-group">
           <label for="email">이메일 주소</label>
-          <input type="email" id="email" placeholder="이메일을 입력하세요" />
+          <input
+            type="email"
+            id="email"
+            v-model="userEmail"
+            placeholder="이메일을 입력하세요"
+          />
         </div>
 
         <div class="input-group">
@@ -27,11 +37,16 @@
           <input
             type="password"
             id="password"
+            v-model="userPassword"
+            @input="handleNumberOnly"
             placeholder="비밀번호를 입력하세요"
+            inputmode="numeric"
           />
         </div>
 
-        <button type="button" class="register-button">가입하기</button>
+        <button type="button" class="register-button" @click="handleRegister">
+          가입하기
+        </button>
 
         <p class="login-text">
           이미 계정이 있으신가요? <a href="#" class="login-link">로그인</a>
