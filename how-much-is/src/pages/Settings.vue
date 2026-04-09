@@ -2,7 +2,8 @@
   <div>
     <h1>Setting</h1>
     <button @click="saveUser">저장</button>
-    <button @click="resetUser">취소</button><br />
+    <button @click="resetUser">취소</button>
+    <button >로그인하기</button><br />
     <div class="">
     <label for="username">사용자 이름</label><br />
     <input id="username" type="text" v-model="user.username" />

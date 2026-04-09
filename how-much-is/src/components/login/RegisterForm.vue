@@ -1,8 +1,8 @@
 <template>
   <div class="register-container">
-    <header class="register-header">
+    <!-- <header class="register-header">
       <p>회원가입 화면</p>
-    </header>
+    </header> -->
 
     <main class="register-card">
       <div class="title-section">
@@ -49,7 +49,8 @@
         </button>
 
         <p class="login-text">
-          이미 계정이 있으신가요? <a href="#" class="login-link">로그인</a>
+          이미 계정이 있으신가요?
+          <router-link to="/loginform" class="login-link">로그인</router-link>
         </p>
       </form>
     </main>
@@ -139,7 +140,7 @@ const handleRegister = async () => {
 
 .register-card {
   width: 100%;
-  max-width: 400px;
+  max-width: 350px;
   background-color: #ffffff;
   padding: 40px 30px;
   border-radius: 16px;
