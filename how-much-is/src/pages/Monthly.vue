@@ -6,10 +6,7 @@
 </template>
 
 <script setup>
-import MonthlyList from '@/components/MonthlyList.vue';
-
-
+import MonthlyList from '@/components/monthly/MonthlyList.vue';
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
