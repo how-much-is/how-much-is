@@ -8,13 +8,17 @@
       "createdAt": "2026-04-07"
     },
     {
-      "email": "eevee3478@naver.com",
-      "password": "21312323",
-      "name": "전효빈",
-      "currency": "KRW",
-      "country": "KR",
-      "createdAt": "2026-04-09",
+      "name": "강송주",
+      "password": "3456",
+      "email": "test@gmail.com",
       "id": 2
+    },
+    {
+      "id": 3,
+      "email": "test@gmail.com",
+      "password": "123456",
+      "name": "강텝스",
+      "createdAt": "2026-04-07"
     }
   ],
   "transactions": [
@@ -151,7 +155,7 @@
       "categoryId": 1,
       "title": "점심",
       "memo": "김치찌개",
-      "date": "2026-04-07"
+      "date": "2026-05-07"
     },
     {
       "id": 16,
