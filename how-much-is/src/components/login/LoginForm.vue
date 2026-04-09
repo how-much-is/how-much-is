@@ -50,11 +50,13 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { useLoginStore } from '@/stores/login';
+import { useRouter } from 'vue-router';
 
 const userEmail = ref('');
 const userPassword = ref('');
 
-const login = useLoginStore;
+const router = useRouter();
+const loginStore = useLoginStore();
 const userInputId = ref('');
 
 // const handleNumberOnly = (event) => {
@@ -93,11 +95,14 @@ const handleLogin = async () => {
       // 일치하는 사람이 있다면 로그인
       const loggedInUser = response.data[0];
       alert('로그인 성공');
+
+      loginStore.login(loggedInUser.email);
+      router.push('/settings'); // 설정 페이지로 이동
     } else {
       alert('이메일 또는 비밀번호가 잘못되었습니다.');
     }
   } catch (e) {
-    console.e('에러');
+    console.error('에러');
   }
 };
 </script>
