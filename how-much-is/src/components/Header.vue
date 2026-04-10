@@ -14,7 +14,7 @@
             <router-link to="/monthly" class="nav-item">월간리포트</router-link>
           </li>
           <li>
-            <router-link to="/login" class="nav-item">카테고리</router-link>
+            <router-link to="/category" class="nav-item">카테고리</router-link>
           </li>
           <li>
             <router-link to="/transaction" class="nav-item"
