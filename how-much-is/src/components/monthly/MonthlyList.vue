@@ -22,9 +22,9 @@
         class="type-badge"
         :class="list.categoryType === 'income' ? 'income' : 'expense'"
       >
-        {{ list.categoryType }}
+        {{ list.categoryType === 'income' ? '수입' : '지출' }}
       </span>
-      <button>수정</button>
+      <button class="edit-btn">수정</button>
     </div>
   </div>
 
@@ -40,9 +40,9 @@
   </div>
 
   <div class="box1" v-if="onmodal">
-    <input type="text">
-    <input type="text">
-    <input type="text">
+    <input type="text" />
+    <input type="text" />
+    <input type="text" />
   </div>
 </template>
 
@@ -102,13 +102,6 @@ const goToPage = (page) => {
 </script>
 
 <style scoped>
-.list-card {
-  display: flex;
-  padding: 12px 16px;
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
-}
-
 .box1 {
   position: fixed;
   bottom: 10px;
@@ -118,92 +111,47 @@ const goToPage = (page) => {
   background-color: red;
 }
 
-.card {
-  flex: 1;
-}
-/* 날짜 */
-.date {
-  color: #888;
-}
-
-/* 제목 */
-.title {
-  font-weight: 500;
-}
-
-/* 카테고리 */
-.category {
-  color: #666;
-}
-
-/* 금액 */
-.amount {
-  text-align: right;
-  font-weight: 600;
-}
-
-/* 계좌 */
-.account {
-  color: #999;
-  text-align: right;
-}
-
-/* 뱃지 */
-.type {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  text-align: center;
-}
-
-/* 지출 */
-.type.expense {
-  color: #e74c3c;
-  border: 1px solid #e74c3c;
-}
-
-/* 수입 */
-.type.income {
-  color: #2ecc71;
-  border: 1px solid #2ecc71;
-}
-
+/* 테이블 전체 컨테이너 */
 .transaction-table {
-  max-width: 1100px; /* 핵심 🔥 */
-  margin: 0 auto;
+  max-width: 1100px;
+  margin: 30px auto;
   background: #fff;
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow:
-    0 4px 10px rgba(0, 0, 0, 0.08),
-    0 10px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
 }
 
+/* 테이블 행(줄) 공통 레이아웃 */
 .table-row {
   display: grid;
-  grid-template-columns: 50px 110px 1.2fr 1.3fr 1fr 100px 90px 1fr;
+  grid-template-columns: 50px 110px 1.2fr 1.3fr 1fr 100px 90px 80px;
   align-items: center;
-  padding: 16px 16px;
-  column-gap: 8px;
-  border-bottom: 1px solid #eee;
+  padding: 10px 20px;
+  column-gap: 10px;
+  border-bottom: 1px solid #f5f5f5;
 }
 
+/* 테이블 헤더 */
 .table-header {
-  padding: 12px 16px;
-  background: #fff9a6;
-  font-weight: 600;
-  color: #666;
+  background: #fffdf5;
+  border-top: 4px solid #f2d457;
+  border-bottom: 1px solid #eaeaea;
+  font-weight: 700;
+  color: #444;
   font-size: 14px;
 }
 
+/* 일반 리스트 디자인 */
 .table-row:not(.table-header) {
   font-size: 14px;
-  color: #222;
+  color: #333;
+  transition: background 0.2s ease;
 }
 
+/* 리스트에 마우스 올렸을 때 효과 */
 .table-row:not(.table-header):hover {
-  background: #fcfcfc;
+  background: #f0f0f0;
 }
 
 .type-badge {
@@ -211,9 +159,9 @@ const goToPage = (page) => {
   justify-content: center;
   align-items: center;
   width: fit-content;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
 }
 
@@ -229,24 +177,55 @@ const goToPage = (page) => {
   border: 1px solid #f5bfd0;
 }
 
+/*수정 버튼 디자인*/
+.edit-btn {
+  padding: 6px 12px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* 수정 버튼에 마우스 올렸을 때 컬러 */
+.edit-btn:hover {
+  border-color: #f2d457;
+  color: #d8b217;
+  background: #fffdf5;
+}
+
+/* 페이지 번호 */
 .pagination {
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .pagination button {
-  border: 1px solid #ddd;
+  border: 1px solid #eee;
   background: white;
-  padding: 8px 12px;
+  width: 34px;
+  height: 34px;
   border-radius: 8px;
   cursor: pointer;
+  color: #666;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.pagination button:hover {
+  background: #f9f9f9;
 }
 
 .pagination button.active {
-  background: #222;
-  color: white;
-  border-color: #222;
+  background: #f2d457;
+  color: #fff;
+  border-color: #f2d457;
+  box-shadow: 0 2px 8px rgba(242, 212, 87, 0.4); /* 노란색 빛 번짐 효과 */
 }
 </style>
