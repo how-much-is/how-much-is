@@ -60,21 +60,40 @@
 
 <script setup>
 import { useDatePickerStore } from '@/stores/datepicker';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+
 import StatCard from '@/components/home/StatCard.vue';
-import CalendarView from '@/components/home/Calendar.vue';
+import CalendarView from '@/components/home/CalendarView.vue';
 import DayDetail from '@/components/home/DayDetail.vue';
+import {
+  getTransactions,
+  getCategories,
+  postTransactions,
+} from '@/api/CalendarDetail.js';
 
 const selectedDate = ref(null);
-const transactions = ref([
-  { date: '2026-04-01', amount: -12000, name: '점심', type: 'expense' },
-  { date: '2026-04-02', amount: -8500, name: '교통', type: 'expense' },
-  { date: '2026-04-03', amount: -23000, name: '저녁', type: 'expense' },
-  { date: '2026-04-08', amount: -15000, name: '배달', type: 'expense' },
-  { date: '2026-04-08', amount: 15000, name: '주식', type: 'income' },
-  { date: '2026-04-10', amount: 105000, name: '주식', type: 'income' },
-  { date: '2026-04-24', amount: 2000000, name: '급여', type: 'income' },
-]);
+const transactions = ref([]);
+
+onMounted(async () => {
+  const categoriesData = await getCategories();
+
+  const transData = await getTransactions();
+
+  const result = [];
+  for (const t of transData) {
+    const category = categoriesData.find((c) => c.id === t.categoryId);
+    console.log(category);
+
+    result.push({
+      id: t.id,
+      date: t.date,
+      amount: t.amount,
+      name: t.title,
+      type: category ? category.type : 'expense',
+    });
+  }
+  transactions.value = result;
+});
 
 const attrs = computed(() =>
   transactions.value.map((t) => ({
