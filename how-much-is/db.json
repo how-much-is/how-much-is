@@ -698,7 +698,7 @@
       "id": 8,
       "name": "기타",
       "icon": "💰",
-      "type": "income",
+      "type": "income, expense",
       "isDefault": false
     }
   ],

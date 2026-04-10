@@ -19,7 +19,19 @@
     </div>
 
     <!-- 캘린더 -->
-    <VCalendar :attributes="attrs" @dayclick="onDayClick" />
+    <VCalendar class="my-calendar" :attributes="attrs" @dayclick="onDayClick">
+      <template #header-prev-button="{ move, disabled }">
+        <button type="button" :disabled="disabled" @click="moveMonth(-1)">◀</button>
+      </template>
+
+      <template #header-title="{ title }">
+        <span>{{ title }}</span>
+      </template>
+
+      <template #header-next-button="{ move, disabled }">
+        <button type="button" :disabled="disabled" @click="moveMonth(1)">▶</button>
+      </template>
+    </VCalendar>
 
     <!--거래 내역 박스-->
     <div class="day-detail">
@@ -89,7 +101,29 @@
 </template>
 
 <script setup>
+import { useDatePickerStore } from '@/stores/datepicker';
 import { ref, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute();
+const router = useRouter();
+
+const datastore = useDatePickerStore()
+console.log(datastore.month);
+const moveMonth = (diff) => {
+  const year = Number(route.query.year) || new Date().getFullYear();
+  const month = Number(route.query.month) || new Date().getMonth() + 1;
+
+  const newDate = new Date(year, month - 1 + diff);
+  router.push({
+    path: '/',
+    query: {
+      year: newDate.getFullYear(),
+      month: newDate.getMonth() + 1,
+    },
+  });
+};
+
 const selectedDate = ref(null);
 const transactions = ref([
   { date: '2026-04-01', amount: -12000, name: '점심', type: 'expense' },
@@ -100,6 +134,7 @@ const transactions = ref([
   { date: '2026-04-10', amount: 105000, name: '주식', type: 'income' },
   { date: '2026-04-24', amount: 2000000, name: '급여', type: 'income' },
 ]);
+
 const attrs = computed(() =>
   transactions.value.map((t) => ({
     dates: new Date(t.date),
@@ -107,6 +142,7 @@ const attrs = computed(() =>
     popover: { label: `${t.name} ${t.amount.toLocaleString()}원` },
   })),
 );
+
 //월별 수입 합계
 const monthlyIncome = computed(() =>
   transactions.value
@@ -152,7 +188,7 @@ const form = ref({
 const submitForm = () => {
   if (!form.value.name || !form.value.amount) return;
 
-  //transctions에 새 거래 추가
+  //transactions에 새 거래 추가
   transactions.value.push({
     date: form.value.date,
     name: form.value.name,
@@ -239,19 +275,22 @@ const onDayClick = (day) => {
 }
 
 :deep(.vc-header) {
-  padding: 16px;
   font-size: 18px; /* 년월 글씨 크기 */
+  position: relative;
+  padding: 16px 0 24px;
 }
 /* 헤더 년월 위치 고정 */
 :deep(.vc-title) {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  pointer-events: none;
 }
 
-:deep(.vc-header) {
+:deep(.vc-arrow) {
   position: relative;
-  padding: 16px 0 24px;
+  z-index: 2;
+  pointer-events: auto;
 }
 .fab {
   position: fixed;
