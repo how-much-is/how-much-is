@@ -6,6 +6,7 @@ import Statistics from '@/pages/Statistics.vue';
 import LoginForm from '@/components/login/LoginForm.vue';
 import RegisterForm from '@/components/login/RegisterForm.vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import { useLoginStore } from '@/stores/login';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
