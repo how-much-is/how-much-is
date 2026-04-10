@@ -6,12 +6,13 @@ import LoginForm from '@/components/login/LoginForm.vue';
 import RegisterForm from '@/components/login/RegisterForm.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import Transaction from '@/pages/Transaction.vue';
+import Category from '@/pages/Category.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', component: Home },
-    { path: '/login', component: Login },
+    { path: '/category', component: Category },
     { path: '/monthly', component: Monthly },
     { path: '/transaction', component: Transaction },
     { path: '/settings', component: Settings },

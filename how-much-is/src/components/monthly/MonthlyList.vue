@@ -121,7 +121,7 @@ const handleUpdate = async (updatedData) => {
     if (index !== -1) {
       lists.value[index] = { ...updatedData };
     }
-
+    console.log('수정 완료');
     onmodal.value = false;
   } catch {
     error;
