@@ -92,19 +92,19 @@ onMounted(async () => {
           {
             label: '지출',
             data: weeklyDatas,
-            backgroundColor: '#fff0f4',
-            borderColor: '#e05a7a',
-            borderWidth: 2,
-            borderRadius: 6,
+            backgroundColor: '#fccfdb',
+            // borderColor: '#e05a7a',
+            // borderWidth: 1,
+            borderRadius: 9,
             maxBarThickness: 50,
           },
           {
             label: '수입',
             data: weeklyIncomeDatas,
-            backgroundColor: '#fef7d9',
-            borderColor: '#f2d457',
-            borderWidth: 2,
-            borderRadius: 6,
+            backgroundColor: '#ffed94',
+            // borderColor: '#f2d457',
+            // borderWidth: 1,
+            borderRadius: 9,
             maxBarThickness: 50,
           },
         ],
@@ -170,14 +170,23 @@ onBeforeUnmount(() => {
   padding: 30px;
   border-radius: 16px;
   background: #ffffff;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); */
+  box-shadow: 0 4px 12px rgba(42, 42, 42, 0.25);
   border: 1px solid #f5f5f5;
   display: flex;
   flex-direction: column;
 }
 
 .chart-header {
+  padding-bottom: 20px;
   margin-bottom: 24px;
+  border-bottom: 1px solid #dbdada;
+
+  margin-left: -30px;
+  margin-right: -30px;
+
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .chart-header h3 {

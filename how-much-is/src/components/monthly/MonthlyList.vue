@@ -27,13 +27,6 @@
       <button class="edit-btn" @click="openEditModal(list)">수정</button>
     </div>
   </div>
-  <!-- 거래 내역 수정 파트 -->
-  <ModalFrame
-    v-if="onmodal"
-    :editData="selectedItem"
-    @close="onmodal = false"
-    @save="handleUpdate"
-  ></ModalFrame>
 
   <div class="pagination">
     <button
@@ -45,14 +38,46 @@
       {{ page }}
     </button>
   </div>
-  <<<<<<< HEAD
 
-  <div class="box1" v-if="onmodal">
-    <input type="text" />
-    <input type="text" />
-    <input type="text" />
+  <div class="modal-overlay" v-if="onmodal">
+    <div class="modal-box">
+      <h3 class="modal-title">거래 내역 수정</h3>
+
+      <div class="modal-input-group">
+        <label>내역</label>
+        <input
+          type="text"
+          v-model="selectedItem.title"
+          placeholder="내역을 입력하세요"
+        />
+      </div>
+
+      <div class="modal-input-group">
+        <label>메모</label>
+        <input
+          type="text"
+          v-model="selectedItem.memo"
+          placeholder="메모를 입력하세요"
+        />
+      </div>
+
+      <div class="modal-input-group">
+        <label>금액</label>
+        <input
+          type="number"
+          v-model="selectedItem.amount"
+          placeholder="금액을 입력하세요"
+        />
+      </div>
+
+      <div class="modal-buttons">
+        <button class="cancel-btn" @click="onmodal = false">취소</button>
+        <button class="save-btn" @click="handleUpdate(selectedItem)">
+          저장
+        </button>
+      </div>
+    </div>
   </div>
-  ======= >>>>>>> 243a43f154ddcdc97f1c955147b462ccb477565d
 </template>
 
 <script setup>
@@ -73,7 +98,7 @@ onMounted(async () => {
     lists.value = response;
     categories.value = categoryRes.data;
   } catch (error) {
-    console.error('데이터 불러오기 실패', e);
+    console.error('데이터 불러오기 실패', error);
   }
 });
 
@@ -131,8 +156,7 @@ const handleUpdate = async (updatedData) => {
     }
 
     onmodal.value = false;
-  } catch {
-    error;
+  } catch (error) {
     console.error('수정 실패:', error);
     alert('수정 실패');
   }
@@ -140,16 +164,101 @@ const handleUpdate = async (updatedData) => {
 </script>
 
 <style scoped>
-.box1 {
+.modal-overlay {
   position: fixed;
-  bottom: 10px;
-  right: 100px;
-  width: 300px;
-  height: 100px;
-  background-color: red;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-/* 테이블 전체 컨테이너 */
+.modal-box {
+  background: #ffffff;
+  width: 380px;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-title {
+  margin: 0;
+  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.modal-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-input-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+}
+
+.modal-input-group input {
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.modal-input-group input:focus {
+  border-color: #f2d457;
+  box-shadow: 0 0 0 3px rgba(242, 212, 87, 0.2);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cancel-btn {
+  padding: 10px 16px;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 8px;
+  color: #666;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancel-btn:hover {
+  background: #e0e0e0;
+}
+
+.save-btn {
+  padding: 10px 20px;
+  background: #f2d457;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.save-btn:hover {
+  opacity: 0.8;
+}
+
 .transaction-table {
   max-width: 1100px;
   margin: 30px auto;
@@ -160,7 +269,6 @@ const handleUpdate = async (updatedData) => {
   border: 1px solid #f0f0f0;
 }
 
-/* 테이블 행(줄) 공통 레이아웃 */
 .table-row {
   display: grid;
   grid-template-columns: 50px 110px 1.2fr 1.3fr 1fr 100px 90px 80px;
@@ -170,7 +278,6 @@ const handleUpdate = async (updatedData) => {
   border-bottom: 1px solid #f5f5f5;
 }
 
-/* 테이블 헤더 */
 .table-header {
   background: #fffdf5;
   border-top: 4px solid #f2d457;
@@ -180,14 +287,12 @@ const handleUpdate = async (updatedData) => {
   font-size: 14px;
 }
 
-/* 일반 리스트 디자인 */
 .table-row:not(.table-header) {
   font-size: 14px;
   color: #333;
   transition: background 0.2s ease;
 }
 
-/* 리스트에 마우스 올렸을 때 효과 */
 .table-row:not(.table-header):hover {
   background: #f0f0f0;
 }
@@ -215,7 +320,6 @@ const handleUpdate = async (updatedData) => {
   border: 1px solid #f5bfd0;
 }
 
-/*수정 버튼 디자인*/
 .edit-btn {
   padding: 6px 12px;
   background: #fff;
@@ -228,14 +332,12 @@ const handleUpdate = async (updatedData) => {
   transition: all 0.2s ease;
 }
 
-/* 수정 버튼에 마우스 올렸을 때 컬러 */
 .edit-btn:hover {
   border-color: #f2d457;
   color: #d8b217;
   background: #fffdf5;
 }
 
-/* 페이지 번호 */
 .pagination {
   display: flex;
   justify-content: center;
@@ -264,6 +366,6 @@ const handleUpdate = async (updatedData) => {
   background: #f2d457;
   color: #fff;
   border-color: #f2d457;
-  box-shadow: 0 2px 8px rgba(242, 212, 87, 0.4); /* 노란색 빛 번짐 효과 */
+  box-shadow: 0 2px 8px rgba(242, 212, 87, 0.4);
 }
 </style>

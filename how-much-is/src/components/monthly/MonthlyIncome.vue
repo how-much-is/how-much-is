@@ -6,10 +6,13 @@
     </div>
 
     <div class="amount">
+      ₩
       {{
-        incomeList.reduce((acc, cur) => {
-          return acc + cur;
-        }, 0)
+        incomeList
+          .reduce((acc, cur) => {
+            return acc + cur;
+          }, 0)
+          .toLocaleString()
       }}
     </div>
 
@@ -21,29 +24,28 @@
 </template>
 
 <script setup>
-import { monthlyList } from "@/api/monthlyList";
-import { computed, onMounted, ref } from "vue";
+import { monthlyList } from '@/api/monthlyList';
+import { computed, onMounted, ref } from 'vue';
 
-  const income = ref([]);
+const income = ref([]);
 
-  onMounted(async () => {
-    try {
-      const response = await monthlyList();
-      income.value = response.data;
-    } catch (error) {
-      console.log(error);
+onMounted(async () => {
+  try {
+    const response = await monthlyList();
+    income.value = response.data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+const incomeList = computed(() => {
+  return income.value.map((list) => {
+    if (list.categoryId < 6) {
+      return list.amount;
     }
+    return 0;
   });
-
-  const incomeList = computed(() => {
-    return income.value.map((list) => {
-      if (list.categoryId < 6) {
-        return list.amount;
-      }
-      return 0;
-    });
-  });
-
+});
 </script>
 
 <style scoped>
