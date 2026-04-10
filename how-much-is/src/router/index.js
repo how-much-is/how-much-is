@@ -12,6 +12,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', component: Home },
+    { path: '/:year/:month', component: Home},
     { path: '/login', component: Login },
     { path: '/monthly', component: Monthly },
     { path: '/transaction', component: Transaction },
