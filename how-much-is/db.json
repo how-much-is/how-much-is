@@ -707,7 +707,7 @@
       "id": 8,
       "name": "기타",
       "icon": "💰",
-      "type": "income, expense",
+      "type": "income",
       "isDefault": false
     }
   ],
