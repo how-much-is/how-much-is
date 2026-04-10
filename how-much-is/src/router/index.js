@@ -7,6 +7,7 @@ import RegisterForm from '@/components/login/RegisterForm.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import Transaction from '@/pages/Transaction.vue';
 import Category from '@/pages/Category.vue';
+import { useLoginStore } from '@/stores/login';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
