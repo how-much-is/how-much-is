@@ -71,7 +71,7 @@ const realIncome = (arr) => {
   });
 };
 
-onMounted(async () => {
+  (async () => {
   try {
     const selectedMonth = '2026-04';
     const [year, month] = selectedMonth.split('-').map(Number);

@@ -10,6 +10,7 @@
     <!-- Calendar 컴포넌트에 데이터 내려보내고 이벤트 받기 -->
     <CalendarView :attrs="attrs" @dayclick="onDayClick" />
 
+
     <!-- DayDetail 컴포넌트에 데이터 내려보내기 -->
     <DayDetail
       :selectedDate="selectedDate"
@@ -62,8 +63,28 @@
 import { useDatePickerStore } from '@/stores/datepicker';
 import { ref, computed } from 'vue';
 import StatCard from '@/components/home/StatCard.vue';
-import CalendarView from '@/components/home/Calendar.vue';
+import CalendarView from '@/components/home/CalendarView.vue';
 import DayDetail from '@/components/home/DayDetail.vue';
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute();
+const router = useRouter();
+
+const moveMonth = (diff) => {
+  const year = Number(route.query.year) || new Date().getFullYear();
+  const month = Number(route.query.month) || new Date().getMonth() + 1;
+
+  const newDate = new Date(year, month - 1 + diff);
+  router.push({
+    path: '/',
+    query: {
+      year: newDate.getFullYear(),
+      month: newDate.getMonth() + 1,
+    },
+  });
+};
+
+
 
 const selectedDate = ref(null);
 const transactions = ref([
