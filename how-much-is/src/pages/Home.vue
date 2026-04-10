@@ -59,6 +59,7 @@
 </template>
 
 <script setup>
+import { useDatePickerStore } from '@/stores/datepicker';
 import { ref, computed } from 'vue';
 import StatCard from '@/components/home/StatCard.vue';
 import CalendarView from '@/components/home/Calendar.vue';

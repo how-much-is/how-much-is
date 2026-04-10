@@ -24,9 +24,16 @@
       >
         {{ list.categoryType }}
       </span>
-      <button>수정</button>
+      <button @click="openEditModal(list)">수정</button>
     </div>
   </div>
+  <!-- 거래 내역 수정 파트 -->
+  <ModalFrame
+    v-if="onmodal"
+    :editData="selectedItem"
+    @close="onmodal = false"
+    @save="handleUpdate"
+  ></ModalFrame>
 
   <div class="pagination">
     <button
@@ -38,17 +45,13 @@
       {{ page }}
     </button>
   </div>
-
-  <div class="box1" v-if="onmodal">
-    <input type="text">
-    <input type="text">
-    <input type="text">
-  </div>
 </template>
 
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { getCategories, monthlyList, pickMonthlyList } from '@/api/monthlyList';
+import ModalFrame from '../ModalFrame.vue';
+import axios from 'axios';
 
 const lists = ref([]);
 const categories = ref([]);
@@ -98,6 +101,33 @@ const totalPages = computed(() => {
 
 const goToPage = (page) => {
   currentPage.value = page;
+};
+
+const onmodal = ref(false);
+const selectedItem = ref(null);
+
+const openEditModal = (item) => {
+  selectedItem.value = { ...item };
+  onmodal.value = true;
+};
+
+const handleUpdate = async (updatedData) => {
+  try {
+    await axios.put(
+      `http://localhost:3000/transactions/${updatedData.id}`,
+      updatedData,
+    );
+    const index = lists.value.findIndex((item) => item.id === updatedData.id);
+    if (index !== -1) {
+      lists.value[index] = { ...updatedData };
+    }
+
+    onmodal.value = false;
+  } catch {
+    error;
+    console.error('수정 실패:', error);
+    alert('수정 실패');
+  }
 };
 </script>
 
