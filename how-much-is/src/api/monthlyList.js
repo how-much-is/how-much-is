@@ -14,7 +14,7 @@ export const pickMonthlyList = async (payload) => {
     const response = await monthlyList();
     return response.data.filter(u => u.date.startsWith(payload));
   } catch (error) {
-    
+    console.log(error);
   }
 };
 

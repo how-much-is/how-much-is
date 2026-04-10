@@ -22,7 +22,7 @@
             >
           </li>
           <li>
-            <router-link to="/loginform" class="nav-item">Settings</router-link>
+            <router-link to="/settings" class="nav-item">Settings</router-link>
           </li>
         </ul>
       </nav>

@@ -1,8 +1,6 @@
 <template>
   <div class="settings__container">
-    <header class="settings__header">
-      <p>설정 화면</p>
-    </header>
+    <header class="settings__header"></header>
 
     <main class="settings__card">
       <div class="title__section">

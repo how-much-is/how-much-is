@@ -8,7 +8,7 @@ export const useLoginStore = defineStore('login', {
   }),
   actions: {
     login(id) {
-      this.useId = id;
+      this.userId = id;
       this.isLogged = true;
     },
   },
