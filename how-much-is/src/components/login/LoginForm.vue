@@ -108,6 +108,15 @@ const handleLogin = async () => {
 </script>
 
 <style scoped>
+/* 초기 세팅 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
 .login__container {
   display: flex;
   flex-direction: column;

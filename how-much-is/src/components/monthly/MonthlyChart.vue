@@ -3,6 +3,7 @@
     <div class="chart-wrap">
       <canvas ref="canvasRef"></canvas>
     </div>
+    {{ mi[1] }}
   </div>
 </template>
 
@@ -23,85 +24,52 @@ const getWeekRanges = (year, month) => {
   const lastDate = new Date(year, month, 0).getDate(); // 해당 달 마지막 날짜
 
   const ranges = [];
-
   let week = 1;
   let start = 1;
   let end = 7 - firstDay;
-
   ranges.push({
     week,
     start,
     end: Math.min(end, lastDate),
   });
-
   week++;
   start = end + 1;
-
   while (start <= lastDate) {
     end = start + 6;
-
     ranges.push({
       week,
       start,
       end: Math.min(end, lastDate),
     });
-
     start = end + 1;
     week++;
   }
-
   return ranges;
 };
+//[{week: 1, start: 1, end: 4},{week: 2, start: 5, end: 11},...]
 
 // 주차별 지출 합계 구하기
-const getWeeklyExpenseTotals = (list, year, month) => {
+const getWeeklyExpenseTotals = (response, year, month,conditionFn) => {
   const weekRanges = getWeekRanges(year, month);
-  console.log(weekRanges);
   return weekRanges.map((range) => {
-    return list.filter((item) => {
-      console.log(item);
-      const date = new Date(item.date);
-      const itemDay = date.getDate();
-      if (itemDay >= range.start && itemDay <= range.end) {
-        if(item.categoryID <= 5){
-          
-        }
+    return response.filter(u => {
+      const date = new Date(u.date)
+      const itemDay = date.getDate()
+      if(range.start <= itemDay && range.end >= itemDay && conditionFn(u)){
+        return u.amount
       }
-    }).reduce((sum, item) => sum + item.amount, 0);
+      return 0
+    })
   });
 };
 
-// const getWeeklyExpenseTotals = (list, year, month) => {
-//   const weekRanges = getWeekRanges(year, month);
-//   console.log(weekRanges);
-//   return weekRanges.map((range) => {
-//     const total = list
-//       .filter((item) => {
-//         console.log(item);
-//         const date = new Date(item.date);
-//         const itemDay = date.getDate();
-//         if(itemDay >=range.start && itemDay <= range.end){
-//           console.log("good");
-//         }
-//         const itemYear = date.getFullYear();
-//         const itemMonth = date.getMonth() + 1;
-
-//         return (
-//           itemYear === year &&
-//           itemMonth === month &&
-//           item.type === 'expense' &&
-//           itemDay >= range.start &&
-//           itemDay <= range.end
-//         );
-//       })
-//       .reduce((sum, item) => sum + item.amount, 0);
-
-//     return {
-//       label: `${range.week}주차`,
-//       total,
-//     };
-//   });
-// };
+const realIncome = (arr) => {
+  return arr.map((week) => {
+    return week.reduce((sum, item) => {
+      return sum + item.amount;
+    }, 0);
+  });
+};
 
 onMounted(async () => {
   try {
@@ -110,19 +78,33 @@ onMounted(async () => {
 
     const response = await pickMonthlyList(selectedMonth);
 
-    const weeklyData = getWeeklyExpenseTotals(response, year, month);
+    const weeklyData = getWeeklyExpenseTotals(response, year, month,(u) => u.categoryId <= 5);
 
-    const labels = weeklyData.map((item) => item.label);
-    const totals = weeklyData.map((item) => item.total);
+    const weeklyIncome = getWeeklyExpenseTotals(response,year,month,(u) => u.categoryId >= 6)
+
+    const weeklyDatas = realIncome(weeklyData);
+    const weeklyIncomeDatas = realIncome(weeklyIncome);
+    const labels = weeklyDatas.map((u,i) => {
+      return `${i+1}주차`
+    })
 
     chartInstance = new Chart(canvasRef.value, {
       type: 'bar',
       data: {
-        labels,
+        labels: labels,
         datasets: [
           {
             label: '월 지출',
-            data: totals,
+            data: weeklyDatas,
+            backgroundColor: 'rgba(139, 69, 69, 0.7)',
+            borderColor: 'rgba(139, 69, 69, 1)',
+            borderWidth: 1,
+            borderRadius: 8,
+            barThickness: 60,
+          },
+          {
+            label: '월 지출',
+            data: weeklyIncomeDatas,
             backgroundColor: 'rgba(139, 69, 69, 0.7)',
             borderColor: 'rgba(139, 69, 69, 1)',
             borderWidth: 1,
@@ -151,6 +133,7 @@ onMounted(async () => {
               display: false,
             },
             ticks: {
+              stepSize: 40000,
               callback: function (value) {
                 return value.toLocaleString() + '원';
               },

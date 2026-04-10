@@ -7,7 +7,6 @@
         <MonthlyExpense />
       </div>
     </div>
-    <MonthlyList />
   </div>
 </template>
 
