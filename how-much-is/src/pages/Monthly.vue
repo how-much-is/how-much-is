@@ -1,10 +1,11 @@
 <template>
   <div class="container">
     <div class="box">
-      <MonthlyChart />
+      <MonthlyChart class="chart-area" />
+
       <div class="box-in">
-        <MonthlyIncome />
-        <MonthlyExpense />
+        <MonthlyIncome class="report-card" />
+        <MonthlyExpense class="report-card" />
       </div>
     </div>
   </div>
@@ -22,14 +23,25 @@ import MonthlyIncome from '@/components/monthly/MonthlyIncome.vue';
   display: flex;
   flex-direction: column;
   max-width: 1100px;
-  margin: 0 auto;
+  margin: 40px auto;
 }
+
 .box {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 30px;
+  width: 100%;
 }
+
+.chart-area {
+  flex: 2;
+}
+
 .box-in {
   display: flex;
+
   flex-direction: column;
 }
 </style>

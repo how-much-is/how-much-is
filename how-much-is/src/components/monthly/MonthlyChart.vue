@@ -1,9 +1,12 @@
 <template>
   <div class="chart-card">
+    <div class="chart-header">
+      <h3>4월 수입 / 지출 리포트</h3>
+    </div>
+
     <div class="chart-wrap">
       <canvas ref="canvasRef"></canvas>
     </div>
-    {{ mi[1] }}
   </div>
 </template>
 
@@ -12,62 +15,46 @@ import { onMounted, ref, onBeforeUnmount } from 'vue';
 import Chart from 'chart.js/auto';
 import { pickMonthlyList } from '@/api/monthlyList';
 
-const mi = [0];
-const me = [0];
 const canvasRef = ref(null);
 let chartInstance = null;
 
-// 해당 월의 주차 범위 구하기
 const getWeekRanges = (year, month) => {
-  // month: 1~12
-  const firstDay = new Date(year, month - 1, 1).getDay(); // 0:일 ~ 6:토
-  const lastDate = new Date(year, month, 0).getDate(); // 해당 달 마지막 날짜
+  const firstDay = new Date(year, month - 1, 1).getDay();
+  const lastDate = new Date(year, month, 0).getDate();
 
   const ranges = [];
   let week = 1;
   let start = 1;
   let end = 7 - firstDay;
-  ranges.push({
-    week,
-    start,
-    end: Math.min(end, lastDate),
-  });
+  ranges.push({ week, start, end: Math.min(end, lastDate) });
   week++;
   start = end + 1;
   while (start <= lastDate) {
     end = start + 6;
-    ranges.push({
-      week,
-      start,
-      end: Math.min(end, lastDate),
-    });
+    ranges.push({ week, start, end: Math.min(end, lastDate) });
     start = end + 1;
     week++;
   }
   return ranges;
 };
-//[{week: 1, start: 1, end: 4},{week: 2, start: 5, end: 11},...]
 
-// 주차별 지출 합계 구하기
-const getWeeklyExpenseTotals = (response, year, month,conditionFn) => {
+const getWeeklyExpenseTotals = (response, year, month, conditionFn) => {
   const weekRanges = getWeekRanges(year, month);
   return weekRanges.map((range) => {
-    return response.filter(u => {
-      const date = new Date(u.date)
-      const itemDay = date.getDate()
-      if(range.start <= itemDay && range.end >= itemDay && conditionFn(u)){
-        return u.amount
+    return response.filter((u) => {
+      const date = new Date(u.date);
+      const itemDay = date.getDate();
+      if (range.start <= itemDay && range.end >= itemDay && conditionFn(u)) {
+        return u.amount;
       }
-      return 0
-    })
+      return 0;
+    });
   });
 };
 
 const realIncome = (arr) => {
   return arr.map((week) => {
-    return week.reduce((sum, item) => {
-      return sum + item.amount;
-    }, 0);
+    return week.reduce((sum, item) => sum + item.amount, 0);
   });
 };
 
@@ -78,15 +65,24 @@ onMounted(async () => {
 
     const response = await pickMonthlyList(selectedMonth);
 
-    const weeklyData = getWeeklyExpenseTotals(response, year, month,(u) => u.categoryId <= 5);
-
-    const weeklyIncome = getWeeklyExpenseTotals(response,year,month,(u) => u.categoryId >= 6)
+    // 지출 데이터
+    const weeklyData = getWeeklyExpenseTotals(
+      response,
+      year,
+      month,
+      (u) => u.categoryId <= 5,
+    );
+    // 수입 데이터
+    const weeklyIncome = getWeeklyExpenseTotals(
+      response,
+      year,
+      month,
+      (u) => u.categoryId >= 6,
+    );
 
     const weeklyDatas = realIncome(weeklyData);
     const weeklyIncomeDatas = realIncome(weeklyIncome);
-    const labels = weeklyDatas.map((u,i) => {
-      return `${i+1}주차`
-    })
+    const labels = weeklyDatas.map((u, i) => `${i + 1}주차`);
 
     chartInstance = new Chart(canvasRef.value, {
       type: 'bar',
@@ -94,22 +90,22 @@ onMounted(async () => {
         labels: labels,
         datasets: [
           {
-            label: '월 지출',
+            label: '지출',
             data: weeklyDatas,
-            backgroundColor: 'rgba(139, 69, 69, 0.7)',
-            borderColor: 'rgba(139, 69, 69, 1)',
-            borderWidth: 1,
-            borderRadius: 8,
-            barThickness: 60,
+            backgroundColor: '#fff0f4',
+            borderColor: '#e05a7a',
+            borderWidth: 2,
+            borderRadius: 6,
+            maxBarThickness: 50,
           },
           {
-            label: '월 지출',
+            label: '수입',
             data: weeklyIncomeDatas,
-            backgroundColor: 'rgba(139, 69, 69, 0.7)',
-            borderColor: 'rgba(139, 69, 69, 1)',
-            borderWidth: 1,
-            borderRadius: 8,
-            barThickness: 60,
+            backgroundColor: '#fef7d9',
+            borderColor: '#f2d457',
+            borderWidth: 2,
+            borderRadius: 6,
+            maxBarThickness: 50,
           },
         ],
       },
@@ -118,20 +114,32 @@ onMounted(async () => {
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            display: false,
+            display: true,
+            position: 'top',
+            align: 'end',
+            labels: {
+              usePointStyle: true,
+              boxWidth: 8,
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                return `${context.dataset.label}: ${context.parsed.y.toLocaleString()}원`;
+              },
+            },
           },
         },
         scales: {
           x: {
-            grid: {
-              display: false,
-            },
+            grid: { display: false },
           },
           y: {
             beginAtZero: true,
             grid: {
-              display: false,
+              color: '#f0f0f0', // y축 배경 가이드라인을 아주 연하게 표시
             },
+            border: { display: false },
             ticks: {
               stepSize: 40000,
               callback: function (value) {
@@ -157,15 +165,31 @@ onBeforeUnmount(() => {
 <style scoped>
 .chart-card {
   width: 100%;
+  height: 100%;
   max-width: 900px;
-  padding: 24px;
-  border-radius: 20px;
+  padding: 30px;
+  border-radius: 16px;
   background: #ffffff;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f5f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-header {
+  margin-bottom: 24px;
+}
+
+.chart-header h3 {
+  font-size: 18px;
+  color: #333;
+  font-weight: 700;
+  margin: 0;
 }
 
 .chart-wrap {
   position: relative;
   height: 380px;
+  width: 100%;
 }
 </style>
