@@ -6,6 +6,7 @@ import LoginForm from '@/components/login/LoginForm.vue';
 import RegisterForm from '@/components/login/RegisterForm.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import Transaction from '@/pages/Transaction.vue';
+import { useLoginStore } from '@/stores/login';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,6 +20,21 @@ const router = createRouter({
     { path: '/loginform', component: LoginForm },
     { path: '/registerform', component: RegisterForm },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const loginStore = useLoginStore();
+
+  if (to.path === '/') {
+    if (loginStore.isLogged) {
+      next();
+    } else {
+      // alert('로그인이 필요한 서비스입니다.');
+      next('/loginform');
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

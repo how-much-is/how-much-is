@@ -17,10 +17,12 @@
             <router-link to="/login" class="nav-item">카테고리</router-link>
           </li>
           <li>
-            <router-link to="/transaction" class="nav-item">거래 내역</router-link>
+            <router-link to="/transaction" class="nav-item"
+              >거래 내역</router-link
+            >
           </li>
           <li>
-            <router-link to="/loginform" class="nav-item">Settings</router-link>
+            <router-link to="/settings" class="nav-item">Settings</router-link>
           </li>
         </ul>
       </nav>
