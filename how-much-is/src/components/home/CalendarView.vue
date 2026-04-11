@@ -14,7 +14,7 @@
       </template>
 
       <template #header-next-button="{ move, disabled }">
-        <button type="button" :disabled="disabled" @click="store.moveMonth(1)">
+        <button type="button" :disabled="disabled" @click="store.moveMonth(1)" >
           ▶
         </button>
       </template>
@@ -29,7 +29,7 @@ import { computed } from "vue";
 const store = useDatePickerStore();
 // Home.vue 에서 데이터 받아요
 defineProps({
-  attrs: Array,
+  attrs: Array, 
 });
 
 // 날짜 클릭하면 Home.vue 로 전달해요
