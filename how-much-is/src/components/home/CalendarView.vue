@@ -1,21 +1,49 @@
 <template>
   <div class="calendar-wrap">
-    <VCalendar :attributes="attrs" @dayclick="onDayClick" />
+    <VCalendar class="my-calendar" :attributes="attrs" @dayclick="onDayClick">
+      <template #header-prev-button="{ move, disabled }">
+        <button type="button" :disabled="disabled" @click="store.moveMonth(-1)">
+          ◀
+        </button>
+      </template>
+
+      <template #header-title>
+        <div class="calendar-header-title">
+          {{ headerTitle }}
+        </div>
+      </template>
+
+      <template #header-next-button="{ move, disabled }">
+        <button type="button" :disabled="disabled" @click="store.moveMonth(1)">
+          ▶
+        </button>
+      </template>
+    </VCalendar>
   </div>
 </template>
 
 <script setup>
+import { useDatePickerStore } from "@/stores/datepicker";
+import { computed } from "vue";
+
+const store = useDatePickerStore();
 // Home.vue 에서 데이터 받아요
 defineProps({
   attrs: Array,
 });
 
 // 날짜 클릭하면 Home.vue 로 전달해요
-const emit = defineEmits(['dayclick']);
+const emit = defineEmits(["dayclick"]);
 
 const onDayClick = (day) => {
-  emit('dayclick', day.id);
+  emit("dayclick", day.id);
 };
+
+const headerTitle = computed(() => {
+  const date = store.currentDate;
+  const [year, month] = date.split("-");
+  return `${Number(month)}월 ${year}`;
+});
 </script>
 
 <style scoped>
@@ -56,6 +84,9 @@ const onDayClick = (day) => {
   font-size: 20px !important;
   border-radius: 10px !important;
   background: #f2f4f6 !important;
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
 }
 
 :deep(.vc-weekday) {
@@ -69,5 +100,17 @@ v.calendar-wrap {
   border-radius: 20px;
   padding: 24px;
   margin-bottom: 16px;
+}
+.calendar-header-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.badge {
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: #f3f4f6;
+  font-weight: 700;
 }
 </style>

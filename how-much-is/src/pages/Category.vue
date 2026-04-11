@@ -3,7 +3,7 @@
     <h1>{{ formattedMonth }}</h1>
     <select v-model="selectedMonth" class="custom-select">
       <option v-for="month in months" :key="month" :value="month">
-        {{ month }}
+        {{ formattedMonth }}
       </option>
     </select>
 
@@ -29,7 +29,9 @@ import PieChart from '@/components/PieChart.vue';
 import CategorySummary from '@/components/CategorySummary.vue';
 import { ref, onMounted, computed, watch } from 'vue';
 import axios from 'axios';
+import { useDatePickerStore } from '@/stores/datepicker';
 
+const store = useDatePickerStore()
 // db.json에서 해당하는 사용자의 거래 내역 가져올 data 담을 변수
 const transactions = ref([]);
 // db.json에서 카테고리 가져올 data 담을 변수
@@ -55,7 +57,7 @@ onMounted(async () => {
 const months = computed(() => {
   // 중복되는 데이터 존재할 수 있으므로 집합 사용
   const monthSet = new Set();
-
+  console.log(monthSet)
   // db.json에서 가져온 transaction를 확인
   transactions.value.forEach((t) => {
     // 각 원소에서 속성 date의 YYYY-MM를 추출
@@ -158,13 +160,19 @@ const chartData = computed(() => {
   };
 });
 
-const formattedMonth = computed(() => {
-  if (!selectedMonth.value) return '';
+const formattedMonth = computed((() => {
+  const date = store.currentDate
+  const [year,month] = date.split("-")
+  return `${year}년 ${month}월`
+}))
 
-  const [year, month] = selectedMonth.value.split('-');
+// const formattedMonth = computed(() => {
+//   if (!selectedMonth.value) return '';
 
-  return `${year}년 ${month}월`;
-});
+//   const [year, month] = selectedMonth.value.split('-');
+
+//   return `${year}년 ${month}월`;
+// });
 
 const totalExpense = computed(() => {
   let sum = 0;

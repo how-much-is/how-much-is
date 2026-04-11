@@ -1,7 +1,7 @@
 <template>
   <div class="chart-card">
     <div class="chart-header">
-      <h3>4월 수입 / 지출 리포트</h3>
+      <h3>{{ mtcomputed }}월 / 지출 리포트</h3>
     </div>
 
     <div class="chart-wrap">
@@ -11,9 +11,18 @@
 </template>
 
 <script setup>
-import { onMounted, ref, onBeforeUnmount } from 'vue';
-import Chart from 'chart.js/auto';
-import { pickMonthlyList } from '@/api/monthlyList';
+import { onMounted, ref, onBeforeUnmount, computed } from "vue";
+import Chart from "chart.js/auto";
+import { pickMonthlyList } from "@/api/monthlyList";
+import { useDatePickerStore } from "@/stores/datepicker";
+
+const store = useDatePickerStore();
+const selected = store.currentDate;
+
+const mtcomputed = computed(() => {
+  const arr =  selected.split("-");
+  return Number(arr[1])
+});
 
 const canvasRef = ref(null);
 let chartInstance = null;
@@ -58,10 +67,10 @@ const realIncome = (arr) => {
   });
 };
 
-  (async () => {
+onMounted(async () => {
   try {
-    const selectedMonth = '2026-04';
-    const [year, month] = selectedMonth.split('-').map(Number);
+    const selectedMonth = selected;
+    const [year, month] = selectedMonth.split("-").map(Number);
 
     const response = await pickMonthlyList(selectedMonth);
 
@@ -85,23 +94,23 @@ const realIncome = (arr) => {
     const labels = weeklyDatas.map((u, i) => `${i + 1}주차`);
 
     chartInstance = new Chart(canvasRef.value, {
-      type: 'bar',
+      type: "bar",
       data: {
         labels: labels,
         datasets: [
           {
-            label: '지출',
+            label: "지출",
             data: weeklyDatas,
-            backgroundColor: '#fccfdb',
+            backgroundColor: "#fccfdb",
             // borderColor: '#e05a7a',
             // borderWidth: 1,
             borderRadius: 9,
             maxBarThickness: 50,
           },
           {
-            label: '수입',
+            label: "수입",
             data: weeklyIncomeDatas,
-            backgroundColor: '#ffed94',
+            backgroundColor: "#ffed94",
             // borderColor: '#f2d457',
             // borderWidth: 1,
             borderRadius: 9,
@@ -115,8 +124,8 @@ const realIncome = (arr) => {
         plugins: {
           legend: {
             display: true,
-            position: 'top',
-            align: 'end',
+            position: "top",
+            align: "end",
             labels: {
               usePointStyle: true,
               boxWidth: 8,
@@ -137,13 +146,13 @@ const realIncome = (arr) => {
           y: {
             beginAtZero: true,
             grid: {
-              color: '#f0f0f0', // y축 배경 가이드라인을 아주 연하게 표시
+              color: "#f0f0f0", // y축 배경 가이드라인을 아주 연하게 표시
             },
             border: { display: false },
             ticks: {
               stepSize: 40000,
               callback: function (value) {
-                return value.toLocaleString() + '원';
+                return value.toLocaleString() + "원";
               },
             },
           },
@@ -151,7 +160,7 @@ const realIncome = (arr) => {
       },
     });
   } catch (error) {
-    console.error('차트 데이터 불러오기 실패:', error);
+    console.error("차트 데이터 불러오기 실패:", error);
   }
 });
 

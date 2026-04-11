@@ -2,7 +2,9 @@
   <header class="header">
     <div class="header-container">
       <div class="logo">
-        <h1>얼마남았조</h1>
+        <router-link to="/" class="nav-item">
+          <h1>얼마남았조</h1>
+        </router-link>
       </div>
 
       <nav class="nav">
