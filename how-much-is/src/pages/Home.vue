@@ -10,7 +10,6 @@
     <!-- Calendar 컴포넌트에 데이터 내려보내고 이벤트 받기 -->
     <CalendarView :attrs="attrs" @dayclick="onDayClick" />
 
-
     <!-- DayDetail 컴포넌트에 데이터 내려보내기 -->
     <DayDetail
       :selectedDate="selectedDate"
@@ -71,7 +70,6 @@ import {
   getTransactions,
   getCategories,
   postTransactions,
-  putTransaction,
   deleteTransaction,
 } from '@/api/CalendarDetail.js';
 

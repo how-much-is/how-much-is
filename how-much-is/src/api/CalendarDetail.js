@@ -17,15 +17,6 @@ export const postTransactions = async (d) => {
   return response.data;
 };
 
-// 수정
-export const putTransaction = async (id, data) => {
-  const response = await axios.put(
-    `http://localhost:3000/transactions/${id}`,
-    data,
-  );
-  return response.data;
-};
-
 // 삭제
 export const deleteTransaction = async (id) => {
   const response = await axios.delete(
