@@ -83,7 +83,6 @@ onMounted(async () => {
   const result = [];
   for (const t of transData) {
     const category = categoriesData.find((c) => c.id === t.categoryId);
-    console.log(category);
 
     result.push({
       id: t.id,
