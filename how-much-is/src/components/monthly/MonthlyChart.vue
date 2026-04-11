@@ -13,7 +13,7 @@
 <script setup>
 import { onMounted, ref, onBeforeUnmount, computed } from "vue";
 import Chart from "chart.js/auto";
-import { pickMonthlyList } from "@/api/monthlyList";
+import { getWeekRanges, pickMonthlyList, getWeeklyExpenseTotals } from "@/api/monthlyList";
 import { useDatePickerStore } from "@/stores/datepicker";
 
 const store = useDatePickerStore();
@@ -27,39 +27,19 @@ const mtcomputed = computed(() => {
 const canvasRef = ref(null);
 let chartInstance = null;
 
-const getWeekRanges = (year, month) => {
-  const firstDay = new Date(year, month - 1, 1).getDay();
-  const lastDate = new Date(year, month, 0).getDate();
-
-  const ranges = [];
-  let week = 1;
-  let start = 1;
-  let end = 7 - firstDay;
-  ranges.push({ week, start, end: Math.min(end, lastDate) });
-  week++;
-  start = end + 1;
-  while (start <= lastDate) {
-    end = start + 6;
-    ranges.push({ week, start, end: Math.min(end, lastDate) });
-    start = end + 1;
-    week++;
-  }
-  return ranges;
-};
-
-const getWeeklyExpenseTotals = (response, year, month, conditionFn) => {
-  const weekRanges = getWeekRanges(year, month);
-  return weekRanges.map((range) => {
-    return response.filter((u) => {
-      const date = new Date(u.date);
-      const itemDay = date.getDate();
-      if (range.start <= itemDay && range.end >= itemDay && conditionFn(u)) {
-        return u.amount;
-      }
-      return 0;
-    });
-  });
-};
+// const getWeeklyExpenseTotals = (response, year, month, conditionFn) => {
+//   const weekRanges = getWeekRanges(year, month);
+//   return weekRanges.map((range) => {
+//     return response.filter((u) => {
+//       const date = new Date(u.date);
+//       const itemDay = date.getDate();
+//       if (range.start <= itemDay && range.end >= itemDay && conditionFn(u)) {
+//         return u.amount;
+//       }
+//       return 0;
+//     });
+//   });
+// };
 
 const realIncome = (arr) => {
   return arr.map((week) => {
@@ -81,6 +61,7 @@ onMounted(async () => {
       month,
       (u) => u.categoryId <= 5,
     );
+
     // 수입 데이터
     const weeklyIncome = getWeeklyExpenseTotals(
       response,

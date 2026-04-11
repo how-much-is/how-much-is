@@ -18,14 +18,24 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
+
 // Home.vue 에서 데이터 받아요
-defineProps({
+const props = defineProps({
   monthlyIncome: Number,
   monthlyExpense: Number,
   balance: Number,
+  weeklyExpense: Array,
 });
 
-const formatNum = (n) => n.toLocaleString('ko-KR');
+const formatNum = (n) => n.toLocaleString("ko-KR");
+console.log(props.weeklyExpense)
+// const weekly = computed(() => {
+//   return weeklyExpense
+//     .map((week) => week.amount)
+//     .reduce((acc, cur) => acc + cur, 0);
+// });
+// console.log(weekly.value)
 </script>
 
 <style scoped>

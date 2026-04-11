@@ -5,21 +5,17 @@
       :monthlyIncome="monthlyIncome"
       :monthlyExpense="monthlyExpense"
       :balance="balance"
+      :weeklyExpense="weeklyExpense"
     />
-
     <!-- Calendar 컴포넌트에 데이터 내려보내고 이벤트 받기 -->
     <CalendarView :attrs="attrs" @dayclick="onDayClick" />
-
-
     <!-- DayDetail 컴포넌트에 데이터 내려보내기 -->
     <DayDetail
       :selectedDate="selectedDate"
       :transactions="selectedDayTransactions"
     />
-
     <!-- + 버튼 -->
     <button class="fab" @click="openModal">+</button>
-
     <!-- 모달 -->
     <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal">
@@ -60,26 +56,62 @@
 </template>
 
 <script setup>
-import { useDatePickerStore } from '@/stores/datepicker';
-import { ref, computed, onMounted } from 'vue';
+import { useDatePickerStore } from "@/stores/datepicker";
+import { ref, computed, onMounted } from "vue";
 
-import StatCard from '@/components/home/StatCard.vue';
-import CalendarView from '@/components/home/CalendarView.vue';
-import DayDetail from '@/components/home/DayDetail.vue';
+import StatCard from "@/components/home/StatCard.vue";
+import CalendarView from "@/components/home/CalendarView.vue";
+import DayDetail from "@/components/home/DayDetail.vue";
 import {
   getTransactions,
   getCategories,
   postTransactions,
-} from '@/api/CalendarDetail.js';
+} from "@/api/CalendarDetail.js";
+import {
+  getWeekRanges,
+  getWeeklyExpenseTotals,
+  pickMonthlyList,
+} from "@/api/monthlyList";
+
+const store = useDatePickerStore();
+const selected = store.currentDate;
 
 const selectedDate = ref(null);
 const transactions = ref([]);
 
 onMounted(async () => {
+  const selectedMonth = selected;
+  const [year, month] = selectedMonth.split("-").map(Number);
+  const day = new Date().getDate();
+
   const categoriesData = await getCategories();
 
   const transData = await getTransactions();
 
+  const weekRanges = getWeekRanges(year, month);
+
+  const response = await pickMonthlyList(selectedMonth);
+
+  const weeklyData = getWeeklyExpenseTotals(
+    response,
+    year,
+    month,
+    (u) => u.categoryId <= 5,
+  );
+
+  console.log(weekRanges);
+  console.log(weeklyData);
+
+  const pickMonth = computed(() => {
+    const week = weekRanges.find((w) => w.start <= day && w.end >= day);
+    console.log(week);
+    return week?.week; // 주차 반환
+  });
+
+  const weeklyExpense = weeklyData[pickMonth.value];
+  console.log(pickMonth.value)
+  console.log(weeklyData)
+  console.log(weeklyData[pickMonth.value])
   const result = [];
   for (const t of transData) {
     const category = categoriesData.find((c) => c.id === t.categoryId);
@@ -89,7 +121,7 @@ onMounted(async () => {
       date: t.date,
       amount: t.amount,
       name: t.title,
-      type: category ? category.type : 'expense',
+      type: category ? category.type : "expense",
     });
   }
   transactions.value = result;
@@ -98,7 +130,7 @@ onMounted(async () => {
 const attrs = computed(() =>
   transactions.value.map((t) => ({
     dates: new Date(t.date),
-    dot: { color: t.type === 'expense' ? 'red' : 'blue' },
+    dot: { color: t.type === "expense" ? "red" : "blue" },
     popover: { label: `${t.name} ${t.amount.toLocaleString()}원` },
   })),
 );
@@ -108,6 +140,12 @@ const monthlyIncome = computed(() =>
     .filter((t) => t.amount > 0)
     .reduce((sum, t) => sum + t.amount, 0),
 );
+
+// const monthlyIncome = computed(() =>
+//   transactions.value
+//     .filter((t) => t.amount > 0)
+//     .reduce((sum, t) => sum + t.amount, 0),
+// );
 
 const monthlyExpense = computed(() =>
   transactions.value
@@ -124,16 +162,16 @@ const openModal = () => {
 const closeModal = () => (showModal.value = false);
 
 const quickItemsMap = {
-  expense: ['식비', '교통', '쇼핑', '문화생활', '여행', '기타'],
-  income: ['급여', '투자', '기타'],
+  expense: ["식비", "교통", "쇼핑", "문화생활", "여행", "기타"],
+  income: ["급여", "투자", "기타"],
 };
 const quickItems = computed(() => quickItemsMap[form.value.type]);
 
 const form = ref({
-  type: 'expense',
-  name: '',
-  amount: '',
-  date: '',
+  type: "expense",
+  name: "",
+  amount: "",
+  date: "",
 });
 
 const submitForm = () => {
@@ -142,12 +180,12 @@ const submitForm = () => {
     date: form.value.date,
     name: form.value.name,
     amount:
-      form.value.type === 'expense'
+      form.value.type === "expense"
         ? -Math.abs(Number(form.value.amount))
         : Math.abs(Number(form.value.amount)),
     type: form.value.type,
   });
-  form.value = { type: 'expense', name: '', amount: '', date: '' };
+  form.value = { type: "expense", name: "", amount: "", date: "" };
   closeModal();
 };
 
