@@ -6,19 +6,6 @@
       "password": "123456",
       "name": "홍길동",
       "createdAt": "2026-04-07"
-    },
-    {
-      "id": 2,
-      "name": "강송주",
-      "password": "3456",
-      "email": "test@gmail.com"
-    },
-    {
-      "id": 3,
-      "email": "test@gmail.com",
-      "password": "123456",
-      "name": "강텝스",
-      "createdAt": "2026-04-07"
     }
   ],
   "transactions": [
@@ -28,11 +15,8 @@
       "amount": 9000,
       "categoryId": 2,
       "title": "주유",
-      "memo": "주말 이동 바보",
-      "date": "2026-04-01",
-      "categoryName": "교통",
-      "categoryIcon": "🚌",
-      "categoryType": "expense"
+      "memo": "주말 이동",
+      "date": "2026-04-01"
     },
     {
       "id": 2,
@@ -76,11 +60,8 @@
       "amount": 22400,
       "categoryId": 4,
       "title": "영화 관람",
-      "memo": "주말 병원",
-      "date": "2026-04-03",
-      "categoryName": "문화생활",
-      "categoryIcon": "💰",
-      "categoryType": "expense"
+      "memo": "주말 영화",
+      "date": "2026-04-03"
     },
     {
       "id": 7,
@@ -94,14 +75,11 @@
     {
       "id": 8,
       "userId": 1,
-      "amount": 4500,
+      "amount": 3500,
       "categoryId": 7,
       "title": "경조사",
       "memo": "축의금",
-      "date": "2026-04-04",
-      "categoryName": "투자",
-      "categoryIcon": "💰",
-      "categoryType": "income"
+      "date": "2026-04-04"
     },
     {
       "id": 9,
@@ -164,7 +142,7 @@
       "categoryId": 1,
       "title": "점심",
       "memo": "김치찌개",
-      "date": "2026-05-07"
+      "date": "2026-04-07"
     },
     {
       "id": 16,
@@ -707,7 +685,7 @@
       "id": 8,
       "name": "기타",
       "icon": "💰",
-      "type": "income, expense",
+      "type": "income",
       "isDefault": false
     }
   ],

@@ -14,6 +14,7 @@
     <DayDetail
       :selectedDate="selectedDate"
       :transactions="selectedDayTransactions"
+      @delete="removeTransaction"
     />
 
     <!-- + 버튼 -->
@@ -69,6 +70,8 @@ import {
   getTransactions,
   getCategories,
   postTransactions,
+  putTransaction,
+  deleteTransaction,
 } from '@/api/CalendarDetail.js';
 
 const selectedDate = ref(null);
@@ -82,12 +85,14 @@ onMounted(async () => {
   const result = [];
   for (const t of transData) {
     const category = categoriesData.find((c) => c.id === t.categoryId);
-    console.log(category);
 
     result.push({
       id: t.id,
       date: t.date,
-      amount: t.amount,
+      amount:
+        category?.type === 'expense'
+          ? -Math.abs(t.amount) // 지출이면 음수로 변환
+          : Math.abs(t.amount), // 수입이면 양수 유지
       name: t.title,
       type: category ? category.type : 'expense',
     });
@@ -136,15 +141,22 @@ const form = ref({
   date: '',
 });
 
-const submitForm = () => {
+const submitForm = async () => {
   if (!form.value.name || !form.value.amount) return;
-  transactions.value.push({
+  const newData = {
+    userId: 1,
+    amount: Number(form.value.amount),
+    categoryId: form.value.type === 'expense' ? 1 : 6,
+    title: form.value.name,
+    memo: '',
     date: form.value.date,
-    name: form.value.name,
-    amount:
-      form.value.type === 'expense'
-        ? -Math.abs(Number(form.value.amount))
-        : Math.abs(Number(form.value.amount)),
+  };
+  const saved = await postTransactions(newData);
+  transactions.value.push({
+    id: saved.id,
+    date: saved.date,
+    name: saved.title,
+    amount: form.value.type === 'expense' ? -saved.amount : saved.amount,
     type: form.value.type,
   });
   form.value = { type: 'expense', name: '', amount: '', date: '' };
@@ -158,6 +170,11 @@ const selectedDayTransactions = computed(() => {
 
 const onDayClick = (dateId) => {
   selectedDate.value = dateId;
+};
+
+const removeTransaction = async (id) => {
+  await deleteTransaction(id);
+  transactions.value = transactions.value.filter((t) => t.id !== id);
 };
 </script>
 <style scoped>

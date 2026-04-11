@@ -14,6 +14,7 @@
       <div v-for="t in transactions" :key="t.id">
         <span>{{ t.name }}</span>
         <span>{{ formatNum(t.amount) }} 원</span>
+        <button @click="emit('delete', t.id)">삭제</button>
       </div>
     </div>
   </div>
@@ -27,6 +28,7 @@ defineProps({
 });
 
 const formatNum = (n) => n.toLocaleString('ko-KR');
+const emit = defineEmits(['delete']);
 </script>
 
 <style scoped>

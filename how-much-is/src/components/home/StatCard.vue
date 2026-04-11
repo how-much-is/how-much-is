@@ -25,7 +25,7 @@ defineProps({
   balance: Number,
 });
 
-const formatNum = (n) => n.toLocaleString('ko-KR');
+const formatNum = (n) => (n ?? 0).toLocaleString('ko-KR');
 </script>
 
 <style scoped>
