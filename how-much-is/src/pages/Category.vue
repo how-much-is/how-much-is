@@ -16,10 +16,13 @@
       <div class="chart-box">
         <PieChart :chartData="chartData" />
       </div>
-      <CategorySummary
-        :summaryList="summaryList"
-        :totalExpense="totalExpense"
-      />
+      <div class="summary-box">
+        <CategorySummary
+          :summaryList="summaryList"
+          :totalExpense="totalExpense"
+          :animate="animate"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -27,7 +30,7 @@
 <script setup>
 import PieChart from '@/components/PieChart.vue';
 import CategorySummary from '@/components/CategorySummary.vue';
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch, nextTick } from 'vue';
 import axios from 'axios';
 
 // db.json에서 해당하는 사용자의 거래 내역 가져올 data 담을 변수
@@ -36,6 +39,8 @@ const transactions = ref([]);
 const categories = ref([]);
 // 사용자가 선택한 month 담을 변수
 const selectedMonth = ref('');
+
+const animate = ref(false);
 
 onMounted(async () => {
   // db.json 에서 사용자 transaction data 가져오기
@@ -74,6 +79,14 @@ const months = computed(() => {
 // months 가 비어있지 않다면 selectedMonth를 첫 번째 인덱스 값으로 설정
 watch(months, (newMonths) => {
   if (newMonths.length > 0) selectedMonth.value = newMonths[0];
+});
+
+watch(selectedMonth, async () => {
+  animate.value = false;
+  await nextTick();
+  setTimeout(() => {
+    animate.value = true;
+  }, 50);
 });
 
 // 사용자가 선택한 월의 transaction data를 담은 배열을 return
@@ -189,19 +202,68 @@ const summaryList = computed(() => {
 </script>
 
 <style>
-.custom-select {
-  padding: 8px 12px; /* 안쪽 여백으로 크기 조절 */
-  font-size: 16px; /* 글자 크기 */
-  border: 2px solid #36a2eb; /* 테두리 색상 (차트 색상과 맞춤) */
-  border-radius: 8px; /* 모서리 둥글게 */
-  background-color: white; /* 배경색 */
-  color: #333; /* 글자색 */
-  cursor: pointer; /* 마우스 올리면 손가락 모양 */
-  outline: none; /* 클릭 시 생기는 기본 테두리 제거 */
-  transition: border-color 0.3s; /* 부드러운 색상 변경 */
+.report-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 32px;
 }
 
+.report-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.report-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.custom-select {
+  padding: 8px 12px;
+  font-size: 15px;
+  border: 2px solid #36a2eb;
+  border-radius: 8px;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.3s;
+}
 .custom-select:focus {
-  border-color: #ff6384; /* 클릭 시 테두리 색상 변경 */
+  border-color: #ff6384;
+}
+
+.dashboard-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  width: 100%;
+}
+
+.chart-box {
+  flex: 1.2;
+  min-width: 0;
+}
+
+.summary-box {
+  flex: 1;
+  min-width: 280px;
+}
+
+@media (max-width: 768px) {
+  .report-container {
+    padding: 16px;
+  }
+  .dashboard-wrapper {
+    flex-direction: column;
+  }
+  .chart-box,
+  .summary-box {
+    width: 100%;
+    flex: none;
+  }
 }
 </style>
