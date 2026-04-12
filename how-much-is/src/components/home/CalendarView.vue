@@ -1,6 +1,6 @@
 <template>
   <div class="calendar-wrap">
-    {{ store.currentDate }}
+    <h2 class="calendar-title">{{ store.currentDate }}</h2>
     <VCalendar class="my-calendar" :attributes="attrs" @dayclick="onDayClick">
       <template #header-prev-button="{ move, disabled }">
         <button type="button" :disabled="disabled" @click="store.moveMonth(-1)">
@@ -108,5 +108,27 @@ const onDayClick = (day) => {
   font-size: 14px !important;
   font-weight: 700 !important;
   padding: 10px 0 !important;
+}
+
+.calendar-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 32px 0;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.calendar-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: #f2d457;
+  border-radius: 2px;
 }
 </style>

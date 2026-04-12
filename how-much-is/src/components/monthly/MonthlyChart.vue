@@ -86,7 +86,7 @@ onMounted(async () => {
           {
             label: '지출',
             data: weeklyDatas,
-            backgroundColor: '#D1D5DB',
+            backgroundColor: '#92ADA4',
             // borderColor: '#e05a7a',
             // borderWidth: 1,
             borderRadius: 9,
@@ -95,7 +95,7 @@ onMounted(async () => {
           {
             label: '수입',
             data: weeklyIncomeDatas,
-            backgroundColor: '#FFE699',
+            backgroundColor: '#F2D6A1',
             // borderColor: '#f2d457',
             // borderWidth: 1,
             borderRadius: 9,

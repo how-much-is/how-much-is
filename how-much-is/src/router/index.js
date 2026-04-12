@@ -22,19 +22,19 @@ const router = createRouter({
   ],
 });
 
-// router.beforeEach((to, from, next) => {
-//   const loginStore = useLoginStore();
+router.beforeEach((to, from, next) => {
+  const loginStore = useLoginStore();
 
-//   if (to.path === '/') {
-//     if (loginStore.isLogged) {
-//       next();
-//     } else {
-//       // alert('로그인이 필요한 서비스입니다.');
-//       next('/loginform');
-//     }
-//   } else {
-//     next();
-//   }
-// });
+  if (to.path === '/') {
+    if (loginStore.isLogged) {
+      next();
+    } else {
+      // alert('로그인이 필요한 서비스입니다.');
+      next('/loginform');
+    }
+  } else {
+    next();
+  }
+});
 
 export default router;
