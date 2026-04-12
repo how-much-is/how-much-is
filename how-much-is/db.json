@@ -4,7 +4,14 @@
       "id": "1",
       "email": "test@gmail.com",
       "password": "3456",
-      "name": "홍길동",
+      "email": "test1@gmail.com",
+      "id": 2
+    },
+    {
+      "id": 3,
+      "email": "test2@gmail.com",
+      "password": "3456",
+      "name": "강텝스",
       "createdAt": "2026-04-07"
     }
   ],
