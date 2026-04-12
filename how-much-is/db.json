@@ -1,11 +1,15 @@
 {
   "users": [
     {
-      "id": "1",
+      "id": 1,
       "email": "test@gmail.com",
-      "password": "3456",
+      "name": "홍길동",
+      "password": "123456"
+    },
+    {
+      "id": 2,
       "email": "test1@gmail.com",
-      "id": 2
+      "password": "3456"
     },
     {
       "id": 3,
