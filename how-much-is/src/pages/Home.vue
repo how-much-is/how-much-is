@@ -6,6 +6,8 @@
       :monthlyExpense="monthlyExpense"
       :balance="balance"
       :weeklyExpense="weeklyExpense"
+      :weeklyIncome="weeklyIncome"
+      :dayExpense="dayExpense"
     />
     <!-- Calendar 컴포넌트에 데이터 내려보내고 이벤트 받기 -->
     <CalendarView :attrs="attrs" @dayclick="onDayClick" />
@@ -69,6 +71,7 @@ import {
 } from "@/api/CalendarDetail.js";
 import {
   getWeekRanges,
+  getWeeklyDay,
   getWeeklyExpenseTotals,
   pickMonthlyList,
 } from "@/api/monthlyList";
@@ -78,40 +81,65 @@ const selected = store.currentDate;
 
 const selectedDate = ref(null);
 const transactions = ref([]);
+const weeklyExpense = ref([]);
+const weeklyIncome = ref([]);
+const dayExpense = ref();
+
+const date = new Date();
+
+const year1 = date.getFullYear();
+const month1 = date.getMonth() + 1;
+const nowDate =
+  new Date().getFullYear() +
+  "-" +
+  String(new Date().getMonth() + 1).padStart(2, "0");
 
 onMounted(async () => {
+  //현재 달 문제는 좌우버튼을 누르면 달력값이 변함...
   const selectedMonth = selected;
+  //그 값의 연월을 가져옴
   const [year, month] = selectedMonth.split("-").map(Number);
+
+  //1,2,3일 그런거 말함
   const day = new Date().getDate();
 
   const categoriesData = await getCategories();
 
   const transData = await getTransactions();
 
+  //[{week:1, start:1, end:4},{week:2 ...}]
   const weekRanges = getWeekRanges(year, month);
 
+  //[{id: '1', userId: 1, amount: 9000, categoryId: 2, title: '주유', …},{id: '2', userId: 1, amount: 9000, categoryId: 2, title: '주유', …}] 내가 선택한 달의 모든 내역 가져옴
   const response = await pickMonthlyList(selectedMonth);
+  const response1 = await pickMonthlyList(nowDate);
+  dayExpense.value = getWeeklyDay(response1);
 
   const weeklyData = getWeeklyExpenseTotals(
-    response,
-    year,
-    month,
+    response1,
+    year1,
+    month1,
     (u) => u.categoryId <= 5,
   );
 
-  console.log(weekRanges);
-  console.log(weeklyData);
-
+  const weeklyex = getWeeklyExpenseTotals(
+    response1,
+    year1,
+    month1,
+    (u) => u.categoryId >= 6,
+  );
   const pickMonth = computed(() => {
     const week = weekRanges.find((w) => w.start <= day && w.end >= day);
-    console.log(week);
     return week?.week; // 주차 반환
   });
+  // console.log(weeklyData)
+  // console.log(pickMonth.value)
 
-  const weeklyExpense = weeklyData[pickMonth.value];
-  console.log(pickMonth.value)
-  console.log(weeklyData)
-  console.log(weeklyData[pickMonth.value])
+  weeklyExpense.value = weeklyData[pickMonth.value];
+  weeklyIncome.value = weeklyex[pickMonth.value];
+
+  // console.log( weeklyExpense.value)
+
   const result = [];
   for (const t of transData) {
     const category = categoriesData.find((c) => c.id === t.categoryId);

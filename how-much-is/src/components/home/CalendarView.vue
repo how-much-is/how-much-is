@@ -6,15 +6,12 @@
           ◀
         </button>
       </template>
-
       <template #header-title>
-        <div class="calendar-header-title">
-          {{ headerTitle }}
-        </div>
+        <div></div>
       </template>
 
       <template #header-next-button="{ move, disabled }">
-        <button type="button" :disabled="disabled" @click="store.moveMonth(1)" >
+        <button type="button" :disabled="disabled" @click="store.moveMonth(1)">
           ▶
         </button>
       </template>
@@ -29,7 +26,7 @@ import { computed } from "vue";
 const store = useDatePickerStore();
 // Home.vue 에서 데이터 받아요
 defineProps({
-  attrs: Array, 
+  attrs: Array,
 });
 
 // 날짜 클릭하면 Home.vue 로 전달해요
@@ -39,17 +36,22 @@ const onDayClick = (day) => {
   emit("dayclick", day.id);
 };
 
-const headerTitle = computed(() => {
-  const date = store.currentDate;
-  const [year, month] = date.split("-");
-  return `${Number(month)}월 ${year}`;
-});
+// const headerTitle = computed(() => {
+//   const date = store.currentDate;
+//   const [year, month] = date.split("-");
+//   return `${Number(month)}월 ${year}`;
+// });
 </script>
 
 <style scoped>
 :deep(.vc-container) {
   width: 100% !important;
   max-width: 100% !important;
+}
+
+:deep(.vc-title-wrapper) {
+  pointer-events: none !important;
+
 }
 
 :deep(.vc-weeks) {
@@ -76,6 +78,12 @@ const headerTitle = computed(() => {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  pointer-events: none !important; /* 클릭 막기 */
+  display: none !important;
+}
+
+:deep(.vc-popover-content) {
+  display: none !important;
 }
 
 :deep(.vc-arrow) {
@@ -94,23 +102,12 @@ const headerTitle = computed(() => {
   font-weight: 700 !important;
   padding: 10px 0 !important;
 }
-v.calendar-wrap {
+
+.calendar-wrap {
   width: 100%;
   background: #fff;
   border-radius: 20px;
   padding: 24px;
   margin-bottom: 16px;
-}
-.calendar-header-title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.badge {
-  padding: 8px 16px;
-  border-radius: 12px;
-  background: #f3f4f6;
-  font-weight: 700;
 }
 </style>

@@ -24,7 +24,6 @@ export const useDatePickerStore = defineStore('datepicker', () => {
     const newMonth = String(newDate.getMonth() + 1).padStart(2, '0');
 
     currentDate.value = `${newYear}-${newMonth}`;
-    console.log(currentDate.value);
   };
 
   return {

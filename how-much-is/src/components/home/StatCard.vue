@@ -1,18 +1,19 @@
 <template>
   <div class="stat-row">
     <div class="stat-card">
-      <p class="stat-label">4월 수입</p>
-      <p class="stat-val blue">{{ formatNum(monthlyIncome) }} 원</p>
-    </div>
-    <div class="stat-card">
-      <p class="stat-label">4월 지출</p>
-      <p class="stat-val red">{{ formatNum(monthlyExpense) }} 원</p>
-    </div>
-    <div class="stat-card">
-      <p class="stat-label">잔액</p>
+      <p class="stat-label">오늘 지출</p>
       <p class="stat-val" :class="balance >= 0 ? 'teal' : 'red'">
-        {{ formatNum(balance) }} 원
+        <!-- {{ formatNum(balance) }} 원 -->
+        {{ dayExpense }}
       </p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">이번 주 수입</p>
+      <p class="stat-val blue">{{ weeklyInco }} 원</p>
+    </div>
+    <div class="stat-card">
+      <p class="stat-label">이번 주 지출</p>
+      <p class="stat-val red">{{ weekly }} 원</p>
     </div>
   </div>
 </template>
@@ -26,15 +27,28 @@ const props = defineProps({
   monthlyExpense: Number,
   balance: Number,
   weeklyExpense: Array,
+  weeklyIncome: Array,
+  dayExpense: Number,
 });
 
 const formatNum = (n) => n.toLocaleString("ko-KR");
-console.log(props.weeklyExpense)
-// const weekly = computed(() => {
-//   return weeklyExpense
-//     .map((week) => week.amount)
-//     .reduce((acc, cur) => acc + cur, 0);
-// });
+
+const weekly = computed(() => {
+  console.log(props.weeklyExpense)
+  return props.weeklyExpense
+    .map((week) => {
+      return week.amount;
+    })
+    .reduce((acc, cur) => acc + cur, 0);
+});
+const weeklyInco = computed(() => {
+  return props.weeklyIncome
+    .map((week) => {
+      return week.amount;
+    })
+    .reduce((acc, cur) => acc + cur, 0);
+});
+
 // console.log(weekly.value)
 </script>
 
