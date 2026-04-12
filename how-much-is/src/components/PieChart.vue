@@ -19,6 +19,7 @@ const createChart = () => {
   if (chartData.datasets && chartData.datasets.length > 0) {
     chartData.datasets[0] = {
       ...chartData.datasets[0],
+
       spacing: 3, // 조각 사이 간격 (100은 너무 클 수 있으니 10부터 시작해 보세요!)
       borderRadius: 8, // 모서리 둥글게
       borderWidth: 2, // 구분선 두께
@@ -82,9 +83,18 @@ watch(
 .chart-container {
   position: relative;
   width: 100%;
-  /* 부모 컨테이너 크기에 맞춰 조절하세요 */
-  max-width: 500px;
+  max-width: 550px;
+  height: 420px;
   margin: 0 auto;
-  height: 400px;
+
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f8f8f8;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

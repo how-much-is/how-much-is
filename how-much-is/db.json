@@ -10,12 +10,12 @@
     {
       "name": "강송주",
       "password": "3456",
-      "email": "test@gmail.com",
+      "email": "test1@gmail.com",
       "id": 2
     },
     {
       "id": 3,
-      "email": "test@gmail.com",
+      "email": "test2@gmail.com",
       "password": "3456",
       "name": "강텝스",
       "createdAt": "2026-04-07"

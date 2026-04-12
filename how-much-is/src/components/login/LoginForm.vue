@@ -97,7 +97,7 @@ const handleLogin = async () => {
       alert('로그인 성공');
 
       loginStore.login(loggedInUser.email);
-      router.push('/'); // 설정 페이지로 이동
+      router.push('/'); // 메인 페이지로 이동
     } else {
       alert('이메일 또는 비밀번호가 잘못되었습니다.');
     }
