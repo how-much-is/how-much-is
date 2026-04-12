@@ -11,17 +11,21 @@
 </template>
 
 <script setup>
-import { onMounted, ref, onBeforeUnmount, computed } from "vue";
-import Chart from "chart.js/auto";
-import { getWeekRanges, pickMonthlyList, getWeeklyExpenseTotals } from "@/api/monthlyList";
-import { useDatePickerStore } from "@/stores/datepicker";
+import { onMounted, ref, onBeforeUnmount, computed } from 'vue';
+import Chart from 'chart.js/auto';
+import {
+  getWeekRanges,
+  pickMonthlyList,
+  getWeeklyExpenseTotals,
+} from '@/api/monthlyList';
+import { useDatePickerStore } from '@/stores/datepicker';
 
 const store = useDatePickerStore();
 const selected = store.currentDate;
 
 const mtcomputed = computed(() => {
-  const arr =  selected.split("-");
-  return Number(arr[1])
+  const arr = selected.split('-');
+  return Number(arr[1]);
 });
 
 const canvasRef = ref(null);
@@ -50,7 +54,7 @@ const realIncome = (arr) => {
 onMounted(async () => {
   try {
     const selectedMonth = selected;
-    const [year, month] = selectedMonth.split("-").map(Number);
+    const [year, month] = selectedMonth.split('-').map(Number);
 
     const response = await pickMonthlyList(selectedMonth);
 
@@ -75,23 +79,23 @@ onMounted(async () => {
     const labels = weeklyDatas.map((u, i) => `${i + 1}주차`);
 
     chartInstance = new Chart(canvasRef.value, {
-      type: "bar",
+      type: 'bar',
       data: {
         labels: labels,
         datasets: [
           {
-            label: "지출",
+            label: '지출',
             data: weeklyDatas,
-            backgroundColor: "#fccfdb",
+            backgroundColor: '#D1D5DB',
             // borderColor: '#e05a7a',
             // borderWidth: 1,
             borderRadius: 9,
             maxBarThickness: 50,
           },
           {
-            label: "수입",
+            label: '수입',
             data: weeklyIncomeDatas,
-            backgroundColor: "#ffed94",
+            backgroundColor: '#FFE699',
             // borderColor: '#f2d457',
             // borderWidth: 1,
             borderRadius: 9,
@@ -105,8 +109,8 @@ onMounted(async () => {
         plugins: {
           legend: {
             display: true,
-            position: "top",
-            align: "end",
+            position: 'top',
+            align: 'end',
             labels: {
               usePointStyle: true,
               boxWidth: 8,
@@ -127,13 +131,13 @@ onMounted(async () => {
           y: {
             beginAtZero: true,
             grid: {
-              color: "#f0f0f0", // y축 배경 가이드라인을 아주 연하게 표시
+              color: '#f0f0f0', // y축 배경 가이드라인을 아주 연하게 표시
             },
             border: { display: false },
             ticks: {
               stepSize: 40000,
               callback: function (value) {
-                return value.toLocaleString() + "원";
+                return value.toLocaleString() + '원';
               },
             },
           },
@@ -141,7 +145,7 @@ onMounted(async () => {
       },
     });
   } catch (error) {
-    console.error("차트 데이터 불러오기 실패:", error);
+    console.error('차트 데이터 불러오기 실패:', error);
   }
 });
 

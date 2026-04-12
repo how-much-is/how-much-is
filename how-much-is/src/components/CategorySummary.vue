@@ -43,7 +43,6 @@ const props = defineProps({
   animate: Boolean,
 });
 
-// 차트 색상에 맞는 뱃지 배경/텍스트 색상 매핑
 const badgeColorMap = {
   '#FF6384': { bg: '#FBEAF0', text: '#993556' },
   '#36A2EB': { bg: '#E6F1FB', text: '#185FA5' },
@@ -70,12 +69,15 @@ function badgeStyle(color) {
 }
 
 .summary-card.total {
-  background: linear-gradient(135deg, #378add, #185fa5);
+  /* background: #545045; */
+  background: #ffffff;
   padding: 18px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: none;
+  /* border: none; */
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 .total-left {
   display: flex;
@@ -84,17 +86,21 @@ function badgeStyle(color) {
 }
 .label {
   font-size: 13px;
-  color: #b5d4f4;
+  /* color: #d6d4d0; */
+  color: #64748b;
 }
 .value {
   font-size: 22px;
-  font-weight: 500;
-  color: #fff;
+  /* font-weight: 500; */
+  font-weight: 600;
+  /* color: #fff; */
+  color: #1e293b;
 }
 .total-icon {
   width: 40px;
   height: 40px;
-  background: rgba(255, 255, 255, 0.18);
+  /* background: rgba(255, 255, 255, 0.18); */
+  background: #f1f5f9;
   border-radius: 50%;
   display: flex;
   align-items: center;

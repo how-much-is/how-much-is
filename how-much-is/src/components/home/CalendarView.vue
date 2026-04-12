@@ -20,8 +20,8 @@
 </template>
 
 <script setup>
-import { useDatePickerStore } from "@/stores/datepicker";
-import { computed } from "vue";
+import { useDatePickerStore } from '@/stores/datepicker';
+import { computed } from 'vue';
 
 const store = useDatePickerStore();
 // Home.vue 에서 데이터 받아요
@@ -30,10 +30,10 @@ defineProps({
 });
 
 // 날짜 클릭하면 Home.vue 로 전달해요
-const emit = defineEmits(["dayclick"]);
+const emit = defineEmits(['dayclick']);
 
 const onDayClick = (day) => {
-  emit("dayclick", day.id);
+  emit('dayclick', day.id);
 };
 
 // const headerTitle = computed(() => {
@@ -51,7 +51,6 @@ const onDayClick = (day) => {
 
 :deep(.vc-title-wrapper) {
   pointer-events: none !important;
-
 }
 
 :deep(.vc-weeks) {
@@ -59,26 +58,25 @@ const onDayClick = (day) => {
 }
 
 :deep(.vc-day) {
-  min-height: 80px;
+  min-height: 100px;
   padding: 8px;
 }
 
 :deep(.vc-day-content) {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 }
 
 :deep(.vc-header) {
-  position: relative;
-  padding: 16px 0 24px;
-  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
 }
 
 :deep(.vc-title) {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  pointer-events: none !important; /* 클릭 막기 */
+  pointer-events: none !important;
   display: none !important;
 }
 
@@ -87,27 +85,27 @@ const onDayClick = (day) => {
 }
 
 :deep(.vc-arrow) {
-  width: 40px !important;
-  height: 40px !important;
-  font-size: 20px !important;
-  border-radius: 10px !important;
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 16px !important;
+  border-radius: 8px !important;
   background: #f2f4f6 !important;
   position: relative;
   z-index: 2;
   pointer-events: auto;
 }
 
+.calendar-wrap {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #f1f3f5;
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
 :deep(.vc-weekday) {
   font-size: 14px !important;
   font-weight: 700 !important;
   padding: 10px 0 !important;
-}
-
-.calendar-wrap {
-  width: 100%;
-  background: #fff;
-  border-radius: 20px;
-  padding: 24px;
-  margin-bottom: 16px;
 }
 </style>
