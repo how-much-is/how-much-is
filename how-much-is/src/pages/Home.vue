@@ -168,17 +168,11 @@ onMounted(async () => {
   const pickMonth = computed(() => {
     //오늘 4월12일이면 day = 12
     const week = weekRanges.find((w) => w.start <= day && w.end >= day);
-    console.log(week)
     return week?.week; // 주차 반환
   });
-  // console.log(weeklyData)
-  // console.log(pickMonth.value)
-  console.log(pickMonth.value)
 
   weeklyExpense.value = weeklyData[pickMonth.value];
   weeklyIncome.value = weeklyex[pickMonth.value];
-
-  // console.log( weeklyExpense.value)
 
   const result = [];
   for (const t of transData) {

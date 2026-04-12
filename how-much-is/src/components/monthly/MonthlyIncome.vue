@@ -17,8 +17,8 @@
     </div>
 
     <div class="info">
-      <span class="percent">+12.8%</span>
-      <span class="desc">지난달 대비</span>
+      <span class="percent">{{incomeList.filter(u => u > 0).length}}건</span>
+      <span class="desc">이번달 거래</span>
     </div>
   </div>
 </template>

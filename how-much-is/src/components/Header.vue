@@ -43,6 +43,11 @@ const store = useDatePickerStore();
 </script>
 
 <style scoped>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .header {
   width: 100%;
   height: 80px;
@@ -52,7 +57,7 @@ const store = useDatePickerStore();
   align-items: center;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 99;
 }
 
 .header-container {

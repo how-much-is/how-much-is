@@ -17,8 +17,11 @@
     </div>
 
     <div class="info">
-      <span class="percent">+12.8%</span>
-      <span class="desc">지난달 대비</span>
+      <span class="percent">{{ Math.round((expenseList
+          .reduce((acc, cur) => {
+            return acc + cur;
+          }, 0) / expenseList.filter(u => u > 0).length) / 10) * 10 }}원</span>
+      <span class="desc">평균 소비액</span>
     </div>
   </div>
 </template>
@@ -29,6 +32,7 @@ import { useDatePickerStore } from '@/stores/datepicker';
 import { computed, onMounted, ref } from 'vue';
 const store = useDatePickerStore()
 const expense = ref([]);
+const expense1List = ref(0);
 
 onMounted(async () => {
 
@@ -36,6 +40,7 @@ onMounted(async () => {
   try {
     const response = await monthlyList();
     const response1 = await pickMonthlyList(nowDate);
+    expense1List.value = response1.length
     expense.value = response1;
   } catch (error) {
     console.log(error);
@@ -95,8 +100,8 @@ const expenseList = computed(() => {
 }
 
 .percent {
-  background: #e6f9f0;
-  color: #00a86b;
+  background: #f9e6e6;
+  color: #a80000;
   padding: 4px 8px;
   border-radius: 8px;
   font-size: 12px;
