@@ -11,8 +11,8 @@
       <span>Account</span>
     </div>
 
-    <div class="table-row" v-for="list in pagedLists" :key="list.id">
-      <span>{{ list.id }}</span>
+    <div class="table-row" v-for="(list,index) in pagedLists" :key="list.id">
+      <span>{{ index+1 }}</span>
       <span>{{ list.date }}</span>
       <span>{{ list.title }}</span>
       <span>{{ list.memo }}</span>
@@ -85,14 +85,16 @@ import { computed, onMounted, ref } from 'vue';
 import { getCategories, monthlyList, pickMonthlyList } from '@/api/monthlyList';
 import ModalFrame from '../ModalFrame.vue';
 import axios from 'axios';
+import { useDatePickerStore } from '@/stores/datepicker';
 
 const lists = ref([]);
 const categories = ref([]);
+const store = useDatePickerStore()
 
 onMounted(async () => {
   try {
     //transactions 거래 내역 api 호출, category가 뭔지 알려고 api 호출함
-    const response = await pickMonthlyList('2026-04');
+    const response = await pickMonthlyList(store.currentDate);
     // const response = await monthlyList();
     const categoryRes = await getCategories();
     lists.value = response;
@@ -144,6 +146,7 @@ const openEditModal = (item) => {
   onmodal.value = true;
 };
 
+//수정
 const handleUpdate = async (updatedData) => {
   try {
     await axios.put(

@@ -66,8 +66,11 @@ onMounted(createChart);
 // 데이터 변경 시 부드럽게 업데이트
 watch(
   () => props.chartData,
-  () => {
-    createChart();
+  (newData) => {
+    if (chartInstance) {
+      chartInstance.data = newData;
+      chartInstance.update();
+    }
   },
   { deep: true },
 );

@@ -1,150 +1,125 @@
 <template>
   <div class="report-container">
-    <h1>{{ formattedMonth }}</h1>
-    <select v-model="selectedMonth" class="custom-select">
-      <option v-for="month in months" :key="month" :value="month">
-        {{ month }}
-      </option>
-    </select>
-
-    <!-- <h1>해당월 transaction 보이는 지 확인용</h1>
-    <p>{{ monthlyTransactions }}</p>
-    <h1>각 카테고리 당 누적 지출 금액</h1>
-    <p>{{ countCategory }}</p>  -->
+    <div class="report-header-nav">
+      <button @click="store.moveMonth(-1)" class="nav-btn">&lt;</button>
+      <h1 class="month-title">{{ store.formattedDate }}</h1>
+      <button @click="store.moveMonth(1)" class="nav-btn">&gt;</button>
+    </div>
 
     <div class="dashboard-wrapper">
-      <div class="chart-box">
-        <PieChart :chartData="chartData" />
+      <div v-if="monthlyTransactions.length === 0" class="no-data">
+        <p>해당 월의 지출 내역이 없습니다. 💸</p>
       </div>
-      <CategorySummary
-        :summaryList="summaryList"
-        :totalExpense="totalExpense"
-      />
+
+      <template v-else>
+        <div class="chart-box">
+          <PieChart :chartData="chartData" />
+        </div>
+        <div class="summary-box">
+          <CategorySummary
+            :summaryList="summaryList"
+            :totalExpense="totalExpense"
+            :animate="animate"
+          />
+        </div>
+      </template>
     </div>
+    <!-- <div style="background: #eee; padding: 10px; margin: 20px 0">
+      <p>현재 스토어 날짜: {{ selectedMonth }}</p>
+      <p>전체 거래 데이터 개수: {{ transactions.length }}개</p>
+      <p>이번 달 거래 데이터 개수: {{ monthlyTransactions.length }}개</p>
+    </div> -->
   </div>
 </template>
 
 <script setup>
 import PieChart from '@/components/PieChart.vue';
 import CategorySummary from '@/components/CategorySummary.vue';
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch, nextTick } from 'vue';
 import axios from 'axios';
+import { useDatePickerStore } from '@/stores/datepicker';
 
-// db.json에서 해당하는 사용자의 거래 내역 가져올 data 담을 변수
+const store = useDatePickerStore();
 const transactions = ref([]);
-// db.json에서 카테고리 가져올 data 담을 변수
 const categories = ref([]);
-// 사용자가 선택한 month 담을 변수
-const selectedMonth = ref('');
+const animate = ref(false);
+
+// 필터링 기준이 되는 스토어의 날짜
+const selectedMonth = computed(() => store.currentDate);
 
 onMounted(async () => {
-  // db.json 에서 사용자 transaction data 가져오기
-  const tRes = await axios.get('http://localhost:3000/transactions');
-
-  // db.json에서 category data 가져오기
-  const cRes = await axios.get('http://localhost:3000/categories');
-
+  const [tRes, cRes] = await Promise.all([
+    axios.get('http://localhost:3000/transactions'),
+    axios.get('http://localhost:3000/categories'),
+  ]);
   transactions.value = tRes.data;
   categories.value = cRes.data.filter((t) => t.type == 'expense');
 
-  // console.log('거래 내역:', transactions.value);
-  // console.log('카테고리 종류:', categories.value);
+  await nextTick();
+  setTimeout(() => {
+    animate.value = true;
+  }, 50);
 });
 
-// 사용자 거래 내역이 있는 month 추출
-const months = computed(() => {
-  // 중복되는 데이터 존재할 수 있으므로 집합 사용
-  const monthSet = new Set();
-
-  // db.json에서 가져온 transaction를 확인
-  transactions.value.forEach((t) => {
-    // 각 원소에서 속성 date의 YYYY-MM를 추출
-    const month = t.date.slice(0, 7);
-    // 생성한 집합에 추가
-    monthSet.add(month);
-  });
-  // 사용자 거래 내역이 있는 월을 담아준 집합을 배열로 설정 후
-  // 최신 순으로 sort
-
-  return Array.from(monthSet).sort().reverse();
+// 날짜 변경 시 애니메이션 재작동
+watch(selectedMonth, async () => {
+  animate.value = false;
+  await nextTick();
+  setTimeout(() => {
+    animate.value = true;
+  }, 50);
 });
 
-// 페이지 이동 후에 보이는 화면은 가장 최신 월 정보
-// 사용자 거래 내역 months 가 계산될 때마다 확인
-// months 가 비어있지 않다면 selectedMonth를 첫 번째 인덱스 값으로 설정
-watch(months, (newMonths) => {
-  if (newMonths.length > 0) selectedMonth.value = newMonths[0];
-});
-
-// 사용자가 선택한 월의 transaction data를 담은 배열을 return
+// 현재 선택된 월의 지출 데이터만 필터링
 const monthlyTransactions = computed(() => {
-  return transactions.value.filter((t) => {
-    const isTargetMonth = t.date.startsWith(selectedMonth.value);
-    const isExpense = t.categoryId <= 5;
+  console.log('selectedMonth:', selectedMonth.value);
+  console.log('sample transaction:', transactions.value[0]);
 
-    return isTargetMonth && isExpense;
+  return transactions.value.filter((t) => {
+    return t.date.startsWith(selectedMonth.value) && Number(t.categoryId) <= 5;
   });
 });
 
+// 카테고리별 합계 계산
 const countCategory = computed(() => {
-  // 카테고리 id (정수 1~N으로 구성) 순서대로 지출액 저장
   const count = {};
 
-  // 사용자가 선택한 달이 담긴 배열을 돌며 확인
-  for (let i = 0; i < monthlyTransactions.value.length; i++) {
-    // 각 거래 내역의 아이디를 temp_id에 할당
-    // ( 거래 내역은 id 순서대로 정렬X )
-    let temp_id = monthlyTransactions.value[i].categoryId;
-    // console.log(temp_id);
+  monthlyTransactions.value.forEach((t) => {
+    const id = String(t.categoryId);
 
-    // id에 해당하는 배열이 비어있다면
-    if (count[temp_id] === undefined) {
-      // count 배열의 해당 인덱스에 0을 할당하며 초기화
-      count[temp_id] = 0;
+    if (count[id] === undefined) {
+      count[id] = 0;
     }
+    count[id] += Number(t.amount); // 금액도 숫자로 변환
+  });
 
-    // count 배열의 해당 인덱스에 지출 금액을 누적으로 합해줌
-    count[temp_id] += monthlyTransactions.value[i].amount;
-  }
+  console.log('계산된 카테고리별 통계:', count); // 브라우저 콘솔 확인용
   return count;
 });
 
-// 카테고리 id를 인덱스라고 했을 때, 카테고리별 금액만 배열로 저장
-const pieData = computed(() => {
-  const result = [];
-
-  // 카테고리별 누적 금액 배열에서 각 원소 꺼냄
-  for (let key in countCategory.value) {
-    // 각 누적 금액만 result 배열에 push
-    result.push(countCategory.value[key]);
-  }
-
-  return result;
+const totalExpense = computed(() => {
+  return Object.values(countCategory.value).reduce((sum, val) => sum + val, 0);
 });
 
-const pieLabels = computed(() => {
+// 차트 데이터 변환
+const chartData = computed(() => {
   const labels = [];
-  // 객체 ({ 카테고리id_1 : 가격, 카테고리id_2: 가격, ... })에서
-  for (let key in countCategory.value) {
-    // categoryId로 category 이름 찾기
-    const category = categories.value.find((c) => c.id === Number(key));
+  const data = [];
 
+  for (let id in countCategory.value) {
+    const category = categories.value.find((c) => Number(c.id) === Number(id));
     if (category) {
       labels.push(category.name);
+      data.push(countCategory.value[id]);
     }
   }
 
-  return labels;
-});
-
-// transaction 카테고리의 이름과 누적 합계된 가격을 객체로 반환
-const chartData = computed(() => {
   return {
-    labels: pieLabels.value,
+    labels,
     datasets: [
       {
         label: '지출 금액',
-        data: pieData.value,
+        data: data,
         backgroundColor: [
           '#FF6384',
           '#36A2EB',
@@ -152,31 +127,14 @@ const chartData = computed(() => {
           '#4BC0C0',
           '#9966FF',
         ],
-        hoverOffset: 4,
       },
     ],
   };
 });
 
-const formattedMonth = computed(() => {
-  if (!selectedMonth.value) return '';
-
-  const [year, month] = selectedMonth.value.split('-');
-
-  return `${year}년 ${month}월`;
-});
-
-const totalExpense = computed(() => {
-  let sum = 0;
-  const dataArray = pieData.value;
-
-  for (let i = 0; i < dataArray.length; i++) {
-    sum += dataArray[i];
-  }
-  return sum;
-});
-
+// 요약 리스트 변환
 const summaryList = computed(() => {
+  if (!chartData.value.labels.length) return [];
   return chartData.value.labels.map((label, i) => ({
     name: label,
     amount: chartData.value.datasets[0].data[i],
@@ -188,20 +146,65 @@ const summaryList = computed(() => {
 });
 </script>
 
-<style>
-.custom-select {
-  padding: 8px 12px; /* 안쪽 여백으로 크기 조절 */
-  font-size: 16px; /* 글자 크기 */
-  border: 2px solid #36a2eb; /* 테두리 색상 (차트 색상과 맞춤) */
-  border-radius: 8px; /* 모서리 둥글게 */
-  background-color: white; /* 배경색 */
-  color: #333; /* 글자색 */
-  cursor: pointer; /* 마우스 올리면 손가락 모양 */
-  outline: none; /* 클릭 시 생기는 기본 테두리 제거 */
-  transition: border-color 0.3s; /* 부드러운 색상 변경 */
+<style scoped>
+/* 버튼 인터페이스 스타일 */
+.report-header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
 }
 
-.custom-select:focus {
-  border-color: #ff6384; /* 클릭 시 테두리 색상 변경 */
+.month-title {
+  font-size: 28px;
+  font-weight: bold;
+  min-width: 200px;
+  text-align: center;
+}
+
+.nav-btn {
+  padding: 8px 16px;
+  font-size: 20px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: #f8f9fa;
+  border-color: #36a2eb;
+  color: #36a2eb;
+}
+
+.no-data {
+  width: 100%;
+  text-align: center;
+  padding: 50px;
+  font-size: 18px;
+  color: #888;
+}
+
+/* 기존 대시보드 스타일 유지 */
+.dashboard-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+.chart-box {
+  flex: 1.2;
+  min-width: 0;
+  min-height: 400px;
+}
+.summary-box {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .dashboard-wrapper {
+    flex-direction: column;
+  }
 }
 </style>

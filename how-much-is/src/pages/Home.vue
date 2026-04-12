@@ -5,21 +5,19 @@
       :monthlyIncome="monthlyIncome"
       :monthlyExpense="monthlyExpense"
       :balance="balance"
+      :weeklyExpense="weeklyExpense"
+      :weeklyIncome="weeklyIncome"
+      :dayExpense="dayExpense"
     />
-
     <!-- Calendar 컴포넌트에 데이터 내려보내고 이벤트 받기 -->
     <CalendarView :attrs="attrs" @dayclick="onDayClick" />
-
-
     <!-- DayDetail 컴포넌트에 데이터 내려보내기 -->
     <DayDetail
       :selectedDate="selectedDate"
       :transactions="selectedDayTransactions"
     />
-
     <!-- + 버튼 -->
     <button class="fab" @click="openModal">+</button>
-
     <!-- 모달 -->
     <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal">
@@ -60,37 +58,98 @@
 </template>
 
 <script setup>
-import { useDatePickerStore } from '@/stores/datepicker';
-import { ref, computed, onMounted } from 'vue';
+import { useDatePickerStore } from "@/stores/datepicker";
+import { ref, computed, onMounted } from "vue";
 
-import StatCard from '@/components/home/StatCard.vue';
-import CalendarView from '@/components/home/CalendarView.vue';
-import DayDetail from '@/components/home/DayDetail.vue';
+import StatCard from "@/components/home/StatCard.vue";
+import CalendarView from "@/components/home/CalendarView.vue";
+import DayDetail from "@/components/home/DayDetail.vue";
 import {
   getTransactions,
   getCategories,
   postTransactions,
-} from '@/api/CalendarDetail.js';
+} from "@/api/CalendarDetail.js";
+import {
+  getWeekRanges,
+  getWeeklyDay,
+  getWeeklyExpenseTotals,
+  pickMonthlyList,
+} from "@/api/monthlyList";
+
+const store = useDatePickerStore();
+const selected = store.currentDate;
 
 const selectedDate = ref(null);
 const transactions = ref([]);
+const weeklyExpense = ref([]);
+const weeklyIncome = ref([]);
+const dayExpense = ref();
+
+const date = new Date();
+
+const year1 = date.getFullYear();
+const month1 = date.getMonth() + 1;
+const nowDate =
+  new Date().getFullYear() +
+  "-" +
+  String(new Date().getMonth() + 1).padStart(2, "0");
 
 onMounted(async () => {
+  //현재 달 문제는 좌우버튼을 누르면 달력값이 변함...
+  const selectedMonth = selected;
+  //그 값의 연월을 가져옴
+  const [year, month] = selectedMonth.split("-").map(Number);
+
+  //1,2,3일 그런거 말함
+  const day = new Date().getDate();
+
   const categoriesData = await getCategories();
 
   const transData = await getTransactions();
 
+  //[{week:1, start:1, end:4},{week:2 ...}]
+  const weekRanges = getWeekRanges(year, month);
+
+  //[{id: '1', userId: 1, amount: 9000, categoryId: 2, title: '주유', …},{id: '2', userId: 1, amount: 9000, categoryId: 2, title: '주유', …}] 내가 선택한 달의 모든 내역 가져옴
+  const response = await pickMonthlyList(selectedMonth);
+  const response1 = await pickMonthlyList(nowDate);
+  dayExpense.value = getWeeklyDay(response1);
+
+  const weeklyData = getWeeklyExpenseTotals(
+    response1,
+    year1,
+    month1,
+    (u) => u.categoryId <= 5,
+  );
+
+  const weeklyex = getWeeklyExpenseTotals(
+    response1,
+    year1,
+    month1,
+    (u) => u.categoryId >= 6,
+  );
+  const pickMonth = computed(() => {
+    const week = weekRanges.find((w) => w.start <= day && w.end >= day);
+    return week?.week; // 주차 반환
+  });
+  // console.log(weeklyData)
+  // console.log(pickMonth.value)
+
+  weeklyExpense.value = weeklyData[pickMonth.value];
+  weeklyIncome.value = weeklyex[pickMonth.value];
+
+  // console.log( weeklyExpense.value)
+
   const result = [];
   for (const t of transData) {
     const category = categoriesData.find((c) => c.id === t.categoryId);
-    console.log(category);
 
     result.push({
       id: t.id,
       date: t.date,
       amount: t.amount,
       name: t.title,
-      type: category ? category.type : 'expense',
+      type: category ? category.type : "expense",
     });
   }
   transactions.value = result;
@@ -99,7 +158,7 @@ onMounted(async () => {
 const attrs = computed(() =>
   transactions.value.map((t) => ({
     dates: new Date(t.date),
-    dot: { color: t.type === 'expense' ? 'red' : 'blue' },
+    dot: { color: t.type === "expense" ? "red" : "blue" },
     popover: { label: `${t.name} ${t.amount.toLocaleString()}원` },
   })),
 );
@@ -109,6 +168,12 @@ const monthlyIncome = computed(() =>
     .filter((t) => t.amount > 0)
     .reduce((sum, t) => sum + t.amount, 0),
 );
+
+// const monthlyIncome = computed(() =>
+//   transactions.value
+//     .filter((t) => t.amount > 0)
+//     .reduce((sum, t) => sum + t.amount, 0),
+// );
 
 const monthlyExpense = computed(() =>
   transactions.value
@@ -125,16 +190,16 @@ const openModal = () => {
 const closeModal = () => (showModal.value = false);
 
 const quickItemsMap = {
-  expense: ['식비', '교통', '쇼핑', '문화생활', '여행', '기타'],
-  income: ['급여', '투자', '기타'],
+  expense: ["식비", "교통", "쇼핑", "문화생활", "여행", "기타"],
+  income: ["급여", "투자", "기타"],
 };
 const quickItems = computed(() => quickItemsMap[form.value.type]);
 
 const form = ref({
-  type: 'expense',
-  name: '',
-  amount: '',
-  date: '',
+  type: "expense",
+  name: "",
+  amount: "",
+  date: "",
 });
 
 const submitForm = () => {
@@ -143,12 +208,12 @@ const submitForm = () => {
     date: form.value.date,
     name: form.value.name,
     amount:
-      form.value.type === 'expense'
+      form.value.type === "expense"
         ? -Math.abs(Number(form.value.amount))
         : Math.abs(Number(form.value.amount)),
     type: form.value.type,
   });
-  form.value = { type: 'expense', name: '', amount: '', date: '' };
+  form.value = { type: "expense", name: "", amount: "", date: "" };
   closeModal();
 };
 
