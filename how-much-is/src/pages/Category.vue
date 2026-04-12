@@ -1,34 +1,33 @@
 <template>
   <div class="report-container">
-    <div class="report-header-nav">
-      <button @click="store.moveMonth(-1)" class="nav-btn">&lt;</button>
-      <h1 class="month-title">{{ store.formattedDate }}</h1>
-      <button @click="store.moveMonth(1)" class="nav-btn">&gt;</button>
-    </div>
-
-    <div class="dashboard-wrapper">
-      <div v-if="monthlyTransactions.length === 0" class="no-data">
-        <p>해당 월의 지출 내역이 없습니다. 💸</p>
+    <div class="dashboard-card">
+      <div class="card-header">
+        <div class="report-header-nav">
+          <button @click="store.moveMonth(-1)" class="nav-btn">&lt;</button>
+          <h1 class="month-title">{{ store.formattedDate }}</h1>
+          <button @click="store.moveMonth(1)" class="nav-btn">&gt;</button>
+        </div>
       </div>
 
-      <template v-else>
-        <div class="chart-box">
-          <PieChart :chartData="chartData" />
+      <div class="dashboard-wrapper">
+        <div v-if="monthlyTransactions.length === 0" class="no-data">
+          <p>해당 월의 지출 내역이 없습니다.</p>
         </div>
-        <div class="summary-box">
-          <CategorySummary
-            :summaryList="summaryList"
-            :totalExpense="totalExpense"
-            :animate="animate"
-          />
-        </div>
-      </template>
+
+        <template v-else>
+          <div class="chart-box">
+            <PieChart :chartData="chartData" />
+          </div>
+          <div class="summary-box">
+            <CategorySummary
+              :summaryList="summaryList"
+              :totalExpense="totalExpense"
+              :animate="animate"
+            />
+          </div>
+        </template>
+      </div>
     </div>
-    <!-- <div style="background: #eee; padding: 10px; margin: 20px 0">
-      <p>현재 스토어 날짜: {{ selectedMonth }}</p>
-      <p>전체 거래 데이터 개수: {{ transactions.length }}개</p>
-      <p>이번 달 거래 데이터 개수: {{ monthlyTransactions.length }}개</p>
-    </div> -->
   </div>
 </template>
 
@@ -121,11 +120,11 @@ const chartData = computed(() => {
         label: '지출 금액',
         data: data,
         backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
-          '#4BC0C0',
-          '#9966FF',
+          '#EDD5C0',
+          '#B5D9E0',
+          '#92ADA4',
+          '#F2D6A1',
+          '#F1A805',
         ],
       },
     ],
@@ -147,64 +146,122 @@ const summaryList = computed(() => {
 </script>
 
 <style scoped>
+.report-container {
+  /* padding: 20px; */
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 80px);
+}
+
+.dashboard-card {
+  width: 100%;
+  /* max-width: 1100px; */
+  max-width: 1400px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* 상단 네비게이션이 들어가는 헤더 영역  */
+.card-header {
+  display: flex;
+  justify-content: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
 /* 버튼 인터페이스 스타일 */
 .report-header-nav {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 30px;
+  /* justify-content: center; */
+  gap: 12px;
+  /* margin-bottom: 30px; */
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 4px 12px;
 }
 
 .month-title {
-  font-size: 28px;
-  font-weight: bold;
-  min-width: 200px;
+  /* font-size: 28px; */
+  font-size: 16px;
+  /* font-weight: bold; */
+  font-weight: 500;
+  /* min-width: 200px; */
+  min-width: 90px;
   text-align: center;
+  margin: 0;
+  color: #334155;
 }
 
 .nav-btn {
-  padding: 8px 16px;
-  font-size: 20px;
-  border: 1px solid #ddd;
-  background: white;
-  border-radius: 8px;
+  /* padding: 8px 16px; */
+  /* font-size: 20px; */
+  padding: 4px 8px;
+  font-size: 16px;
+  /* border: 1px solid #ddd; */
+  border: none;
+  background: none;
+  /* border-radius: 8px; */
+  color: #94a3b8;
   cursor: pointer;
-  transition: all 0.2s;
+  /* transition: all 0.2s; */
+  transition: color 0.2s;
 }
 
 .nav-btn:hover {
-  background: #f8f9fa;
-  border-color: #36a2eb;
-  color: #36a2eb;
+  /* background: #f8f9fa; */
+  /* border-color: #36a2eb; */
+  /* color: #36a2eb; */
+  color: #334155;
 }
 
 .no-data {
   width: 100%;
   text-align: center;
   padding: 50px;
-  font-size: 18px;
+  /* font-size: 18px; */
+  font-size: 16px;
   color: #888;
 }
 
-/* 기존 대시보드 스타일 유지 */
 .dashboard-wrapper {
   display: flex;
-  align-items: flex-start;
-  gap: 32px;
+  /* align-items: flex-start; */
+  align-items: center;
+  /* gap: 32px; */
+  gap: 60px;
+  padding: 50px 40px;
 }
+
 .chart-box {
-  flex: 1.2;
-  min-width: 0;
-  min-height: 400px;
-}
-.summary-box {
   flex: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+  /* max-width: 500px; */
+  max-width: 600px;
+}
+
+.summary-box {
+  /* flex: 1; */
+  flex: 1.2;
 }
 
 @media (max-width: 768px) {
   .dashboard-wrapper {
     flex-direction: column;
+    padding: 20px;
+  }
+
+  .chart-box {
+    max-width: 100%;
+    margin-bottom: 20px;
   }
 }
 </style>
