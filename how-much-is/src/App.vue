@@ -1,23 +1,17 @@
 <template>
   <div>
-    <router-link to="/">Home</router-link>
-    <br />
-    <router-link to="/monthly">Monthly</router-link>
-
+    <Header />
     <router-view></router-view>
   </div>
-<<<<<<< HEAD
-  <Header />
+  <!-- <LoginForm />
+  <RegisterForm /> -->
 </template>
 
 <script setup>
 import Header from './components/Header.vue';
-=======
-</template>
+import LoginForm from './components/login/LoginForm.vue';
 
-<script setup>
-import MonthlyList from './components/monthly/MonthlyList.vue';
->>>>>>> efd047c7286b8b9274ecea7417ff07f04c367a1f
+import RegisterForm from './components/login/RegisterForm.vue';
 </script>
 
 <style scoped></style>

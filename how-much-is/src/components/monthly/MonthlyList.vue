@@ -11,11 +11,7 @@
       <span>Account</span>
     </div>
 
-    <div
-      class="table-row"
-      v-for="list in pagedLists"
-      :key="list.id"
-    >
+    <div class="table-row" v-for="list in pagedLists" :key="list.id">
       <span>{{ list.id }}</span>
       <span>{{ list.date }}</span>
       <span>{{ list.title }}</span>
@@ -26,9 +22,9 @@
         class="type-badge"
         :class="list.categoryType === 'income' ? 'income' : 'expense'"
       >
-        {{ list.categoryType }}
+        {{ list.categoryType === 'income' ? '수입' : '지출' }}
       </span>
-      <span>{{ list.account ?? '기본 계좌' }}</span>
+      <button class="edit-btn" @click="openEditModal(list)">수정</button>
     </div>
   </div>
 
@@ -42,11 +38,53 @@
       {{ page }}
     </button>
   </div>
+
+  <div class="modal-overlay" v-if="onmodal">
+    <div class="modal-box">
+      <h3 class="modal-title">거래 내역 수정</h3>
+
+      <div class="modal-input-group">
+        <label>내역</label>
+        <input
+          type="text"
+          v-model="selectedItem.title"
+          placeholder="내역을 입력하세요"
+        />
+      </div>
+
+      <div class="modal-input-group">
+        <label>메모</label>
+        <input
+          type="text"
+          v-model="selectedItem.memo"
+          placeholder="메모를 입력하세요"
+        />
+      </div>
+
+      <div class="modal-input-group">
+        <label>금액</label>
+        <input
+          type="number"
+          v-model="selectedItem.amount"
+          placeholder="금액을 입력하세요"
+        />
+      </div>
+
+      <div class="modal-buttons">
+        <button class="cancel-btn" @click="onmodal = false">취소</button>
+        <button class="save-btn" @click="handleUpdate(selectedItem)">
+          저장
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import { getCategories, monthlyList, pickMonthlyList } from "@/api/monthlyList";
+import { computed, onMounted, ref } from 'vue';
+import { getCategories, monthlyList, pickMonthlyList } from '@/api/monthlyList';
+import ModalFrame from '../ModalFrame.vue';
+import axios from 'axios';
 
 const lists = ref([]);
 const categories = ref([]);
@@ -54,13 +92,13 @@ const categories = ref([]);
 onMounted(async () => {
   try {
     //transactions 거래 내역 api 호출, category가 뭔지 알려고 api 호출함
-    const response = await pickMonthlyList("2026-04")
+    const response = await pickMonthlyList('2026-04');
     // const response = await monthlyList();
     const categoryRes = await getCategories();
     lists.value = response;
     categories.value = categoryRes.data;
   } catch (error) {
-    console.error("데이터 불러오기 실패", e);
+    console.error('데이터 불러오기 실패', error);
   }
 });
 
@@ -68,16 +106,19 @@ onMounted(async () => {
 const mergedLists = computed(() => {
   // console.log(lists.value)
   return lists.value.map((item) => {
-    const category = categories.value.find(c => Number(c.id) === Number(item.categoryId));
+    const category = categories.value.find(
+      (c) => Number(c.id) === Number(item.categoryId),
+    );
     return {
       ...item,
-      categoryName: category?.name ?? "미분류",
-      categoryIcon: category?.icon ?? "❓",
-      categoryType: category?.type ?? "unknown",
+      categoryName: category?.name ?? '미분류',
+      categoryIcon: category?.icon ?? '❓',
+      categoryType: category?.type ?? 'unknown',
     };
   });
 });
 
+// 페이지네이션 코드
 const currentPage = ref(1);
 const itemsPerPage = 10;
 
@@ -94,102 +135,166 @@ const totalPages = computed(() => {
 const goToPage = (page) => {
   currentPage.value = page;
 };
+
+const onmodal = ref(false);
+const selectedItem = ref(null);
+
+const openEditModal = (item) => {
+  selectedItem.value = { ...item };
+  onmodal.value = true;
+};
+
+const handleUpdate = async (updatedData) => {
+  try {
+    await axios.put(
+      `http://localhost:3000/transactions/${updatedData.id}`,
+      updatedData,
+    );
+    const index = lists.value.findIndex((item) => item.id === updatedData.id);
+    if (index !== -1) {
+      lists.value[index] = { ...updatedData };
+    }
+    console.log('수정 완료');
+    onmodal.value = false;
+  } catch (error) {
+    console.error('수정 실패:', error);
+    alert('수정 실패');
+  }
+};
 </script>
 
 <style scoped>
-.list-card {
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
-  padding: 12px 16px;
-  border-bottom: 1px solid #eee;
-  font-size: 14px;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.card {
-  flex: 1;
-}
-/* 날짜 */
-.date {
-  color: #888;
-}
-
-/* 제목 */
-.title {
-  font-weight: 500;
+.modal-box {
+  background: #ffffff;
+  width: 380px;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-/* 카테고리 */
-.category {
-  color: #666;
-}
-
-/* 금액 */
-.amount {
-  text-align: right;
-  font-weight: 600;
-}
-
-/* 계좌 */
-.account {
-  color: #999;
-  text-align: right;
-}
-
-/* 뱃지 */
-.type {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
+.modal-title {
+  margin: 0;
+  color: #333;
+  font-size: 20px;
+  font-weight: bold;
   text-align: center;
 }
 
-/* 지출 */
-.type.expense {
-  color: #e74c3c;
-  border: 1px solid #e74c3c;
+.modal-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* 수입 */
-.type.income {
-  color: #2ecc71;
-  border: 1px solid #2ecc71;
+.modal-input-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+}
+
+.modal-input-group input {
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.modal-input-group input:focus {
+  border-color: #f2d457;
+  box-shadow: 0 0 0 3px rgba(242, 212, 87, 0.2);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cancel-btn {
+  padding: 10px 16px;
+  background: #f5f5f5;
+  border: none;
+  border-radius: 8px;
+  color: #666;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancel-btn:hover {
+  background: #e0e0e0;
+}
+
+.save-btn {
+  padding: 10px 20px;
+  background: #f2d457;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.save-btn:hover {
+  opacity: 0.8;
 }
 
 .transaction-table {
-  max-width: 1100px; /* 핵심 🔥 */
-  margin: 0 auto;
+  max-width: 1100px;
+  margin: 30px auto;
   background: #fff;
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 
-    0 4px 10px rgba(0,0,0,0.08),
-    0 10px 20px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
 }
 
 .table-row {
   display: grid;
-  grid-template-columns: 50px 110px 1.2fr 1.3fr 1fr 100px 90px 1fr;
+  grid-template-columns: 50px 110px 1.2fr 1.3fr 1fr 100px 90px 80px;
   align-items: center;
-  padding: 16px 16px; 
-  column-gap: 8px;     
-  border-bottom: 1px solid #eee;
+  padding: 10px 20px;
+  column-gap: 10px;
+  border-bottom: 1px solid #f5f5f5;
 }
 
 .table-header {
-  padding: 12px 16px;
-  background: #fff9a6;
-  font-weight: 600;
-  color: #666;
+  background: #fffdf5;
+  border-top: 4px solid #f2d457;
+  border-bottom: 1px solid #eaeaea;
+  font-weight: 700;
+  color: #444;
   font-size: 14px;
 }
 
 .table-row:not(.table-header) {
   font-size: 14px;
-  color: #222;
+  color: #333;
+  transition: background 0.2s ease;
 }
 
 .table-row:not(.table-header):hover {
-  background: #fcfcfc;
+  background: #f0f0f0;
 }
 
 .type-badge {
@@ -197,9 +302,9 @@ const goToPage = (page) => {
   justify-content: center;
   align-items: center;
   width: fit-content;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
 }
 
@@ -215,24 +320,52 @@ const goToPage = (page) => {
   border: 1px solid #f5bfd0;
 }
 
+.edit-btn {
+  padding: 6px 12px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-btn:hover {
+  border-color: #f2d457;
+  color: #d8b217;
+  background: #fffdf5;
+}
+
 .pagination {
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .pagination button {
-  border: 1px solid #ddd;
+  border: 1px solid #eee;
   background: white;
-  padding: 8px 12px;
+  width: 34px;
+  height: 34px;
   border-radius: 8px;
   cursor: pointer;
+  color: #666;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.pagination button:hover {
+  background: #f9f9f9;
 }
 
 .pagination button.active {
-  background: #222;
-  color: white;
-  border-color: #222;
+  background: #f2d457;
+  color: #fff;
+  border-color: #f2d457;
+  box-shadow: 0 2px 8px rgba(242, 212, 87, 0.4);
 }
 </style>
