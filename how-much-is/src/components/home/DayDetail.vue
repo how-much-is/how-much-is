@@ -13,7 +13,7 @@
       <!-- 거래 목록 -->
       <div v-for="t in transactions" :key="t.id">
         <span>{{ t.name }}</span>
-        <span>{{ formatNum(t.amount) }} 원</span>
+        <span>{{ formatNum(t.amount) }}원</span>
         <button @click="emit('delete', t.id)">삭제</button>
       </div>
     </div>
