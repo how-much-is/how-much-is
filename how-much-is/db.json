@@ -31,7 +31,7 @@
       "id": 3,
       "userId": 1,
       "amount": 48000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "쇼핑",
       "memo": "티셔츠 구매",
       "date": "2026-04-01"
@@ -76,7 +76,7 @@
       "id": 8,
       "userId": 1,
       "amount": 3500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "경조사",
       "memo": "축의금",
       "date": "2026-04-04"
@@ -121,7 +121,7 @@
       "id": 13,
       "userId": 1,
       "amount": 47000,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "경조사",
       "memo": "축의금",
       "date": "2026-04-06"
@@ -148,7 +148,7 @@
       "id": 16,
       "userId": 1,
       "amount": 40000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "쇼핑",
       "memo": "티셔츠 구매",
       "date": "2026-04-07"
@@ -166,7 +166,7 @@
       "id": 18,
       "userId": 1,
       "amount": 50000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "세탁",
       "memo": "빨래방 이용",
       "date": "2026-04-08"
@@ -193,7 +193,7 @@
       "id": 21,
       "userId": 1,
       "amount": 15500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "회비",
       "memo": "모임 회비",
       "date": "2026-04-09"
@@ -202,7 +202,7 @@
       "id": 22,
       "userId": 1,
       "amount": 23500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "경조사",
       "memo": "축의금",
       "date": "2026-04-10"
@@ -247,7 +247,7 @@
       "id": 27,
       "userId": 1,
       "amount": 21000,
-      "categoryId": 8,
+      "categoryId": 1,
       "title": "문구류",
       "memo": "노트와 펜",
       "date": "2026-04-12"
@@ -283,7 +283,7 @@
       "id": 31,
       "userId": 1,
       "amount": 30000,
-      "categoryId": 8,
+      "categoryId": 1,
       "title": "수수료",
       "memo": "이체 수수료",
       "date": "2026-04-13"
@@ -292,7 +292,7 @@
       "id": 32,
       "userId": 1,
       "amount": 30000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "신발용품",
       "memo": "깔창 구매",
       "date": "2026-04-14"
@@ -328,7 +328,7 @@
       "id": 36,
       "userId": 1,
       "amount": 68000,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "회비",
       "memo": "모임 회비",
       "date": "2026-04-16"
@@ -364,7 +364,7 @@
       "id": 40,
       "userId": 1,
       "amount": 29500,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "쇼핑",
       "memo": "티셔츠 구매",
       "date": "2026-04-17"
@@ -373,7 +373,7 @@
       "id": 41,
       "userId": 1,
       "amount": 35000,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "커피 사기",
       "memo": "친구와 카페",
       "date": "2026-04-18"
@@ -400,7 +400,7 @@
       "id": 44,
       "userId": 1,
       "amount": 58500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "경조사",
       "memo": "축의금",
       "date": "2026-04-19"
@@ -409,7 +409,7 @@
       "id": 45,
       "userId": 1,
       "amount": 34000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "세탁",
       "memo": "빨래방 이용",
       "date": "2026-04-19"
@@ -427,7 +427,7 @@
       "id": 47,
       "userId": 1,
       "amount": 37000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "세탁",
       "memo": "빨래방 이용",
       "date": "2026-04-20"
@@ -445,7 +445,7 @@
       "id": 49,
       "userId": 1,
       "amount": 22500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "회비",
       "memo": "모임 회비",
       "date": "2026-04-21"
@@ -454,7 +454,7 @@
       "id": 50,
       "userId": 1,
       "amount": 43000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "쇼핑",
       "memo": "티셔츠 구매",
       "date": "2026-04-22"
@@ -463,7 +463,7 @@
       "id": 51,
       "userId": 1,
       "amount": 65500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "경조사",
       "memo": "축의금",
       "date": "2026-04-22"
@@ -481,7 +481,7 @@
       "id": 53,
       "userId": 1,
       "amount": 20000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "미용",
       "memo": "커트 비용",
       "date": "2026-04-23"
@@ -490,7 +490,7 @@
       "id": 54,
       "userId": 1,
       "amount": 33500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "선물",
       "memo": "지인 생일선물",
       "date": "2026-04-23"
@@ -535,7 +535,7 @@
       "id": 59,
       "userId": 1,
       "amount": 18500,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "신발용품",
       "memo": "깔창 구매",
       "date": "2026-04-25"
@@ -553,7 +553,7 @@
       "id": 61,
       "userId": 1,
       "amount": 33000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "미용",
       "memo": "커트 비용",
       "date": "2026-04-26"
@@ -562,7 +562,7 @@
       "id": 62,
       "userId": 1,
       "amount": 8000,
-      "categoryId": 8,
+      "categoryId": 1,
       "title": "수수료",
       "memo": "이체 수수료",
       "date": "2026-04-27"
@@ -598,7 +598,7 @@
       "id": 66,
       "userId": 1,
       "amount": 10500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "선물",
       "memo": "지인 생일선물",
       "date": "2026-04-28"
@@ -629,6 +629,42 @@
       "title": "카페 디저트",
       "memo": "조각 케이크",
       "date": "2026-04-30"
+    },
+    {
+      "id": 70,
+      "userId": 1,
+      "amount": 2000000,
+      "categoryId": 6,
+      "title": "급여",
+      "memo": "4월 급여",
+      "date": "2026-04-25"
+    },
+    {
+      "id": 71,
+      "userId": 1,
+      "amount": 500000,
+      "categoryId": 7,
+      "title": "주식 배당",
+      "memo": "배당금 수령",
+      "date": "2026-04-10"
+    },
+    {
+      "id": 72,
+      "userId": 1,
+      "amount": 300000,
+      "categoryId": 7,
+      "title": "프리랜서",
+      "memo": "외주 수입",
+      "date": "2026-04-15"
+    },
+    {
+      "id": 73,
+      "userId": 1,
+      "amount": 150000,
+      "categoryId": 8,
+      "title": "중고 판매",
+      "memo": "당근마켓",
+      "date": "2026-04-20"
     }
   ],
   "categories": [
