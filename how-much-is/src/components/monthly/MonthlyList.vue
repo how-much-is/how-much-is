@@ -1,4 +1,15 @@
 <template>
+  <select v-model="selected">
+    <option value="">전체</option>
+    <option value="eat">식비</option>
+    <option value="bus">교통</option>
+    <option value="shopping">쇼핑</option>
+    <option value="culture">문화생활</option>
+    <option value="travel">여행</option>
+    <option value="money">급여</option>
+    <option value="invest">투자</option>
+    <option value="etc">기타</option>
+  </select>
   <div class="transaction-table">
     <div class="table-header table-row">
       <span>No</span>
@@ -11,8 +22,8 @@
       <span>Account</span>
     </div>
 
-    <div class="table-row" v-for="(list,index) in pagedLists" :key="list.id">
-      <span>{{ index+1 }}</span>
+    <div class="table-row" v-for="(list, index) in pagedLists" :key="list.id">
+      <span>{{ index + 1 }}</span>
       <span>{{ list.date }}</span>
       <span>{{ list.title }}</span>
       <span>{{ list.memo }}</span>
@@ -22,9 +33,12 @@
         class="type-badge"
         :class="list.categoryType === 'income' ? 'income' : 'expense'"
       >
-        {{ list.categoryType === 'income' ? '수입' : '지출' }}
+        {{ list.categoryType === "income" ? "수입" : "지출" }}
       </span>
-      <button class="edit-btn" @click="openEditModal(list)">수정</button>
+      <div class="btn">
+        <button class="edit-btn" @click="openEditModal(list)">수정</button>
+        <button class="edit-btn" @click="handleDelete(list)">삭제</button>
+      </div>
     </div>
   </div>
 
@@ -81,15 +95,16 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import { getCategories, monthlyList, pickMonthlyList } from '@/api/monthlyList';
-import ModalFrame from '../ModalFrame.vue';
-import axios from 'axios';
-import { useDatePickerStore } from '@/stores/datepicker';
+import { computed, onMounted, ref } from "vue";
+import { getCategories, monthlyList, pickMonthlyList } from "@/api/monthlyList";
+import ModalFrame from "../ModalFrame.vue";
+import axios from "axios";
+import { useDatePickerStore } from "@/stores/datepicker";
 
 const lists = ref([]);
 const categories = ref([]);
-const store = useDatePickerStore()
+const store = useDatePickerStore();
+const selected = ref('')
 
 onMounted(async () => {
   try {
@@ -100,7 +115,7 @@ onMounted(async () => {
     lists.value = response;
     categories.value = categoryRes.data;
   } catch (error) {
-    console.error('데이터 불러오기 실패', error);
+    console.error("데이터 불러오기 실패", error);
   }
 });
 
@@ -113,9 +128,9 @@ const mergedLists = computed(() => {
     );
     return {
       ...item,
-      categoryName: category?.name ?? '미분류',
-      categoryIcon: category?.icon ?? '❓',
-      categoryType: category?.type ?? 'unknown',
+      categoryName: category?.name ?? "미분류",
+      categoryIcon: category?.icon ?? "❓",
+      categoryType: category?.type ?? "unknown",
     };
   });
 });
@@ -157,12 +172,27 @@ const handleUpdate = async (updatedData) => {
     if (index !== -1) {
       lists.value[index] = { ...updatedData };
     }
-    console.log('수정 완료');
+    console.log("수정 완료");
     onmodal.value = false;
   } catch (error) {
-    console.error('수정 실패:', error);
-    alert('수정 실패');
+    console.error("수정 실패:", error);
+    alert("수정 실패");
   }
+};
+
+//삭제
+const handleDelete = async (updatedData) => {
+  try {
+    await axios.delete(`http://localhost:3000/transactions/${updatedData.id}`);
+    // id=3인 놈을 삭제버튼을 누르면 lists에서도 그놈을 지워줘야됨
+    console.log(updatedData.id);
+    const index1 = lists.value.findIndex((item) => item.id === updatedData.id);
+    console.log(index1);
+    if (index1 !== -2) {
+      const i = lists.value.filter((_, index) => index !== index1);
+      lists.value = i;
+    }
+  } catch (error) {}
 };
 </script>
 
@@ -370,5 +400,8 @@ const handleUpdate = async (updatedData) => {
   color: #fff;
   border-color: #f2d457;
   box-shadow: 0 2px 8px rgba(242, 212, 87, 0.4);
+}
+.btn {
+  display: flex;
 }
 </style>

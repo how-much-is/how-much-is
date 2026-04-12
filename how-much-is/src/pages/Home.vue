@@ -102,13 +102,13 @@ onMounted(async () => {
 
   //1,2,3일 그런거 말함
   const day = new Date().getDate();
-
+  // console.log(new Date())
   const categoriesData = await getCategories();
 
   const transData = await getTransactions();
 
   //[{week:1, start:1, end:4},{week:2 ...}]
-  const weekRanges = getWeekRanges(year, month);
+  const weekRanges = getWeekRanges(year1, month1);
 
   //[{id: '1', userId: 1, amount: 9000, categoryId: 2, title: '주유', …},{id: '2', userId: 1, amount: 9000, categoryId: 2, title: '주유', …}] 내가 선택한 달의 모든 내역 가져옴
   const response = await pickMonthlyList(selectedMonth);
@@ -129,11 +129,14 @@ onMounted(async () => {
     (u) => u.categoryId >= 6,
   );
   const pickMonth = computed(() => {
+    //오늘 4월12일이면 day = 12
     const week = weekRanges.find((w) => w.start <= day && w.end >= day);
+    console.log(week)
     return week?.week; // 주차 반환
   });
   // console.log(weeklyData)
   // console.log(pickMonth.value)
+  console.log(pickMonth.value)
 
   weeklyExpense.value = weeklyData[pickMonth.value];
   weeklyIncome.value = weeklyex[pickMonth.value];

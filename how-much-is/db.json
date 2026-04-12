@@ -4,14 +4,7 @@
       "id": "1",
       "email": "test@gmail.com",
       "password": "3456",
-      "email": "test1@gmail.com",
-      "id": 2
-    },
-    {
-      "id": 3,
-      "email": "test2@gmail.com",
-      "password": "3456",
-      "name": "강텝스",
+      "name": "홍길동",
       "createdAt": "2026-04-07"
     }
   ],
@@ -31,10 +24,10 @@
     {
       "id": "2",
       "userId": 1,
-      "amount": 5500,
-      "categoryId": 1,
-      "title": "저녁",
-      "memo": "제육볶음",
+      "amount": 8000,
+      "categoryId": 7,
+      "title": "쇼핑",
+      "memo": "바지 구매",
       "date": "2026-04-01"
     },
     {
@@ -854,5 +847,6 @@
       "startDayOfMonth": 1,
       "id": "9jAdf9v2GTk"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
