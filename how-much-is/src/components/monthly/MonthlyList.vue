@@ -1,14 +1,14 @@
 <template>
   <select v-model="selected">
     <option value="">전체</option>
-    <option value="eat">식비</option>
-    <option value="bus">교통</option>
-    <option value="shopping">쇼핑</option>
-    <option value="culture">문화생활</option>
-    <option value="travel">여행</option>
-    <option value="money">급여</option>
-    <option value="invest">투자</option>
-    <option value="etc">기타</option>
+    <option value="1">식비</option>
+    <option value="2">교통</option>
+    <option value="3">쇼핑</option>
+    <option value="4">문화생활</option>
+    <option value="5">여행</option>
+    <option value="6">급여</option>
+    <option value="7">투자</option>
+    <option value="8">기타</option>
   </select>
   <div class="transaction-table">
     <div class="table-header table-row">
@@ -119,10 +119,17 @@ onMounted(async () => {
   }
 });
 
+const filterCategory = computed(() => {
+  if (!selected.value) return lists.value;
+  return lists.value.filter(item => {
+    return Number(item.categoryId) === Number(selected.value)
+  })
+})
+
 // categoryId를 통해서 type과 icon을 받아오는 메소드
 const mergedLists = computed(() => {
   // console.log(lists.value)
-  return lists.value.map((item) => {
+  return filterCategory.value.map((item) => {
     const category = categories.value.find(
       (c) => Number(c.id) === Number(item.categoryId),
     );
@@ -185,10 +192,8 @@ const handleDelete = async (updatedData) => {
   try {
     await axios.delete(`http://localhost:3000/transactions/${updatedData.id}`);
     // id=3인 놈을 삭제버튼을 누르면 lists에서도 그놈을 지워줘야됨
-    console.log(updatedData.id);
     const index1 = lists.value.findIndex((item) => item.id === updatedData.id);
-    console.log(index1);
-    if (index1 !== -2) {
+    if (index1 !== -1) {
       const i = lists.value.filter((_, index) => index !== index1);
       lists.value = i;
     }

@@ -24,15 +24,19 @@
 </template>
 
 <script setup>
-import { monthlyList } from '@/api/monthlyList';
+import { monthlyList,pickMonthlyList } from '@/api/monthlyList';
+import { useDatePickerStore } from '@/stores/datepicker';
 import { computed, onMounted, ref } from 'vue';
 
+const store = useDatePickerStore()
 const income = ref([]);
 
 onMounted(async () => {
+  const nowDate = store.currentDate
   try {
     const response = await monthlyList();
-    income.value = response.data;
+    const response1 = await pickMonthlyList(nowDate);
+    income.value = response1;
   } catch (error) {
     console.log(error);
   }
@@ -40,7 +44,7 @@ onMounted(async () => {
 
 const incomeList = computed(() => {
   return income.value.map((list) => {
-    if (list.categoryId < 6) {
+    if (list.categoryId >= 6) {
       return list.amount;
     }
     return 0;

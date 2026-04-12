@@ -10,7 +10,7 @@
       <nav class="nav">
         <ul>
           <li>
-            <router-link to="/" class="nav-item">Home</router-link>
+            <router-link to="/" @click="store.resets()" class="nav-item">Home</router-link>
           </li>
           <li>
             <router-link to="/monthly" class="nav-item">월간리포트</router-link>
@@ -34,7 +34,13 @@
   </header>
 </template>
 
-<script setup></script>
+<script setup>
+import { useDatePickerStore } from "@/stores/datepicker";
+import { onMounted } from "vue";
+const store = useDatePickerStore();
+
+
+</script>
 
 <style scoped>
 .header {
@@ -73,7 +79,7 @@
 }
 
 .logo h1::after {
-  content: '.';
+  content: ".";
   color: #f2d457;
 }
 

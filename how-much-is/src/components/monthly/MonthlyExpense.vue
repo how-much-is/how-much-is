@@ -8,7 +8,7 @@
     <div class="amount">
       ₩
       {{
-        incomeList
+        expenseList
           .reduce((acc, cur) => {
             return acc + cur;
           }, 0)
@@ -24,23 +24,27 @@
 </template>
 
 <script setup>
-import { monthlyList } from '@/api/monthlyList';
+import { monthlyList, pickMonthlyList } from '@/api/monthlyList';
+import { useDatePickerStore } from '@/stores/datepicker';
 import { computed, onMounted, ref } from 'vue';
-
-const income = ref([]);
+const store = useDatePickerStore()
+const expense = ref([]);
 
 onMounted(async () => {
+
+  const nowDate = store.currentDate
   try {
     const response = await monthlyList();
-    income.value = response.data;
+    const response1 = await pickMonthlyList(nowDate);
+    expense.value = response1;
   } catch (error) {
     console.log(error);
   }
 });
 
-const incomeList = computed(() => {
-  return income.value.map((list) => {
-    if (list.categoryId >= 6) {
+const expenseList = computed(() => {
+  return expense.value.map((list) => {
+    if (list.categoryId <= 5) {
       return list.amount;
     }
     return 0;

@@ -1,5 +1,6 @@
 <template>
   <div class="calendar-wrap">
+    {{ store.currentDate }}
     <VCalendar class="my-calendar" :attributes="attrs" @dayclick="onDayClick">
       <template #header-prev-button="{ move, disabled }">
         <button type="button" :disabled="disabled" @click="store.moveMonth(-1)">
