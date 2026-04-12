@@ -1,113 +1,115 @@
 <template>
-  <div class="table-controls">
-    <select v-model="selected" class="category-select">
-      <option value="">전체 카테고리</option>
-      <option value="1">식비</option>
-      <option value="2">교통</option>
-      <option value="3">쇼핑</option>
-      <option value="4">문화생활</option>
-      <option value="5">여행</option>
-      <option value="6">급여</option>
-      <option value="7">투자</option>
-      <option value="8">기타</option>
-    </select>
-  </div>
-
-  <div class="transaction-table">
-    <div class="table-header table-row">
-      <span>No</span>
-      <span>Date</span>
-      <span>Description</span>
-      <span>Memo</span>
-      <span>Category</span>
-      <span>Amount</span>
-      <span>Type</span>
-      <span>Account</span>
+  <div>
+    <div class="table-controls">
+      <select v-model="selected" class="category-select">
+        <option value="">전체 카테고리</option>
+        <option value="1">식비</option>
+        <option value="2">교통</option>
+        <option value="3">쇼핑</option>
+        <option value="4">문화생활</option>
+        <option value="5">여행</option>
+        <option value="6">급여</option>
+        <option value="7">투자</option>
+        <option value="8">기타</option>
+      </select>
     </div>
 
-    <div class="table-row" v-for="(list, index) in pagedLists" :key="list.id">
-      <span>{{ index + 1 }}</span>
-      <span>{{ list.date }}</span>
-      <span>{{ list.title }}</span>
-      <span>{{ list.memo }}</span>
-      <span>{{ list.categoryIcon }} {{ list.categoryName }}</span>
-      <span>{{ list.amount.toLocaleString() }}</span>
-      <span
-        class="type-badge"
-        :class="list.categoryType === 'income' ? 'income' : 'expense'"
+    <div class="transaction-table">
+      <div class="table-header table-row">
+        <span>No</span>
+        <span>Date</span>
+        <span>Description</span>
+        <span>Memo</span>
+        <span>Category</span>
+        <span>Amount</span>
+        <span>Type</span>
+        <span>Account</span>
+      </div>
+
+      <div class="table-row" v-for="(list, index) in pagedLists" :key="list.id">
+        <span>{{ index + 1 }}</span>
+        <span>{{ list.date }}</span>
+        <span>{{ list.title }}</span>
+        <span>{{ list.memo }}</span>
+        <span>{{ list.categoryIcon }} {{ list.categoryName }}</span>
+        <span>{{ list.amount.toLocaleString() }}</span>
+        <span
+          class="type-badge"
+          :class="list.categoryType === 'income' ? 'income' : 'expense'"
+        >
+          {{ list.categoryType === "income" ? "수입" : "지출" }}
+        </span>
+        <div class="btn">
+          <button class="edit-btn" @click="openEditModal(list)">수정</button>
+          <button class="edit-btn" @click="handleDelete(list)">삭제</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pagination">
+      <button
+        v-for="page in totalPages"
+        :key="page"
+        @click="goToPage(page)"
+        :class="{ active: currentPage === page }"
       >
-        {{ list.categoryType === 'income' ? '수입' : '지출' }}
-      </span>
-      <div class="btn">
-        <button class="edit-btn" @click="openEditModal(list)">수정</button>
-        <button class="edit-btn" @click="handleDelete(list)">삭제</button>
-      </div>
+        {{ page }}
+      </button>
     </div>
-  </div>
 
-  <div class="pagination">
-    <button
-      v-for="page in totalPages"
-      :key="page"
-      @click="goToPage(page)"
-      :class="{ active: currentPage === page }"
-    >
-      {{ page }}
-    </button>
-  </div>
+    <div class="modal-overlay" v-if="onmodal" @click="onmodal = false">
+      <div class="modal-box" @click.stop>
+        <h3 class="modal-title">거래 내역 수정</h3>
 
-  <div class="modal-overlay" v-if="onmodal">
-    <div class="modal-box">
-      <h3 class="modal-title">거래 내역 수정</h3>
+        <div class="modal-input-group">
+          <label>내역</label>
+          <input
+            type="text"
+            v-model="selectedItem.title"
+            placeholder="내역을 입력하세요"
+          />
+        </div>
 
-      <div class="modal-input-group">
-        <label>내역</label>
-        <input
-          type="text"
-          v-model="selectedItem.title"
-          placeholder="내역을 입력하세요"
-        />
-      </div>
+        <div class="modal-input-group">
+          <label>메모</label>
+          <input
+            type="text"
+            v-model="selectedItem.memo"
+            placeholder="메모를 입력하세요"
+          />
+        </div>
 
-      <div class="modal-input-group">
-        <label>메모</label>
-        <input
-          type="text"
-          v-model="selectedItem.memo"
-          placeholder="메모를 입력하세요"
-        />
-      </div>
+        <div class="modal-input-group">
+          <label>금액</label>
+          <input
+            type="number"
+            v-model="selectedItem.amount"
+            placeholder="금액을 입력하세요"
+          />
+        </div>
 
-      <div class="modal-input-group">
-        <label>금액</label>
-        <input
-          type="number"
-          v-model="selectedItem.amount"
-          placeholder="금액을 입력하세요"
-        />
-      </div>
-
-      <div class="modal-buttons">
-        <button class="cancel-btn" @click="onmodal = false">취소</button>
-        <button class="save-btn" @click="handleUpdate(selectedItem)">
-          저장
-        </button>
+        <div class="modal-buttons">
+          <button class="cancel-btn" @click="onmodal = false">취소</button>
+          <button class="save-btn" @click="handleUpdate(selectedItem)">
+            저장
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import { getCategories, monthlyList, pickMonthlyList } from '@/api/monthlyList';
-import ModalFrame from '../ModalFrame.vue';
-import axios from 'axios';
-import { useDatePickerStore } from '@/stores/datepicker';
+import { computed, onMounted, ref } from "vue";
+import { getCategories, monthlyList, pickMonthlyList } from "@/api/monthlyList";
+import ModalFrame from "../ModalFrame.vue";
+import axios from "axios";
+import { useDatePickerStore } from "@/stores/datepicker";
 
 const lists = ref([]);
 const categories = ref([]);
 const store = useDatePickerStore();
-const selected = ref('');
+const selected = ref("");
 
 onMounted(async () => {
   try {
@@ -118,7 +120,7 @@ onMounted(async () => {
     lists.value = response;
     categories.value = categoryRes.data;
   } catch (error) {
-    console.error('데이터 불러오기 실패', error);
+    console.error("데이터 불러오기 실패", error);
   }
 });
 
@@ -138,9 +140,9 @@ const mergedLists = computed(() => {
     );
     return {
       ...item,
-      categoryName: category?.name ?? '미분류',
-      categoryIcon: category?.icon ?? '❓',
-      categoryType: category?.type ?? 'unknown',
+      categoryName: category?.name ?? "미분류",
+      categoryIcon: category?.icon ?? "❓",
+      categoryType: category?.type ?? "unknown",
     };
   });
 });
@@ -171,6 +173,11 @@ const openEditModal = (item) => {
   onmodal.value = true;
 };
 
+const closeEditModal = (item) => {
+  selectedItem.value = { ...item };
+  onmodal.value = false;
+};
+
 //수정
 const handleUpdate = async (updatedData) => {
   try {
@@ -182,11 +189,11 @@ const handleUpdate = async (updatedData) => {
     if (index !== -1) {
       lists.value[index] = { ...updatedData };
     }
-    console.log('수정 완료');
+    console.log("수정 완료");
     onmodal.value = false;
   } catch (error) {
-    console.error('수정 실패:', error);
-    alert('수정 실패');
+    console.error("수정 실패:", error);
+    alert("수정 실패");
   }
 };
 
@@ -211,11 +218,12 @@ const handleDelete = async (updatedData) => {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
+  background: rgba(15, 23, 42, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(2px);
 }
 
 .modal-box {
@@ -432,7 +440,7 @@ const handleDelete = async (updatedData) => {
   outline: none;
   appearance: none;
 
-  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
   background-repeat: no-repeat;
   background-position: right 12px top 50%;
   background-size: 10px auto;

@@ -224,7 +224,7 @@ const openModal = () => {
 const closeModal = () => (showModal.value = false);
 
 const quickItemsMap = {
-  expense: ['식비', '교통', '쇼핑', '문화생활', '여행', '기타'],
+  expense: ['식비', '교통', '쇼핑', '문화생활', '여행'],
   income: ['급여', '투자', '기타'],
 };
 const quickItems = computed(() => quickItemsMap[form.value.type]);

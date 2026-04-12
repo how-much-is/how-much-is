@@ -23,7 +23,7 @@
     {
       "id": "1",
       "userId": 1,
-      "amount": 9000,
+      "amount": 10000,
       "categoryId": 2,
       "title": "주유",
       "memo": "주말 좋다",
@@ -35,8 +35,8 @@
     {
       "id": "2",
       "userId": 1,
-      "amount": 8000,
-      "categoryId": 7,
+      "amount": 34000,
+      "categoryId": 6,
       "title": "쇼핑",
       "memo": "바지 구매",
       "date": "2026-04-01"
