@@ -97,6 +97,13 @@
       </div>
     </div>
   </div>
+  <!-- <div v-if="openModal" class="modal-overlay">
+    <div class="modal-box">
+      삭제하시겠습니까?
+      <button class="cancel-btn" @click="openModlaEdit">취소</button>
+      <button class="save-btn" @click="handleDelete(list)">삭제</button>
+    </div>
+  </div> -->
 </template>
 
 <script setup>
@@ -110,6 +117,7 @@ const lists = ref([]);
 const categories = ref([]);
 const store = useDatePickerStore();
 const selected = ref("");
+const openModal = ref(false);
 
 onMounted(async () => {
   try {
@@ -123,6 +131,10 @@ onMounted(async () => {
     console.error("데이터 불러오기 실패", error);
   }
 });
+
+const openModlaEdit = (list) => {
+  openModal.value = !openModal.value;
+};
 
 const filterCategory = computed(() => {
   if (!selected.value) return lists.value;

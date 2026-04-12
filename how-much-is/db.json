@@ -23,7 +23,7 @@
     {
       "id": "1",
       "userId": 1,
-      "amount": 10000,
+      "amount": 9000,
       "categoryId": 2,
       "title": "주유",
       "memo": "주말 좋다",
@@ -35,8 +35,8 @@
     {
       "id": "2",
       "userId": 1,
-      "amount": 34000,
-      "categoryId": 6,
+      "amount": 32000,
+      "categoryId": 5,
       "title": "쇼핑",
       "memo": "바지 구매",
       "date": "2026-04-01"
@@ -106,24 +106,6 @@
       "title": "택시",
       "memo": "야간 귀가",
       "date": "2026-04-04"
-    },
-    {
-      "id": "10",
-      "userId": 1,
-      "amount": 15400,
-      "categoryId": 4,
-      "title": "카페 디저트",
-      "memo": "조각 케이크",
-      "date": "2026-04-04"
-    },
-    {
-      "id": "11",
-      "userId": 1,
-      "amount": 24500,
-      "categoryId": 5,
-      "title": "약국",
-      "memo": "상비약 구매",
-      "date": "2026-04-05"
     },
     {
       "id": "12",
