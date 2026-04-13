@@ -3,14 +3,13 @@
     {
       "id": 1,
       "email": "test@gmail.com",
-      "password": "123456",
       "name": "홍길동",
       "createdAt": "2026-04-07"
     }
   ],
   "transactions": [
     {
-      "id": 1,
+      "id": "1",
       "userId": 1,
       "amount": 9000,
       "categoryId": 2,
@@ -19,16 +18,16 @@
       "date": "2026-04-01"
     },
     {
-      "id": 2,
+      "id": "2",
       "userId": 1,
-      "amount": 5500,
-      "categoryId": 1,
-      "title": "저녁",
-      "memo": "제육볶음",
+      "amount": 32000,
+      "categoryId": 5,
+      "title": "쇼핑",
+      "memo": "바지 구매",
       "date": "2026-04-01"
     },
     {
-      "id": 3,
+      "id": "3",
       "userId": 1,
       "amount": 48000,
       "categoryId": 3,
@@ -37,7 +36,7 @@
       "date": "2026-04-01"
     },
     {
-      "id": 4,
+      "id": "4",
       "userId": 1,
       "amount": 2500,
       "categoryId": 2,
@@ -46,7 +45,7 @@
       "date": "2026-04-02"
     },
     {
-      "id": 5,
+      "id": "5",
       "userId": 1,
       "amount": 8500,
       "categoryId": 5,
@@ -55,16 +54,16 @@
       "date": "2026-04-02"
     },
     {
-      "id": 6,
+      "id": "6",
       "userId": 1,
-      "amount": 22400,
+      "amount": 22600,
       "categoryId": 4,
       "title": "영화 관람",
       "memo": "주말 영화",
       "date": "2026-04-03"
     },
     {
-      "id": 7,
+      "id": "7",
       "userId": 1,
       "amount": 24000,
       "categoryId": 2,
@@ -73,16 +72,17 @@
       "date": "2026-04-03"
     },
     {
-      "id": 8,
+      "id": "8",
       "userId": 1,
       "amount": 3500,
       "categoryId": 1,
       "title": "경조사",
       "memo": "축의금",
       "date": "2026-04-04"
+      "date": "2026-04-04"
     },
     {
-      "id": 9,
+      "id": "9",
       "userId": 1,
       "amount": 23500,
       "categoryId": 2,
@@ -91,25 +91,7 @@
       "date": "2026-04-04"
     },
     {
-      "id": 10,
-      "userId": 1,
-      "amount": 15400,
-      "categoryId": 4,
-      "title": "카페 디저트",
-      "memo": "조각 케이크",
-      "date": "2026-04-04"
-    },
-    {
-      "id": 11,
-      "userId": 1,
-      "amount": 24500,
-      "categoryId": 5,
-      "title": "약국",
-      "memo": "상비약 구매",
-      "date": "2026-04-05"
-    },
-    {
-      "id": 12,
+      "id": "12",
       "userId": 1,
       "amount": 4000,
       "categoryId": 2,
@@ -118,7 +100,7 @@
       "date": "2026-04-05"
     },
     {
-      "id": 13,
+      "id": "13",
       "userId": 1,
       "amount": 47000,
       "categoryId": 1,
@@ -127,7 +109,7 @@
       "date": "2026-04-06"
     },
     {
-      "id": 14,
+      "id": "14",
       "userId": 1,
       "amount": 16000,
       "categoryId": 1,
@@ -136,16 +118,17 @@
       "date": "2026-04-06"
     },
     {
-      "id": 15,
+      "id": "15",
       "userId": 1,
       "amount": 9500,
       "categoryId": 1,
       "title": "점심",
       "memo": "김치찌개",
       "date": "2026-04-07"
+      "date": "2026-04-07"
     },
     {
-      "id": 16,
+      "id": "16",
       "userId": 1,
       "amount": 40000,
       "categoryId": 3,
@@ -154,7 +137,7 @@
       "date": "2026-04-07"
     },
     {
-      "id": 17,
+      "id": "17",
       "userId": 1,
       "amount": 24900,
       "categoryId": 4,
@@ -163,7 +146,7 @@
       "date": "2026-04-07"
     },
     {
-      "id": 18,
+      "id": "18",
       "userId": 1,
       "amount": 50000,
       "categoryId": 3,
@@ -172,7 +155,7 @@
       "date": "2026-04-08"
     },
     {
-      "id": 19,
+      "id": "19",
       "userId": 1,
       "amount": 5500,
       "categoryId": 5,
@@ -181,7 +164,7 @@
       "date": "2026-04-08"
     },
     {
-      "id": 20,
+      "id": "20",
       "userId": 1,
       "amount": 7400,
       "categoryId": 4,
@@ -190,7 +173,7 @@
       "date": "2026-04-09"
     },
     {
-      "id": 21,
+      "id": "21",
       "userId": 1,
       "amount": 15500,
       "categoryId": 1,
@@ -199,7 +182,7 @@
       "date": "2026-04-09"
     },
     {
-      "id": 22,
+      "id": "22",
       "userId": 1,
       "amount": 23500,
       "categoryId": 1,
@@ -208,7 +191,7 @@
       "date": "2026-04-10"
     },
     {
-      "id": 23,
+      "id": "23",
       "userId": 1,
       "amount": 24500,
       "categoryId": 3,
@@ -217,7 +200,7 @@
       "date": "2026-04-10"
     },
     {
-      "id": 24,
+      "id": "24",
       "userId": 1,
       "amount": 13400,
       "categoryId": 4,
@@ -226,7 +209,7 @@
       "date": "2026-04-10"
     },
     {
-      "id": 25,
+      "id": "25",
       "userId": 1,
       "amount": 18500,
       "categoryId": 2,
@@ -235,7 +218,7 @@
       "date": "2026-04-11"
     },
     {
-      "id": 26,
+      "id": "26",
       "userId": 1,
       "amount": 13000,
       "categoryId": 5,
@@ -244,7 +227,7 @@
       "date": "2026-04-11"
     },
     {
-      "id": 27,
+      "id": "27",
       "userId": 1,
       "amount": 21000,
       "categoryId": 1,
@@ -253,7 +236,7 @@
       "date": "2026-04-12"
     },
     {
-      "id": 28,
+      "id": "28",
       "userId": 1,
       "amount": 14900,
       "categoryId": 4,
@@ -262,7 +245,7 @@
       "date": "2026-04-12"
     },
     {
-      "id": 29,
+      "id": "29",
       "userId": 1,
       "amount": 9500,
       "categoryId": 1,
@@ -271,7 +254,7 @@
       "date": "2026-04-13"
     },
     {
-      "id": 30,
+      "id": "30",
       "userId": 1,
       "amount": 3500,
       "categoryId": 2,
@@ -280,7 +263,7 @@
       "date": "2026-04-13"
     },
     {
-      "id": 31,
+      "id": "31",
       "userId": 1,
       "amount": 30000,
       "categoryId": 1,
@@ -289,7 +272,7 @@
       "date": "2026-04-13"
     },
     {
-      "id": 32,
+      "id": "32",
       "userId": 1,
       "amount": 30000,
       "categoryId": 3,
@@ -298,7 +281,7 @@
       "date": "2026-04-14"
     },
     {
-      "id": 33,
+      "id": "33",
       "userId": 1,
       "amount": 6000,
       "categoryId": 2,
@@ -307,7 +290,7 @@
       "date": "2026-04-14"
     },
     {
-      "id": 34,
+      "id": "34",
       "userId": 1,
       "amount": 19500,
       "categoryId": 5,
@@ -316,7 +299,7 @@
       "date": "2026-04-15"
     },
     {
-      "id": 35,
+      "id": "35",
       "userId": 1,
       "amount": 20000,
       "categoryId": 2,
@@ -325,7 +308,7 @@
       "date": "2026-04-15"
     },
     {
-      "id": 36,
+      "id": "36",
       "userId": 1,
       "amount": 68000,
       "categoryId": 1,
@@ -334,7 +317,7 @@
       "date": "2026-04-16"
     },
     {
-      "id": 37,
+      "id": "37",
       "userId": 1,
       "amount": 7500,
       "categoryId": 3,
@@ -343,7 +326,7 @@
       "date": "2026-04-16"
     },
     {
-      "id": 38,
+      "id": "38",
       "userId": 1,
       "amount": 5000,
       "categoryId": 2,
@@ -352,7 +335,7 @@
       "date": "2026-04-16"
     },
     {
-      "id": 39,
+      "id": "39",
       "userId": 1,
       "amount": 29000,
       "categoryId": 3,
@@ -361,7 +344,7 @@
       "date": "2026-04-17"
     },
     {
-      "id": 40,
+      "id": "40",
       "userId": 1,
       "amount": 29500,
       "categoryId": 3,
@@ -370,7 +353,7 @@
       "date": "2026-04-17"
     },
     {
-      "id": 41,
+      "id": "41",
       "userId": 1,
       "amount": 35000,
       "categoryId": 1,
@@ -379,7 +362,7 @@
       "date": "2026-04-18"
     },
     {
-      "id": 42,
+      "id": "42",
       "userId": 1,
       "amount": 10000,
       "categoryId": 5,
@@ -388,7 +371,7 @@
       "date": "2026-04-18"
     },
     {
-      "id": 43,
+      "id": "43",
       "userId": 1,
       "amount": 10000,
       "categoryId": 5,
@@ -397,7 +380,7 @@
       "date": "2026-04-19"
     },
     {
-      "id": 44,
+      "id": "44",
       "userId": 1,
       "amount": 58500,
       "categoryId": 1,
@@ -406,7 +389,7 @@
       "date": "2026-04-19"
     },
     {
-      "id": 45,
+      "id": "45",
       "userId": 1,
       "amount": 34000,
       "categoryId": 3,
@@ -415,7 +398,7 @@
       "date": "2026-04-19"
     },
     {
-      "id": 46,
+      "id": "46",
       "userId": 1,
       "amount": 11500,
       "categoryId": 1,
@@ -424,7 +407,7 @@
       "date": "2026-04-20"
     },
     {
-      "id": 47,
+      "id": "47",
       "userId": 1,
       "amount": 37000,
       "categoryId": 3,
@@ -433,7 +416,7 @@
       "date": "2026-04-20"
     },
     {
-      "id": 48,
+      "id": "48",
       "userId": 1,
       "amount": 28000,
       "categoryId": 2,
@@ -442,7 +425,7 @@
       "date": "2026-04-21"
     },
     {
-      "id": 49,
+      "id": "49",
       "userId": 1,
       "amount": 22500,
       "categoryId": 1,
@@ -451,7 +434,7 @@
       "date": "2026-04-21"
     },
     {
-      "id": 50,
+      "id": "50",
       "userId": 1,
       "amount": 43000,
       "categoryId": 3,
@@ -460,7 +443,7 @@
       "date": "2026-04-22"
     },
     {
-      "id": 51,
+      "id": "51",
       "userId": 1,
       "amount": 65500,
       "categoryId": 1,
@@ -469,7 +452,7 @@
       "date": "2026-04-22"
     },
     {
-      "id": 52,
+      "id": "52",
       "userId": 1,
       "amount": 5000,
       "categoryId": 2,
@@ -478,7 +461,7 @@
       "date": "2026-04-22"
     },
     {
-      "id": 53,
+      "id": "53",
       "userId": 1,
       "amount": 20000,
       "categoryId": 3,
@@ -487,7 +470,7 @@
       "date": "2026-04-23"
     },
     {
-      "id": 54,
+      "id": "54",
       "userId": 1,
       "amount": 33500,
       "categoryId": 1,
@@ -496,7 +479,7 @@
       "date": "2026-04-23"
     },
     {
-      "id": 55,
+      "id": "55",
       "userId": 1,
       "amount": 27500,
       "categoryId": 2,
@@ -505,7 +488,7 @@
       "date": "2026-04-24"
     },
     {
-      "id": 56,
+      "id": "56",
       "userId": 1,
       "amount": 15500,
       "categoryId": 1,
@@ -514,7 +497,7 @@
       "date": "2026-04-24"
     },
     {
-      "id": 57,
+      "id": "57",
       "userId": 1,
       "amount": 37000,
       "categoryId": 3,
@@ -523,7 +506,7 @@
       "date": "2026-04-25"
     },
     {
-      "id": 58,
+      "id": "58",
       "userId": 1,
       "amount": 9500,
       "categoryId": 2,
@@ -532,7 +515,7 @@
       "date": "2026-04-25"
     },
     {
-      "id": 59,
+      "id": "59",
       "userId": 1,
       "amount": 18500,
       "categoryId": 3,
@@ -541,7 +524,7 @@
       "date": "2026-04-25"
     },
     {
-      "id": 60,
+      "id": "60",
       "userId": 1,
       "amount": 17400,
       "categoryId": 4,
@@ -550,7 +533,7 @@
       "date": "2026-04-26"
     },
     {
-      "id": 61,
+      "id": "61",
       "userId": 1,
       "amount": 33000,
       "categoryId": 3,
@@ -559,7 +542,7 @@
       "date": "2026-04-26"
     },
     {
-      "id": 62,
+      "id": "62",
       "userId": 1,
       "amount": 8000,
       "categoryId": 1,
@@ -568,7 +551,7 @@
       "date": "2026-04-27"
     },
     {
-      "id": 63,
+      "id": "63",
       "userId": 1,
       "amount": 8500,
       "categoryId": 1,
@@ -577,7 +560,7 @@
       "date": "2026-04-27"
     },
     {
-      "id": 64,
+      "id": "64",
       "userId": 1,
       "amount": 12500,
       "categoryId": 1,
@@ -586,7 +569,7 @@
       "date": "2026-04-28"
     },
     {
-      "id": 65,
+      "id": "65",
       "userId": 1,
       "amount": 3000,
       "categoryId": 5,
@@ -595,7 +578,7 @@
       "date": "2026-04-28"
     },
     {
-      "id": 66,
+      "id": "66",
       "userId": 1,
       "amount": 10500,
       "categoryId": 1,
@@ -604,7 +587,7 @@
       "date": "2026-04-28"
     },
     {
-      "id": 67,
+      "id": "67",
       "userId": 1,
       "amount": 15400,
       "categoryId": 4,
@@ -613,7 +596,7 @@
       "date": "2026-04-29"
     },
     {
-      "id": 68,
+      "id": "68",
       "userId": 1,
       "amount": 11500,
       "categoryId": 1,
@@ -622,7 +605,7 @@
       "date": "2026-04-29"
     },
     {
-      "id": 69,
+      "id": "69",
       "userId": 1,
       "amount": 11400,
       "categoryId": 4,
@@ -669,56 +652,56 @@
   ],
   "categories": [
     {
-      "id": 1,
+      "id": "1",
       "name": "식비",
       "icon": "🍚",
       "type": "expense",
       "isDefault": true
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "교통",
       "icon": "🚌",
       "type": "expense",
       "isDefault": false
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "쇼핑",
       "icon": "🛒",
       "type": "expense",
       "isDefault": false
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "문화생활",
       "icon": "💰",
       "type": "expense",
       "isDefault": false
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "여행",
       "icon": "✈️",
       "type": "expense",
       "isDefault": false
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "급여",
       "icon": "💸",
       "type": "income",
       "isDefault": true
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "투자",
       "icon": "💰",
       "type": "income",
       "isDefault": false
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "기타",
       "icon": "💰",
       "type": "income",
@@ -727,7 +710,7 @@
   ],
   "budgets": [
     {
-      "id": 1,
+      "id": "1",
       "userId": 1,
       "categoryId": 6,
       "amount": 300000,
@@ -739,7 +722,9 @@
       "userId": 1,
       "darkMode": false,
       "notifications": true,
-      "startDayOfMonth": 1
+      "startDayOfMonth": 1,
+      "id": "9jAdf9v2GTk"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

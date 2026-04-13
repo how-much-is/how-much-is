@@ -1,10 +1,30 @@
 <template>
   <div class="calendar-wrap">
-    <VCalendar :attributes="attrs" @dayclick="onDayClick" />
+    <h2 class="calendar-title">{{ store.currentDate }}</h2>
+    <VCalendar class="my-calendar" :attributes="attrs" @dayclick="onDayClick">
+      <template #header-prev-button="{ move, disabled }">
+        <button type="button" :disabled="disabled" @click="store.moveMonth(-1)">
+          ◀
+        </button>
+      </template>
+      <template #header-title>
+        <div></div>
+      </template>
+
+      <template #header-next-button="{ move, disabled }">
+        <button type="button" :disabled="disabled" @click="store.moveMonth(1)">
+          ▶
+        </button>
+      </template>
+    </VCalendar>
   </div>
 </template>
 
 <script setup>
+import { useDatePickerStore } from '@/stores/datepicker';
+import { computed } from 'vue';
+
+const store = useDatePickerStore();
 // Home.vue 에서 데이터 받아요
 defineProps({
   attrs: Array,
@@ -16,6 +36,12 @@ const emit = defineEmits(['dayclick']);
 const onDayClick = (day) => {
   emit('dayclick', day.id);
 };
+
+// const headerTitle = computed(() => {
+//   const date = store.currentDate;
+//   const [year, month] = date.split("-");
+//   return `${Number(month)}월 ${year}`;
+// });
 </script>
 
 <style scoped>
@@ -24,38 +50,58 @@ const onDayClick = (day) => {
   max-width: 100% !important;
 }
 
+:deep(.vc-title-wrapper) {
+  pointer-events: none !important;
+}
+
 :deep(.vc-weeks) {
   padding: 0 16px;
 }
 
 :deep(.vc-day) {
-  min-height: 80px;
+  min-height: 100px;
   padding: 8px;
 }
 
 :deep(.vc-day-content) {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 }
 
 :deep(.vc-header) {
-  position: relative;
-  padding: 16px 0 24px;
-  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
 }
 
 :deep(.vc-title) {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  pointer-events: none !important;
+  display: none !important;
+}
+
+:deep(.vc-popover-content) {
+  display: none !important;
 }
 
 :deep(.vc-arrow) {
-  width: 40px !important;
-  height: 40px !important;
-  font-size: 20px !important;
-  border-radius: 10px !important;
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 16px !important;
+  border-radius: 8px !important;
   background: #f2f4f6 !important;
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.calendar-wrap {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #f1f3f5;
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 :deep(.vc-weekday) {
@@ -63,11 +109,26 @@ const onDayClick = (day) => {
   font-weight: 700 !important;
   padding: 10px 0 !important;
 }
-v.calendar-wrap {
-  width: 100%;
-  background: #fff;
-  border-radius: 20px;
-  padding: 24px;
-  margin-bottom: 16px;
+
+.calendar-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 32px 0;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.calendar-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: #f2d457;
+  border-radius: 2px;
 }
 </style>

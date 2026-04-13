@@ -1,92 +1,82 @@
 <template>
   <div class="chart-card">
+    <div class="chart-header">
+      <h3>{{ mtcomputed }}월 / 지출 리포트</h3>
+    </div>
+
     <div class="chart-wrap">
       <canvas ref="canvasRef"></canvas>
     </div>
-    {{ mi[1] }}
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref, onBeforeUnmount } from 'vue';
+import { onMounted, ref, onBeforeUnmount, computed } from 'vue';
 import Chart from 'chart.js/auto';
-import { pickMonthlyList } from '@/api/monthlyList';
+import {
+  getWeekRanges,
+  pickMonthlyList,
+  getWeeklyExpenseTotals,
+} from '@/api/monthlyList';
+import { useDatePickerStore } from '@/stores/datepicker';
 
-const mi = [0];
-const me = [0];
+const store = useDatePickerStore();
+const selected = store.currentDate;
+
+const mtcomputed = computed(() => {
+  const arr = selected.split('-');
+  return Number(arr[1]);
+});
+
 const canvasRef = ref(null);
 let chartInstance = null;
 
-// 해당 월의 주차 범위 구하기
-const getWeekRanges = (year, month) => {
-  // month: 1~12
-  const firstDay = new Date(year, month - 1, 1).getDay(); // 0:일 ~ 6:토
-  const lastDate = new Date(year, month, 0).getDate(); // 해당 달 마지막 날짜
-
-  const ranges = [];
-  let week = 1;
-  let start = 1;
-  let end = 7 - firstDay;
-  ranges.push({
-    week,
-    start,
-    end: Math.min(end, lastDate),
-  });
-  week++;
-  start = end + 1;
-  while (start <= lastDate) {
-    end = start + 6;
-    ranges.push({
-      week,
-      start,
-      end: Math.min(end, lastDate),
-    });
-    start = end + 1;
-    week++;
-  }
-  return ranges;
-};
-//[{week: 1, start: 1, end: 4},{week: 2, start: 5, end: 11},...]
-
-// 주차별 지출 합계 구하기
-const getWeeklyExpenseTotals = (response, year, month,conditionFn) => {
-  const weekRanges = getWeekRanges(year, month);
-  return weekRanges.map((range) => {
-    return response.filter(u => {
-      const date = new Date(u.date)
-      const itemDay = date.getDate()
-      if(range.start <= itemDay && range.end >= itemDay && conditionFn(u)){
-        return u.amount
-      }
-      return 0
-    })
-  });
-};
+// const getWeeklyExpenseTotals = (response, year, month, conditionFn) => {
+//   const weekRanges = getWeekRanges(year, month);
+//   return weekRanges.map((range) => {
+//     return response.filter((u) => {
+//       const date = new Date(u.date);
+//       const itemDay = date.getDate();
+//       if (range.start <= itemDay && range.end >= itemDay && conditionFn(u)) {
+//         return u.amount;
+//       }
+//       return 0;
+//     });
+//   });
+// };
 
 const realIncome = (arr) => {
   return arr.map((week) => {
-    return week.reduce((sum, item) => {
-      return sum + item.amount;
-    }, 0);
+    return week.reduce((sum, item) => sum + item.amount, 0);
   });
 };
 
-  (async () => {
+onMounted(async () => {
   try {
-    const selectedMonth = '2026-04';
+    const selectedMonth = selected;
     const [year, month] = selectedMonth.split('-').map(Number);
 
     const response = await pickMonthlyList(selectedMonth);
 
-    const weeklyData = getWeeklyExpenseTotals(response, year, month,(u) => u.categoryId <= 5);
+    // 지출 데이터
+    const weeklyData = getWeeklyExpenseTotals(
+      response,
+      year,
+      month,
+      (u) => u.categoryId <= 5,
+    );
 
-    const weeklyIncome = getWeeklyExpenseTotals(response,year,month,(u) => u.categoryId >= 6)
+    // 수입 데이터
+    const weeklyIncome = getWeeklyExpenseTotals(
+      response,
+      year,
+      month,
+      (u) => u.categoryId >= 6,
+    );
 
     const weeklyDatas = realIncome(weeklyData);
     const weeklyIncomeDatas = realIncome(weeklyIncome);
-    const labels = weeklyDatas.map((u,i) => {
-      return `${i+1}주차`
-    })
+    const labels = weeklyDatas.map((u, i) => `${i + 1}주차`);
 
     chartInstance = new Chart(canvasRef.value, {
       type: 'bar',
@@ -94,22 +84,22 @@ const realIncome = (arr) => {
         labels: labels,
         datasets: [
           {
-            label: '월 지출',
+            label: '지출',
             data: weeklyDatas,
-            backgroundColor: 'rgba(139, 69, 69, 0.7)',
-            borderColor: 'rgba(139, 69, 69, 1)',
-            borderWidth: 1,
-            borderRadius: 8,
-            barThickness: 60,
+            backgroundColor: '#92ADA4',
+            // borderColor: '#e05a7a',
+            // borderWidth: 1,
+            borderRadius: 9,
+            maxBarThickness: 50,
           },
           {
-            label: '월 지출',
+            label: '수입',
             data: weeklyIncomeDatas,
-            backgroundColor: 'rgba(139, 69, 69, 0.7)',
-            borderColor: 'rgba(139, 69, 69, 1)',
-            borderWidth: 1,
-            borderRadius: 8,
-            barThickness: 60,
+            backgroundColor: '#F2D6A1',
+            // borderColor: '#f2d457',
+            // borderWidth: 1,
+            borderRadius: 9,
+            maxBarThickness: 50,
           },
         ],
       },
@@ -118,20 +108,32 @@ const realIncome = (arr) => {
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            display: false,
+            display: true,
+            position: 'top',
+            align: 'end',
+            labels: {
+              usePointStyle: true,
+              boxWidth: 8,
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                return `${context.dataset.label}: ${context.parsed.y.toLocaleString()}원`;
+              },
+            },
           },
         },
         scales: {
           x: {
-            grid: {
-              display: false,
-            },
+            grid: { display: false },
           },
           y: {
             beginAtZero: true,
             grid: {
-              display: false,
+              color: '#f0f0f0', // y축 배경 가이드라인을 아주 연하게 표시
             },
+            border: { display: false },
             ticks: {
               stepSize: 40000,
               callback: function (value) {
@@ -157,15 +159,40 @@ onBeforeUnmount(() => {
 <style scoped>
 .chart-card {
   width: 100%;
+  height: 100%;
   max-width: 900px;
-  padding: 24px;
-  border-radius: 20px;
+  padding: 30px;
+  border-radius: 16px;
   background: #ffffff;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); */
+  box-shadow: 0 4px 12px rgba(42, 42, 42, 0.25);
+  border: 1px solid #f5f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-header {
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #dbdada;
+
+  margin-left: -30px;
+  margin-right: -30px;
+
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.chart-header h3 {
+  font-size: 18px;
+  color: #333;
+  font-weight: 700;
+  margin: 0;
 }
 
 .chart-wrap {
   position: relative;
   height: 380px;
+  width: 100%;
 }
 </style>
