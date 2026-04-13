@@ -32,8 +32,8 @@
 </template>
 
 <script setup>
-import PieChart from '@/components/PieChart.vue';
-import CategorySummary from '@/components/CategorySummary.vue';
+import PieChart from '@/components/pie/PieChart.vue';
+import CategorySummary from '@/components/pie/CategorySummary.vue';
 import { ref, onMounted, computed, watch, nextTick } from 'vue';
 import axios from 'axios';
 import { useDatePickerStore } from '@/stores/datepicker';

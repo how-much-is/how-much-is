@@ -1,5 +1,4 @@
 import Home from '@/pages/Home.vue';
-import Login from '@/pages/Login.vue';
 import Monthly from '@/pages/Monthly.vue';
 import Settings from '@/pages/Settings.vue';
 import LoginForm from '@/components/login/LoginForm.vue';
