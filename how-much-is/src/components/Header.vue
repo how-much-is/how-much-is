@@ -10,7 +10,9 @@
       <nav class="nav">
         <ul>
           <li>
-            <router-link to="/" @click="store.resets()" class="nav-item">Home</router-link>
+            <router-link to="/" @click="store.resets()" class="nav-item"
+              >Home</router-link
+            >
           </li>
           <li>
             <router-link to="/monthly" class="nav-item">월간리포트</router-link>
@@ -26,6 +28,9 @@
           <li>
             <router-link to="/settings" class="nav-item">Settings</router-link>
           </li>
+          <li>
+            <router-link to="/kdh" class="nav-item">동하의 카테고리</router-link>
+          </li>
         </ul>
       </nav>
 
@@ -35,11 +40,9 @@
 </template>
 
 <script setup>
-import { useDatePickerStore } from "@/stores/datepicker";
-import { onMounted } from "vue";
+import { useDatePickerStore } from '@/stores/datepicker';
+import { onMounted } from 'vue';
 const store = useDatePickerStore();
-
-
 </script>
 
 <style scoped>
@@ -79,7 +82,7 @@ const store = useDatePickerStore();
 }
 
 .logo h1::after {
-  content: ".";
+  content: '.';
   color: #f2d457;
 }
 

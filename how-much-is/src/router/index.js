@@ -8,6 +8,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Transaction from '@/pages/Transaction.vue';
 import Category from '@/pages/Category.vue';
 import { useLoginStore } from '@/stores/login';
+import Kdh from '@/components/category/kdh.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,6 +20,7 @@ const router = createRouter({
     { path: '/settings', component: Settings },
     { path: '/loginform', component: LoginForm },
     { path: '/registerform', component: RegisterForm },
+    { path: '/kdh', component: Kdh },
   ],
 });
 
