@@ -11,7 +11,7 @@
         <ul>
           <li>
             <router-link to="/" @click="store.resets()" class="nav-item"
-              >Home</router-link
+              >홈</router-link
             >
           </li>
           <li>
@@ -26,7 +26,7 @@
             >
           </li>
           <li>
-            <router-link to="/settings" class="nav-item">Settings</router-link>
+            <router-link to="/settings" class="nav-item">설정</router-link>
           </li>
           <li>
             <router-link to="/kdh" class="nav-item">동하의 카테고리</router-link>
