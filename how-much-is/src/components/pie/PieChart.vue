@@ -34,6 +34,11 @@ const createChart = () => {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+
+      layout: {
+        padding: 7,
+      },
+
       animation: {
         animateRotate: true,
         animateScale: true,
@@ -63,11 +68,13 @@ const createChart = () => {
 
 onMounted(createChart);
 
-// 데이터 변경 시 부드럽게 업데이트
 watch(
   () => props.chartData,
-  () => {
-    createChart();
+  (newData) => {
+    if (chartInstance) {
+      chartInstance.data = newData;
+      chartInstance.update();
+    }
   },
   { deep: true },
 );
@@ -83,12 +90,14 @@ watch(
 .chart-container {
   position: relative;
   width: 100%;
-  max-width: 550px;
-  height: 420px;
+  /* max-width: 580px; */
+  max-width: 100%;
+  /* height: 420px; */
+  height: 520px;
   margin: 0 auto;
 
   background-color: #ffffff;
-  padding: 30px;
+  padding: 30px 50px;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid #f8f8f8;

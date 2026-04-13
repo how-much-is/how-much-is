@@ -8,7 +8,7 @@
     <div class="amount">
       ₩
       {{
-        incomeList
+        expenseList
           .reduce((acc, cur) => {
             return acc + cur;
           }, 0)
@@ -17,30 +17,39 @@
     </div>
 
     <div class="info">
-      <span class="percent">+12.8%</span>
-      <span class="desc">지난달 대비</span>
+      <span class="percent">{{ Math.round((expenseList
+          .reduce((acc, cur) => {
+            return acc + cur;
+          }, 0) / expenseList.filter(u => u > 0).length) / 10) * 10 }}원</span>
+      <span class="desc">평균 소비액</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { monthlyList } from '@/api/monthlyList';
+import { monthlyList, pickMonthlyList } from '@/api/monthlyList';
+import { useDatePickerStore } from '@/stores/datepicker';
 import { computed, onMounted, ref } from 'vue';
-
-const income = ref([]);
+const store = useDatePickerStore()
+const expense = ref([]);
+const expense1List = ref(0);
 
 onMounted(async () => {
+
+  const nowDate = store.currentDate
   try {
     const response = await monthlyList();
-    income.value = response.data;
+    const response1 = await pickMonthlyList(nowDate);
+    expense1List.value = response1.length
+    expense.value = response1;
   } catch (error) {
     console.log(error);
   }
 });
 
-const incomeList = computed(() => {
-  return income.value.map((list) => {
-    if (list.categoryId >= 6) {
+const expenseList = computed(() => {
+  return expense.value.map((list) => {
+    if (list.categoryId <= 5) {
       return list.amount;
     }
     return 0;
@@ -91,8 +100,8 @@ const incomeList = computed(() => {
 }
 
 .percent {
-  background: #e6f9f0;
-  color: #00a86b;
+  background: #f9e6e6;
+  color: #a80000;
   padding: 4px 8px;
   border-radius: 8px;
   font-size: 12px;

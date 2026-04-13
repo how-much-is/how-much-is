@@ -1,7 +1,7 @@
 <template>
   <div class="chart-card">
     <div class="chart-header">
-      <h3>4월 수입 / 지출 리포트</h3>
+      <h3>{{ mtcomputed }}월 / 지출 리포트</h3>
     </div>
 
     <div class="chart-wrap">
@@ -11,46 +11,39 @@
 </template>
 
 <script setup>
-import { onMounted, ref, onBeforeUnmount } from 'vue';
+import { onMounted, ref, onBeforeUnmount, computed } from 'vue';
 import Chart from 'chart.js/auto';
-import { pickMonthlyList } from '@/api/monthlyList';
+import {
+  getWeekRanges,
+  pickMonthlyList,
+  getWeeklyExpenseTotals,
+} from '@/api/monthlyList';
+import { useDatePickerStore } from '@/stores/datepicker';
+
+const store = useDatePickerStore();
+const selected = store.currentDate;
+
+const mtcomputed = computed(() => {
+  const arr = selected.split('-');
+  return Number(arr[1]);
+});
 
 const canvasRef = ref(null);
 let chartInstance = null;
 
-const getWeekRanges = (year, month) => {
-  const firstDay = new Date(year, month - 1, 1).getDay();
-  const lastDate = new Date(year, month, 0).getDate();
-
-  const ranges = [];
-  let week = 1;
-  let start = 1;
-  let end = 7 - firstDay;
-  ranges.push({ week, start, end: Math.min(end, lastDate) });
-  week++;
-  start = end + 1;
-  while (start <= lastDate) {
-    end = start + 6;
-    ranges.push({ week, start, end: Math.min(end, lastDate) });
-    start = end + 1;
-    week++;
-  }
-  return ranges;
-};
-
-const getWeeklyExpenseTotals = (response, year, month, conditionFn) => {
-  const weekRanges = getWeekRanges(year, month);
-  return weekRanges.map((range) => {
-    return response.filter((u) => {
-      const date = new Date(u.date);
-      const itemDay = date.getDate();
-      if (range.start <= itemDay && range.end >= itemDay && conditionFn(u)) {
-        return u.amount;
-      }
-      return 0;
-    });
-  });
-};
+// const getWeeklyExpenseTotals = (response, year, month, conditionFn) => {
+//   const weekRanges = getWeekRanges(year, month);
+//   return weekRanges.map((range) => {
+//     return response.filter((u) => {
+//       const date = new Date(u.date);
+//       const itemDay = date.getDate();
+//       if (range.start <= itemDay && range.end >= itemDay && conditionFn(u)) {
+//         return u.amount;
+//       }
+//       return 0;
+//     });
+//   });
+// };
 
 const realIncome = (arr) => {
   return arr.map((week) => {
@@ -58,9 +51,9 @@ const realIncome = (arr) => {
   });
 };
 
-  (async () => {
+onMounted(async () => {
   try {
-    const selectedMonth = '2026-04';
+    const selectedMonth = selected;
     const [year, month] = selectedMonth.split('-').map(Number);
 
     const response = await pickMonthlyList(selectedMonth);
@@ -72,6 +65,7 @@ const realIncome = (arr) => {
       month,
       (u) => u.categoryId <= 5,
     );
+
     // 수입 데이터
     const weeklyIncome = getWeeklyExpenseTotals(
       response,
@@ -92,7 +86,7 @@ const realIncome = (arr) => {
           {
             label: '지출',
             data: weeklyDatas,
-            backgroundColor: '#fccfdb',
+            backgroundColor: '#92ADA4',
             // borderColor: '#e05a7a',
             // borderWidth: 1,
             borderRadius: 9,
@@ -101,7 +95,7 @@ const realIncome = (arr) => {
           {
             label: '수입',
             data: weeklyIncomeDatas,
-            backgroundColor: '#ffed94',
+            backgroundColor: '#F2D6A1',
             // borderColor: '#f2d457',
             // borderWidth: 1,
             borderRadius: 9,
