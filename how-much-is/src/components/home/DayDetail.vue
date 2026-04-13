@@ -19,7 +19,12 @@
             <span class="t-name">{{ t.title || t.name }}</span>
           </div>
           <div class="t-right">
-            <span class="t-amount">{{ formatNum(t.amount) }}원</span>
+            <span
+              class="t-amount"
+              :class="t.type === 'income' ? 'income' : 'expense'"
+            >
+              {{ formatNum(t.amount) }}원
+            </span>
           </div>
         </div>
       </div>
@@ -100,5 +105,11 @@ const formatNum = (n) => n?.toLocaleString('ko-KR') || 0;
   font-weight: 600;
   color: #111827;
   font-size: 15px;
+}
+.income {
+  color: #3182f6; /* 파란색 */
+}
+.expense {
+  color: #f04452; /* 빨간색 */
 }
 </style>

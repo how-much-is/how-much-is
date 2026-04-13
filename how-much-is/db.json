@@ -4,18 +4,6 @@
       "id": 1,
       "email": "test@gmail.com",
       "name": "홍길동",
-      "password": "123456"
-    },
-    {
-      "id": 2,
-      "email": "test1@gmail.com",
-      "password": "3456"
-    },
-    {
-      "id": 3,
-      "email": "test2@gmail.com",
-      "password": "3456",
-      "name": "강텝스",
       "createdAt": "2026-04-07"
     }
   ],
@@ -26,11 +14,8 @@
       "amount": 9000,
       "categoryId": 2,
       "title": "주유",
-      "memo": "주말 좋다",
-      "date": "2026-04-01",
-      "categoryName": "교통",
-      "categoryIcon": "🚌",
-      "categoryType": "expense"
+      "memo": "주말 이동",
+      "date": "2026-04-01"
     },
     {
       "id": "2",
@@ -45,7 +30,7 @@
       "id": "3",
       "userId": 1,
       "amount": 48000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "쇼핑",
       "memo": "티셔츠 구매",
       "date": "2026-04-01"
@@ -75,10 +60,7 @@
       "categoryId": 4,
       "title": "영화 관람",
       "memo": "주말 영화",
-      "date": "2026-04-03",
-      "categoryName": "문화생활",
-      "categoryIcon": "💰",
-      "categoryType": "expense"
+      "date": "2026-04-03"
     },
     {
       "id": "7",
@@ -93,7 +75,7 @@
       "id": "8",
       "userId": 1,
       "amount": 3500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "경조사",
       "memo": "축의금",
       "date": "2026-04-04"
@@ -120,7 +102,7 @@
       "id": "13",
       "userId": 1,
       "amount": 47000,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "경조사",
       "memo": "축의금",
       "date": "2026-04-06"
@@ -147,7 +129,7 @@
       "id": "16",
       "userId": 1,
       "amount": 40000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "쇼핑",
       "memo": "티셔츠 구매",
       "date": "2026-04-07"
@@ -165,7 +147,7 @@
       "id": "18",
       "userId": 1,
       "amount": 50000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "세탁",
       "memo": "빨래방 이용",
       "date": "2026-04-08"
@@ -192,7 +174,7 @@
       "id": "21",
       "userId": 1,
       "amount": 15500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "회비",
       "memo": "모임 회비",
       "date": "2026-04-09"
@@ -201,7 +183,7 @@
       "id": "22",
       "userId": 1,
       "amount": 23500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "경조사",
       "memo": "축의금",
       "date": "2026-04-10"
@@ -246,7 +228,7 @@
       "id": "27",
       "userId": 1,
       "amount": 21000,
-      "categoryId": 8,
+      "categoryId": 1,
       "title": "문구류",
       "memo": "노트와 펜",
       "date": "2026-04-12"
@@ -282,7 +264,7 @@
       "id": "31",
       "userId": 1,
       "amount": 30000,
-      "categoryId": 8,
+      "categoryId": 1,
       "title": "수수료",
       "memo": "이체 수수료",
       "date": "2026-04-13"
@@ -291,7 +273,7 @@
       "id": "32",
       "userId": 1,
       "amount": 30000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "신발용품",
       "memo": "깔창 구매",
       "date": "2026-04-14"
@@ -327,7 +309,7 @@
       "id": "36",
       "userId": 1,
       "amount": 68000,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "회비",
       "memo": "모임 회비",
       "date": "2026-04-16"
@@ -363,7 +345,7 @@
       "id": "40",
       "userId": 1,
       "amount": 29500,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "쇼핑",
       "memo": "티셔츠 구매",
       "date": "2026-04-17"
@@ -372,7 +354,7 @@
       "id": "41",
       "userId": 1,
       "amount": 35000,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "커피 사기",
       "memo": "친구와 카페",
       "date": "2026-04-18"
@@ -399,7 +381,7 @@
       "id": "44",
       "userId": 1,
       "amount": 58500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "경조사",
       "memo": "축의금",
       "date": "2026-04-19"
@@ -408,7 +390,7 @@
       "id": "45",
       "userId": 1,
       "amount": 34000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "세탁",
       "memo": "빨래방 이용",
       "date": "2026-04-19"
@@ -426,7 +408,7 @@
       "id": "47",
       "userId": 1,
       "amount": 37000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "세탁",
       "memo": "빨래방 이용",
       "date": "2026-04-20"
@@ -444,7 +426,7 @@
       "id": "49",
       "userId": 1,
       "amount": 22500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "회비",
       "memo": "모임 회비",
       "date": "2026-04-21"
@@ -453,7 +435,7 @@
       "id": "50",
       "userId": 1,
       "amount": 43000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "쇼핑",
       "memo": "티셔츠 구매",
       "date": "2026-04-22"
@@ -462,7 +444,7 @@
       "id": "51",
       "userId": 1,
       "amount": 65500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "경조사",
       "memo": "축의금",
       "date": "2026-04-22"
@@ -480,7 +462,7 @@
       "id": "53",
       "userId": 1,
       "amount": 20000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "미용",
       "memo": "커트 비용",
       "date": "2026-04-23"
@@ -489,7 +471,7 @@
       "id": "54",
       "userId": 1,
       "amount": 33500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "선물",
       "memo": "지인 생일선물",
       "date": "2026-04-23"
@@ -534,7 +516,7 @@
       "id": "59",
       "userId": 1,
       "amount": 18500,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "신발용품",
       "memo": "깔창 구매",
       "date": "2026-04-25"
@@ -552,7 +534,7 @@
       "id": "61",
       "userId": 1,
       "amount": 33000,
-      "categoryId": 6,
+      "categoryId": 3,
       "title": "미용",
       "memo": "커트 비용",
       "date": "2026-04-26"
@@ -561,7 +543,7 @@
       "id": "62",
       "userId": 1,
       "amount": 8000,
-      "categoryId": 8,
+      "categoryId": 1,
       "title": "수수료",
       "memo": "이체 수수료",
       "date": "2026-04-27"
@@ -597,7 +579,7 @@
       "id": "66",
       "userId": 1,
       "amount": 10500,
-      "categoryId": 7,
+      "categoryId": 1,
       "title": "선물",
       "memo": "지인 생일선물",
       "date": "2026-04-28"
@@ -630,139 +612,103 @@
       "date": "2026-04-30"
     },
     {
-      "id": "70",
+      "id": 70,
       "userId": 1,
-      "amount": 8200,
-      "categoryId": 2,
-      "title": "점심 식사",
-      "memo": "김치찌개",
-      "date": "2026-05-01"
+      "amount": 2000000,
+      "categoryId": 6,
+      "title": "급여",
+      "memo": "4월 급여",
+      "date": "2026-04-25"
     },
     {
-      "id": "71",
+      "id": 71,
       "userId": 1,
-      "amount": 4500,
-      "categoryId": 4,
-      "title": "카페",
-      "memo": "아이스 아메리카노",
-      "date": "2026-05-03"
+      "amount": 500000,
+      "categoryId": 7,
+      "title": "주식 배당",
+      "memo": "배당금 수령",
+      "date": "2026-04-10"
     },
     {
-      "id": "72",
+      "id": 72,
       "userId": 1,
-      "amount": 12000,
-      "categoryId": 3,
-      "title": "저녁 외식",
-      "memo": "치킨",
-      "date": "2026-05-05"
+      "amount": 300000,
+      "categoryId": 7,
+      "title": "프리랜서",
+      "memo": "외주 수입",
+      "date": "2026-04-15"
     },
     {
-      "id": "73",
+      "id": 73,
       "userId": 1,
-      "amount": 3000,
-      "categoryId": 4,
-      "title": "간식",
-      "memo": "편의점",
-      "date": "2026-05-07"
+      "amount": 150000,
+      "categoryId": 8,
+      "title": "중고 판매",
+      "memo": "당근마켓",
+      "date": "2026-04-20"
     },
     {
-      "id": "74",
+      "id": 74,
       "userId": 1,
-      "amount": 5600,
-      "categoryId": 2,
-      "title": "점심 식사",
-      "memo": "비빔밥",
-      "date": "2026-05-09"
+      "amount": 800000,
+      "categoryId": 7,
+      "title": "주식 수익",
+      "memo": "삼성전자 매도",
+      "date": "2026-04-05"
     },
     {
-      "id": "75",
+      "id": 75,
       "userId": 1,
-      "amount": 15000,
-      "categoryId": 3,
-      "title": "외식",
-      "memo": "삼겹살",
-      "date": "2026-05-11"
+      "amount": 200000,
+      "categoryId": 8,
+      "title": "중고 판매",
+      "memo": "노트북 판매",
+      "date": "2026-04-08"
     },
     {
-      "id": "76",
+      "id": 76,
       "userId": 1,
-      "amount": 4800,
-      "categoryId": 4,
-      "title": "카페",
-      "memo": "라떼",
-      "date": "2026-05-13"
+      "amount": 350000,
+      "categoryId": 7,
+      "title": "배당금",
+      "memo": "ETF 배당",
+      "date": "2026-04-12"
     },
     {
-      "id": "77",
+      "id": 77,
       "userId": 1,
-      "amount": 9000,
-      "categoryId": 2,
-      "title": "점심 식사",
-      "memo": "돈까스",
-      "date": "2026-05-15"
+      "amount": 1500000,
+      "categoryId": 6,
+      "title": "부업 수입",
+      "memo": "프리랜서 작업",
+      "date": "2026-04-17"
     },
     {
-      "id": "78",
+      "id": 78,
       "userId": 1,
-      "amount": 20000,
-      "categoryId": 3,
-      "title": "외식",
-      "memo": "초밥",
-      "date": "2026-05-17"
+      "amount": 100000,
+      "categoryId": 8,
+      "title": "친구 송금",
+      "memo": "밥값 정산",
+      "date": "2026-04-19"
     },
     {
-      "id": "79",
+      "id": 79,
       "userId": 1,
-      "amount": 3500,
-      "categoryId": 4,
-      "title": "간식",
-      "memo": "초콜릿",
-      "date": "2026-05-19"
+      "amount": 450000,
+      "categoryId": 7,
+      "title": "코인 수익",
+      "memo": "비트코인 매도",
+      "date": "2026-04-22"
     },
     {
-      "id": "80",
+      "id": 80,
       "userId": 1,
-      "amount": 7000,
-      "categoryId": 2,
-      "title": "점심 식사",
-      "memo": "국밥",
-      "date": "2026-05-21"
-    },
-    {
-      "id": "81",
-      "userId": 1,
-      "amount": 16000,
-      "categoryId": 3,
-      "title": "외식",
-      "memo": "파스타",
-      "date": "2026-05-23"
-    },
-    {
-      "id": "82",
-      "userId": 1,
-      "amount": 4200,
-      "categoryId": 4,
-      "title": "카페",
-      "memo": "콜드브루",
-      "date": "2026-05-25"
-    },
-    {
-      "id": "83",
-      "userId": 1,
-      "amount": 8800,
-      "categoryId": 2,
-      "title": "점심 식사",
-      "memo": "쌀국수",
-      "date": "2026-05-27"
-    },
-    {
-      "id": "84",
-      "userId": 1,
-      "amount": 11000,
-      "categoryId": 3,
-      "title": "저녁 식사",
-      "memo": "덮밥",
-      "date": "2026-05-29"
+      "amount": 250000,
+      "categoryId": 8,
+      "title": "환급금",
+      "memo": "세금 환급",
+      "date": "2026-04-28"
     }
   ],
   "categories": [
