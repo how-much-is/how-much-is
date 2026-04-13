@@ -105,6 +105,7 @@ import {
   getTransactions,
   getCategories,
   postTransactions,
+  deleteTransaction,
 } from '@/api/CalendarDetail.js';
 import {
   getWeekRanges,
@@ -181,9 +182,13 @@ onMounted(async () => {
     result.push({
       id: t.id,
       date: t.date,
-      amount: t.amount,
+      amount:
+        category?.type === 'expense'
+          ? -Math.abs(t.amount) // 지출이면 음수로 변환
+          : Math.abs(t.amount), // 수입이면 양수 유지
       name: t.title,
       type: category ? category.type : 'expense',
+      categoryId: t.categoryId,
     });
   }
   transactions.value = result;
@@ -192,7 +197,7 @@ onMounted(async () => {
 const attrs = computed(() =>
   transactions.value.map((t) => ({
     dates: new Date(t.date),
-    dot: { color: Number(t.categoryId) <= 5  ? 'red' : 'blue' },
+    dot: { color: Number(t.categoryId) <= 5 ? 'red' : 'blue' },
     popover: { label: `${t.name} ${t.amount.toLocaleString()}원` },
   })),
 );
@@ -236,15 +241,22 @@ const form = ref({
   date: '',
 });
 
-const submitForm = () => {
+const submitForm = async () => {
   if (!form.value.name || !form.value.amount) return;
-  transactions.value.push({
+  const newData = {
+    userId: 1,
+    amount: Number(form.value.amount),
+    categoryId: form.value.type === 'expense' ? 1 : 6,
+    title: form.value.name,
+    memo: '',
     date: form.value.date,
-    name: form.value.name,
-    amount:
-      form.value.type === 'expense'
-        ? -Math.abs(Number(form.value.amount))
-        : Math.abs(Number(form.value.amount)),
+  };
+  const saved = await postTransactions(newData);
+  transactions.value.push({
+    id: saved.id,
+    date: saved.date,
+    name: saved.title,
+    amount: form.value.type === 'expense' ? -saved.amount : saved.amount,
     type: form.value.type,
   });
   form.value = { type: 'expense', name: '', amount: '', date: '' };
@@ -258,6 +270,11 @@ const selectedDayTransactions = computed(() => {
 
 const onDayClick = (dateId) => {
   selectedDate.value = dateId;
+};
+
+const removeTransaction = async (id) => {
+  await deleteTransaction(id);
+  transactions.value = transactions.value.filter((t) => t.id !== id);
 };
 </script>
 <style scoped>
