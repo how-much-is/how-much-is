@@ -26,10 +26,12 @@
             >
           </li>
           <li>
-            <router-link to="/settings" class="nav-item">설정</router-link>
+            <router-link to="/kdh" class="nav-item"
+              >동하의 카테고리</router-link
+            >
           </li>
           <li>
-            <router-link to="/kdh" class="nav-item">동하의 카테고리</router-link>
+            <router-link to="/settings" class="nav-item">설정</router-link>
           </li>
         </ul>
       </nav>

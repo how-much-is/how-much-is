@@ -192,7 +192,7 @@ onMounted(async () => {
 const attrs = computed(() =>
   transactions.value.map((t) => ({
     dates: new Date(t.date),
-    dot: { color: t.type === 'expense' ? 'red' : 'blue' },
+    dot: { color: Number(t.categoryId) <= 5  ? 'red' : 'blue' },
     popover: { label: `${t.name} ${t.amount.toLocaleString()}원` },
   })),
 );
