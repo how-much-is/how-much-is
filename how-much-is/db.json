@@ -79,7 +79,6 @@
       "title": "경조사",
       "memo": "축의금",
       "date": "2026-04-04"
-      "date": "2026-04-04"
     },
     {
       "id": "9",
@@ -124,7 +123,6 @@
       "categoryId": 1,
       "title": "점심",
       "memo": "김치찌개",
-      "date": "2026-04-07"
       "date": "2026-04-07"
     },
     {
@@ -648,6 +646,69 @@
       "title": "중고 판매",
       "memo": "당근마켓",
       "date": "2026-04-20"
+    },
+    {
+      "id": 74,
+      "userId": 1,
+      "amount": 800000,
+      "categoryId": 7,
+      "title": "주식 수익",
+      "memo": "삼성전자 매도",
+      "date": "2026-04-05"
+    },
+    {
+      "id": 75,
+      "userId": 1,
+      "amount": 200000,
+      "categoryId": 8,
+      "title": "중고 판매",
+      "memo": "노트북 판매",
+      "date": "2026-04-08"
+    },
+    {
+      "id": 76,
+      "userId": 1,
+      "amount": 350000,
+      "categoryId": 7,
+      "title": "배당금",
+      "memo": "ETF 배당",
+      "date": "2026-04-12"
+    },
+    {
+      "id": 77,
+      "userId": 1,
+      "amount": 1500000,
+      "categoryId": 6,
+      "title": "부업 수입",
+      "memo": "프리랜서 작업",
+      "date": "2026-04-17"
+    },
+    {
+      "id": 78,
+      "userId": 1,
+      "amount": 100000,
+      "categoryId": 8,
+      "title": "친구 송금",
+      "memo": "밥값 정산",
+      "date": "2026-04-19"
+    },
+    {
+      "id": 79,
+      "userId": 1,
+      "amount": 450000,
+      "categoryId": 7,
+      "title": "코인 수익",
+      "memo": "비트코인 매도",
+      "date": "2026-04-22"
+    },
+    {
+      "id": 80,
+      "userId": 1,
+      "amount": 250000,
+      "categoryId": 8,
+      "title": "환급금",
+      "memo": "세금 환급",
+      "date": "2026-04-28"
     }
   ],
   "categories": [

@@ -188,6 +188,7 @@ onMounted(async () => {
           : Math.abs(t.amount), // 수입이면 양수 유지
       name: t.title,
       type: category ? category.type : 'expense',
+      categoryId: t.categoryId,
     });
   }
   transactions.value = result;
@@ -196,7 +197,7 @@ onMounted(async () => {
 const attrs = computed(() =>
   transactions.value.map((t) => ({
     dates: new Date(t.date),
-    dot: { color: t.type === 'expense' ? 'red' : 'blue' },
+    dot: { color: Number(t.categoryId) <= 5 ? 'red' : 'blue' },
     popover: { label: `${t.name} ${t.amount.toLocaleString()}원` },
   })),
 );
